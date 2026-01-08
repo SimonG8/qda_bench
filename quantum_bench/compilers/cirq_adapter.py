@@ -104,10 +104,20 @@ class CirqAdapter(CompilerAdapter):
         depth = len(routed_circuit) 
 
         two_q_count = sum(1 for op in routed_circuit.all_operations() if len(op.qubits) == 2)
+        
+        # SWAP Gatter zählen (Cirq nutzt oft SWAP oder zerlegt sie)
+        # Wir suchen nach Operationen, die 'SWAP' im Namen haben oder Instanzen von SwapPowGate sind
+        swap_count = 0
+        for op in routed_circuit.all_operations():
+            if isinstance(op.gate, cirq.SwapPowGate) and op.gate.exponent == 1.0:
+                swap_count += 1
+            # Manche Router zerlegen SWAP in 3 CNOTs/CZs, das ist schwerer zu tracken ohne Circuit-Analyse.
+            # RouteCQC fügt explizite SWAPs ein, wenn möglich.
 
         return {
             "gate_count": gate_count,
             "depth": depth,
             "compile_time": duration,
-            "2q_gates": two_q_count
+            "2q_gates": two_q_count,
+            "swap_gates": swap_count
         }

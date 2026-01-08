@@ -45,6 +45,9 @@ class PytketAdapter(CompilerAdapter):
         # Mapping durchführen
         self.mapping_manager.route_circuit(circuit, [label_method, route_method])
         
+        # SWAP Count VOR der Zerlegung in CX messen
+        swap_count = circuit.n_gates_of_type(OpType.SWAP)
+        
         # Phase 3: Post-Optimierung und Rebase
         # Wir müssen SWAPs in native CX zerlegen
         DecomposeSwapsToCXs(self.architecture).apply(circuit)
@@ -59,5 +62,6 @@ class PytketAdapter(CompilerAdapter):
             "gate_count": circuit.n_gates,
             "depth": circuit.depth(),
             "compile_time": duration,
-            "2q_gates": circuit.n_gates_of_type(OpType.CX)
+            "2q_gates": circuit.n_gates_of_type(OpType.CX),
+            "swap_gates": swap_count
         }

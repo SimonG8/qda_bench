@@ -61,5 +61,6 @@ class QiskitAdapter(CompilerAdapter):
             "gate_count": gate_count,
             "depth": depth,
             "compile_time": duration,
-            "2q_gates": ops.get('cx', 0)
+            "2q_gates": ops.get('cx', 0),
+            "swap_gates": ops.get('swap', 0) # SWAP Gatter zählen
         }

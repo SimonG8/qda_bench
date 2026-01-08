@@ -38,7 +38,7 @@ def run_benchmark():
             for compiler in compilers:
                 # Wir testen nur Opt-Level 0 (Baseline) und 3 (Max) für die These
                 # um die Laufzeit in Grenzen zu halten.
-                for opt_level in [0, 3]:
+                for opt_level in [3]:
                     row = {
                         "algorithm": algo,
                         "qubits": n_qubits,
