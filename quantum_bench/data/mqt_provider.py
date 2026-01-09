@@ -32,7 +32,7 @@ class BenchmarkProvider:
                 level=BenchmarkLevel.ALG,
                 circuit_size=num_qubits
             )
-            
+
             # Export zu OpenQASM 2 für maximale Kompatibilität
             filename = os.path.join(self.export_dir, f"{algo_name}_{num_qubits}.qasm")
             

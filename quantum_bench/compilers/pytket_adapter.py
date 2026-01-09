@@ -52,9 +52,8 @@ class PytketAdapter(CompilerAdapter):
         # Wir müssen SWAPs in native CX zerlegen
         DecomposeSwapsToCXs(self.architecture).apply(circuit)
         
-        # Optional: Weitere Redundanzen entfernen nach dem Routing
-        if opt_level >= 2:
-            RemoveRedundancies().apply(circuit)
+        # Immer Redundanzen entfernen nach der SWAP-Zerlegung (z.B. CNOT-CNOT = Identity)
+        RemoveRedundancies().apply(circuit)
 
         duration = time.time() - start_time
         
@@ -63,5 +62,6 @@ class PytketAdapter(CompilerAdapter):
             "depth": circuit.depth(),
             "compile_time": duration,
             "2q_gates": circuit.n_gates_of_type(OpType.CX),
-            "swap_gates": swap_count
+            "swap_gates": swap_count,
+            "mapped_circuit": circuit
         }

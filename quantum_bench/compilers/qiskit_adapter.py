@@ -1,5 +1,5 @@
 import time
-from qiskit import QuantumCircuit, transpile
+from qiskit import QuantumCircuit, transpile, qasm2
 from qiskit.transpiler import Target, InstructionProperties
 from qiskit.circuit.library import XGate, SXGate, RZGate, CXGate, Measure
 from .base import CompilerAdapter
@@ -31,9 +31,9 @@ class QiskitAdapter(CompilerAdapter):
         return target
 
     def compile(self, qasm_file: str, opt_level: int) -> dict:
-        # Import: Explizit QASM 2 nutzen, falls nötig, aber from_qasm_file sollte das erkennen.
+        # Import: Nutzung des performanteren qasm2 Moduls
         try:
-            qc = QuantumCircuit.from_qasm_file(qasm_file)
+            qc = qasm2.load(qasm_file)
         except Exception as e:
              # Fallback für QASM 3 Import falls nötig
              from qiskit import qasm3
@@ -62,5 +62,6 @@ class QiskitAdapter(CompilerAdapter):
             "depth": depth,
             "compile_time": duration,
             "2q_gates": ops.get('cx', 0),
-            "swap_gates": ops.get('swap', 0) # SWAP Gatter zählen
+            "swap_gates": ops.get('swap', 0),
+            "mapped_circuit": transpiled_qc
         }
