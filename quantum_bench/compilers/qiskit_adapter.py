@@ -1,58 +1,53 @@
 import time
-from qiskit import QuantumCircuit, transpile, qasm2
-from qiskit.transpiler import Target, InstructionProperties
+from typing import Optional
+from qiskit import QuantumCircuit, transpile
+from qiskit.transpiler import Target
 from qiskit.circuit.library import XGate, SXGate, RZGate, CXGate, Measure
 from .base import CompilerAdapter
-from ..config import HardwareConfig
+from quantum_bench.hardware.config import HardwareModel
 
 class QiskitAdapter(CompilerAdapter):
-    def __init__(self):
-        super().__init__("Qiskit")
+    def __init__(self, hardware: HardwareModel):
+        super().__init__("Qiskit", hardware)
         self.target = self._build_target()
 
     def _build_target(self) -> Target:
-        """Erstellt ein Qiskit Target-Objekt aus der Falcon-Konfiguration."""
-        coupling_map = HardwareConfig.get_coupling_map()
-        # Qiskit Target erlaubt feingranulare Definition 
-        target = Target(num_qubits=27)
+        """Erstellt ein Qiskit Target-Objekt aus der Hardware-Konfiguration."""
+        coupling_map = self.hardware.coupling_map
+        num_qubits = self.hardware.num_qubits
         
-        # Hinzufügen der Basisgatter (Idealisiert, ohne Fehlerwerte für diesen Benchmark)
-        target.add_instruction(XGate(), properties={(i,): None for i in range(27)})
-        target.add_instruction(SXGate(), properties={(i,): None for i in range(27)})
-        target.add_instruction(RZGate(0.0), properties={(i,): None for i in range(27)})
+        target = Target(num_qubits=num_qubits)
         
-        # WICHTIG: Measure-Instruktion hinzufügen, sonst schlägt Synthese fehl
-        target.add_instruction(Measure(), properties={(i,): None for i in range(27)})
+        # Basisgatter hinzufügen
+        target.add_instruction(XGate(), properties={(i,): None for i in range(num_qubits)})
+        target.add_instruction(SXGate(), properties={(i,): None for i in range(num_qubits)})
+        target.add_instruction(RZGate(0.0), properties={(i,): None for i in range(num_qubits)})
+        target.add_instruction(Measure(), properties={(i,): None for i in range(num_qubits)})
         
-        # CX Gatter nur auf den definierten Kanten
+        # CX Gatter auf den definierten Kanten
         cx_props = {tuple(edge): None for edge in coupling_map}
         target.add_instruction(CXGate(), properties=cx_props)
         
         return target
 
-    def compile(self, qasm_file: str, opt_level: int) -> dict:
-        # Import: Nutzung des performanteren qasm2 Moduls
+    def compile(self, qasm_file: str, opt_level: int, seed: Optional[int] = None) -> dict:
         try:
-            qc = qasm2.load(qasm_file)
+            qc = QuantumCircuit.from_qasm_file(qasm_file)
         except Exception as e:
-             # Fallback für QASM 3 Import falls nötig
              from qiskit import qasm3
              with open(qasm_file, 'r') as f:
                  qc = qasm3.loads(f.read())
 
         start_time = time.time()
-        # Transpilation
-        # seed_transpiler=42 sorgt für Determinismus bei SABRE (Level 3)
+        
         transpiled_qc = transpile(
             qc,
             target=self.target,
             optimization_level=opt_level,
-            seed_transpiler=42
+            seed_transpiler=seed
         )
         duration = time.time() - start_time
         
-        # Metriken extrahieren
-        # count_ops() gibt ein Dict zurück
         ops = transpiled_qc.count_ops()
         gate_count = sum(ops.values())
         depth = transpiled_qc.depth()

@@ -1,28 +1,19 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Dict, Any, Optional
+from quantum_bench.hardware.config import HardwareModel
 
 class CompilerAdapter(ABC):
     """
     Abstraktes Interface für alle Quanten-Compiler.
     """
     
-    def __init__(self, name: str):
+    def __init__(self, name: str, hardware: HardwareModel):
         self.name = name
+        self.hardware = hardware
 
     @abstractmethod
-    def compile(self, qasm_file: str, opt_level: int) -> Dict[str, Any]:
+    def compile(self, qasm_file: str, opt_level: int, seed: Optional[int] = None) -> Dict[str, Any]:
         """
         Kompiliert den gegebenen QASM-Schaltkreis.
-        
-        Args:
-            qasm_file: Pfad zur QASM-Datei.
-            opt_level: Optimierungsstufe (0, 1, 2, 3).
-            
-        Returns:
-            Ein Dictionary mit Metriken:
-            - 'gate_count': Gesamtanzahl Gatter
-            - 'depth': Tiefe des Schaltkreises
-            - 'compile_time': Benötigte Zeit in Sekunden
-            - 'mapped_circuit': Das kompilierte Objekt (optional)
         """
         pass
