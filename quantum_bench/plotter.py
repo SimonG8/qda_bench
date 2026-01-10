@@ -2,29 +2,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+from pathlib import Path
 
 def plot_results(csv_file="benchmark_results_final.csv"):
-    # Pfad-Logik
-    if not os.path.exists(csv_file):
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
-        potential_path = os.path.join(project_root, csv_file)
-        
-        if os.path.exists(potential_path):
-            csv_file = potential_path
-        else:
-            cwd_path = os.path.join(os.getcwd(), csv_file)
-            if os.path.exists(cwd_path):
-                csv_file = cwd_path
-            else:
-                 csv_file = r"/benchmark_results_final.csv"
+    # Robustere Pfad-Logik mit pathlib
+    # Sucht im aktuellen Arbeitsverzeichnis oder relativ zum Skript
+    file_path = Path(csv_file)
+    if not file_path.exists():
+        # Fallback: Suche im Projekt-Root (angenommen plotter.py ist in quantum_bench/)
+        project_root = Path(__file__).parent.parent
+        file_path = project_root / csv_file
 
-    print(f"Lese Ergebnisse aus: {csv_file}")
+    print(f"Lese Ergebnisse aus: {file_path.absolute()}")
     
     try:
-        df = pd.read_csv(csv_file)
+        df = pd.read_csv(file_path)
     except FileNotFoundError:
-        print(f"Fehler: Datei '{csv_file}' nicht gefunden.")
+        print(f"Fehler: Datei '{file_path}' nicht gefunden.")
         return
 
     df = df[df["success"] == True]

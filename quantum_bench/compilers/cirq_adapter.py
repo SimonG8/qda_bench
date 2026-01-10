@@ -2,6 +2,7 @@ import time
 from typing import Optional
 import cirq
 import networkx as nx
+import re
 from cirq.contrib.qasm_import import circuit_from_qasm
 from .base import CompilerAdapter
 from quantum_bench.hardware.config import HardwareModel
@@ -50,14 +51,12 @@ class CirqAdapter(CompilerAdapter):
 
         def qubit_index(q):
             s = str(q)
-            try:
-                if '[' in s:
-                    return int(s.split('[')[1].split(']')[0])
-                if '_' in s:
-                    return int(s.split('_')[-1])
-                return int(s)
-            except ValueError:
-                return s
+            # Sucht nach der ersten zusammenhängenden Zahl im String
+            match = re.search(r'\d+', s)
+            if match:
+                return int(match.group())
+            # Fallback: Hash des Namens, um zumindest deterministisch zu sein
+            return hash(s)
 
         sorted_qubits = sorted(circuit.all_qubits(), key=qubit_index)
         qubit_map = {q: cirq.LineQubit(i) for i, q in enumerate(sorted_qubits)}
