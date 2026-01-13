@@ -1,6 +1,7 @@
 from typing import List, Tuple
 
 import networkx as nx
+from traci.connection import switch
 
 
 class HardwareModel:
@@ -74,3 +75,13 @@ class Grid25(HardwareModel):
                     edges.append((down_idx, idx))
 
         super().__init__("Grid25", 25, edges, ['cx', 'id', 'rz', 'sx', 'x'])
+
+
+def get_hardware(name: str) -> HardwareModel:
+    match name:
+        case "Falcon27":
+            return Falcon27()
+        case "Grid25":
+            return Grid25()
+        case _:
+            return None
