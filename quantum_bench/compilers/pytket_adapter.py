@@ -1,6 +1,7 @@
+import os
 import time
-from typing import Optional
-from pytket.qasm import circuit_from_qasm
+from typing import Optional, Tuple, Dict, Any
+from pytket.qasm import circuit_from_qasm, circuit_to_qasm
 from pytket.architecture import Architecture
 from pytket.passes import (
     SynthesiseTket, FullPeepholeOptimise,
@@ -13,16 +14,17 @@ from .base import CompilerAdapter
 from quantum_bench.hardware.config import HardwareModel
 
 class PytketAdapter(CompilerAdapter):
-    def __init__(self, hardware: HardwareModel):
-        super().__init__("pytket", hardware)
+    def __init__(self, hardware: HardwareModel, export_dir: str = None):
+        super().__init__("Pytket", hardware, export_dir)
         self.architecture = Architecture(hardware.coupling_map)
         self.mapping_manager = MappingManager(self.architecture)
 
-    def compile(self, qasm_file: str, opt_level: int, seed: Optional[int] = None) -> dict:
+    def compile(self, qasm_file: str, opt_level: int, seed: Optional[int] = None) -> Tuple[Dict[str, Any], str]:
         try:
             circuit = circuit_from_qasm(qasm_file)
-        except Exception:
-            return None
+        except Exception as e:
+            print(f"Pytket QASM Import Error: {e}")
+            return None, None
 
         start_time = time.time()
         
@@ -47,12 +49,21 @@ class PytketAdapter(CompilerAdapter):
             RemoveRedundancies().apply(circuit)
 
         duration = time.time() - start_time
-        
-        return {
+
+        metrics = {
             "gate_count": circuit.n_gates,
             "depth": circuit.depth(),
             "compile_time": duration,
             "2q_gates": circuit.n_gates_of_type(OpType.CX),
             "swap_gates": swap_count,
-            "mapped_circuit": circuit
         }
+
+        try:
+            _, file = os.path.split(qasm_file.removesuffix(".qasm"))
+            filename = os.path.join(self.export_dir, f"{file}_pytket_opt{opt_level}.qasm")
+            circuit_to_qasm(circuit, filename)
+        except Exception as e:
+            print(f"Pytket QASM Export Error: {e}")
+            return metrics, None
+
+        return metrics, filename

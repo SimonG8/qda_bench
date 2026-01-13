@@ -4,21 +4,13 @@ import seaborn as sns
 import os
 from pathlib import Path
 
-def plot_results(csv_file="benchmark_results_final.csv"):
-    # Robustere Pfad-Logik mit pathlib
-    # Sucht im aktuellen Arbeitsverzeichnis oder relativ zum Skript
-    file_path = Path(csv_file)
-    if not file_path.exists():
-        # Fallback: Suche im Projekt-Root (angenommen plotter.py ist in quantum_bench/)
-        project_root = Path(__file__).parent.parent
-        file_path = project_root / csv_file
-
-    print(f"Lese Ergebnisse aus: {file_path.absolute()}")
-    
+def plot_results(csv_file_path="benchmark_results_final.csv", visualisation_path: str = None):
+    if visualisation_path == None:
+        visualisation_path = "visualisation"
     try:
-        df = pd.read_csv(file_path)
+        df = pd.read_csv(csv_file_path)
     except FileNotFoundError:
-        print(f"Fehler: Datei '{file_path}' nicht gefunden.")
+        print(f"Fehler: Datei '{csv_file_path}' nicht gefunden.")
         return
 
     df = df[df["success"] == True]
@@ -49,8 +41,8 @@ def plot_results(csv_file="benchmark_results_final.csv"):
             if metric not in df.columns:
                 continue
             
-            # Ordnerstruktur: visualizations/plots/{Hardware}/{Metrik}/
-            plot_dir = os.path.join("visualizations", "plots", hw, metric)
+            # Ordnerstruktur: visualisation/plots/{Hardware}/{Metrik}/
+            plot_dir = os.path.join(visualisation_path, "plots", hw, metric)
             if not os.path.exists(plot_dir):
                 os.makedirs(plot_dir)
 
