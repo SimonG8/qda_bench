@@ -1,35 +1,38 @@
 import os
 import time
 from typing import Optional, Tuple, Dict, Any
+
 from qiskit import QuantumCircuit, transpile
-from qiskit.transpiler import Target
 from qiskit import qasm2
 from qiskit.circuit.library import XGate, SXGate, RZGate, CXGate, Measure
-from .base import CompilerAdapter
+from qiskit.transpiler import Target
+
 from quantum_bench.hardware.config import HardwareModel
+from .base import CompilerAdapter
+
 
 class QiskitAdapter(CompilerAdapter):
-    def __init__(self, hardware: HardwareModel,export_dir: str = None):
-        super().__init__("Qiskit", hardware,export_dir)
+    def __init__(self, hardware: HardwareModel, export_dir: str = None):
+        super().__init__("Qiskit", hardware, export_dir)
         self.target = self._build_target()
 
     def _build_target(self) -> Target:
         """Erstellt ein Qiskit Target-Objekt aus der Hardware-Konfiguration."""
         coupling_map = self.hardware.coupling_map
         num_qubits = self.hardware.num_qubits
-        
+
         target = Target(num_qubits=num_qubits)
-        
+
         # Basisgatter hinzufügen
         target.add_instruction(XGate(), properties={(i,): None for i in range(num_qubits)})
         target.add_instruction(SXGate(), properties={(i,): None for i in range(num_qubits)})
         target.add_instruction(RZGate(0.0), properties={(i,): None for i in range(num_qubits)})
         target.add_instruction(Measure(), properties={(i,): None for i in range(num_qubits)})
-        
+
         # CX Gatter auf den definierten Kanten
         cx_props = {tuple(edge): None for edge in coupling_map}
         target.add_instruction(CXGate(), properties=cx_props)
-        
+
         return target
 
     def compile(self, qasm_file: str, opt_level: int, seed: Optional[int] = None) -> Tuple[Dict[str, Any], str]:
@@ -40,7 +43,7 @@ class QiskitAdapter(CompilerAdapter):
             return None, None
 
         start_time = time.time()
-        
+
         transpiled_circuit = transpile(
             circuit,
             target=self.target,
@@ -53,7 +56,7 @@ class QiskitAdapter(CompilerAdapter):
         ops = transpiled_circuit.count_ops()
         gate_count = sum(ops.values())
         depth = transpiled_circuit.depth()
-        
+
         metrics = {
             "gate_count": gate_count,
             "depth": depth,

@@ -1,10 +1,13 @@
 from typing import List, Tuple
+
 import networkx as nx
+
 
 class HardwareModel:
     """
     Basisklasse für Hardware-Modelle.
     """
+
     def __init__(self, name: str, num_qubits: int, edges: List[Tuple[int, int]], basis_gates: List[str]):
         self.name = name
         self.num_qubits = num_qubits
@@ -23,10 +26,12 @@ class HardwareModel:
         G.add_edges_from(self.edges)
         return G
 
+
 class Falcon27(HardwareModel):
     """
     IBM Falcon r5.11 Prozessor (27 Qubits, Heavy-Hex Lattice).
     """
+
     def __init__(self):
         # Adjazenzliste basierend auf der Heavy-Hex-Struktur
         edges = [
@@ -40,11 +45,13 @@ class Falcon27(HardwareModel):
         ]
         super().__init__("Falcon27", 27, edges, ['cx', 'id', 'rz', 'sx', 'x'])
 
+
 class Grid25(HardwareModel):
     """
     Generische 5x5 Gitter-Topologie (25 Qubits).
     Höhere Konnektivität (Grad 4 im Zentrum) als Heavy-Hex.
     """
+
     def __init__(self):
         edges = []
         rows = 5
@@ -53,17 +60,17 @@ class Grid25(HardwareModel):
         for r in range(rows):
             for c in range(cols):
                 idx = r * cols + c
-                
+
                 # Kante nach rechts
                 if c < cols - 1:
                     right_idx = r * cols + (c + 1)
                     edges.append((idx, right_idx))
                     edges.append((right_idx, idx))
-                
+
                 # Kante nach unten
                 if r < rows - 1:
                     down_idx = (r + 1) * cols + c
                     edges.append((idx, down_idx))
                     edges.append((down_idx, idx))
-                    
+
         super().__init__("Grid25", 25, edges, ['cx', 'id', 'rz', 'sx', 'x'])

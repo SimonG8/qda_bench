@@ -1,17 +1,21 @@
 import os
+import re
 import time
 from typing import Optional, Tuple, Dict, Any
+
 import cirq
 import networkx as nx
-import re
 from cirq.contrib.qasm_import import circuit_from_qasm
-from .base import CompilerAdapter
+
 from quantum_bench.hardware.config import HardwareModel
+from .base import CompilerAdapter
+
 
 class GenericDevice(cirq.Device):
     """
     Generische Cirq-Device Klasse, die dynamisch aus einem HardwareModel erzeugt wird.
     """
+
     def __init__(self, hardware: HardwareModel):
         # Convert int graph to LineQubit graph
         int_graph = hardware.nx_graph
@@ -31,6 +35,7 @@ class GenericDevice(cirq.Device):
             u, v = operation.qubits
             if not self.graph.has_edge(u, v):
                 raise ValueError(f"Qubits {u} und {v} nicht verbunden.")
+
 
 class CirqAdapter(CompilerAdapter):
     def __init__(self, hardware: HardwareModel, export_dir: str = None):
@@ -105,7 +110,7 @@ class CirqAdapter(CompilerAdapter):
         }
 
         try:
-            _,file = os.path.split(qasm_file.removesuffix(".qasm"))
+            _, file = os.path.split(qasm_file.removesuffix(".qasm"))
             filename = os.path.join(self.export_dir, f"{file}_cirq_opt{opt_level}.qasm")
             with open(filename, 'w') as f:
                 f.write(routed_circuit.to_qasm())

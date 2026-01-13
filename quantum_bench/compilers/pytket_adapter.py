@@ -1,17 +1,20 @@
 import os
 import time
 from typing import Optional, Tuple, Dict, Any
-from pytket.qasm import circuit_from_qasm, circuit_to_qasm
+
+from pytket import OpType
 from pytket.architecture import Architecture
+from pytket.mapping import MappingManager, LexiLabellingMethod, LexiRouteRoutingMethod
 from pytket.passes import (
     SynthesiseTket, FullPeepholeOptimise,
     DecomposeSwapsToCXs, RemoveRedundancies,
     DecomposeBoxes
 )
-from pytket.mapping import MappingManager, LexiLabellingMethod, LexiRouteRoutingMethod
-from pytket import OpType
-from .base import CompilerAdapter
+from pytket.qasm import circuit_from_qasm, circuit_to_qasm
+
 from quantum_bench.hardware.config import HardwareModel
+from .base import CompilerAdapter
+
 
 class PytketAdapter(CompilerAdapter):
     def __init__(self, hardware: HardwareModel, export_dir: str = None):
@@ -27,7 +30,7 @@ class PytketAdapter(CompilerAdapter):
             return None, None
 
         start_time = time.time()
-        
+
         DecomposeBoxes().apply(circuit)
 
         if opt_level >= 1:
@@ -38,13 +41,13 @@ class PytketAdapter(CompilerAdapter):
         lookahead = 10 if opt_level < 3 else 50
         route_method = LexiRouteRoutingMethod(lookahead=lookahead)
         label_method = LexiLabellingMethod()
-        
+
         self.mapping_manager.route_circuit(circuit, [label_method, route_method])
-        
+
         swap_count = circuit.n_gates_of_type(OpType.SWAP)
-        
+
         DecomposeSwapsToCXs(self.architecture).apply(circuit)
-        
+
         if opt_level >= 2:
             RemoveRedundancies().apply(circuit)
 

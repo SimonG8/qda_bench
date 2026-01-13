@@ -1,22 +1,20 @@
-import pandas as pd
 import os
-import random
-import logging
-from matplotlib import pyplot as plt
 
-from quantum_bench.data.mqt_provider import BenchmarkProvider
-from quantum_bench.compilers.qiskit_adapter import QiskitAdapter
+import pandas as pd
+
 from quantum_bench.compilers.cirq_adapter import CirqAdapter
 from quantum_bench.compilers.pytket_adapter import PytketAdapter
+from quantum_bench.compilers.qiskit_adapter import QiskitAdapter
+from quantum_bench.data.mqt_provider import get_circuit, verify_circuit, visualize_circuit
 from quantum_bench.plotter import plot_results
 
 
-def run_benchmark(hardware_configs, algorithms, qubit_ranges, opt_levels, num_runs=10, run_verification=False, run_visualisation=False, run_plotter=False,
+def run_benchmark(hardware_configs, algorithms, qubit_ranges, opt_levels, num_runs=10,
+                  run_verification=False, run_visualisation=False, run_plotter=False,
                   output_file="benchmark_results_final.csv", visualisation_path=None, seed=None):
     """
     Führt den Benchmark durch.
     """
-    provider = BenchmarkProvider()
     results = []
 
     print(f"Starte Benchmarking-Suite ({num_runs} Runs pro Config)...")
@@ -40,7 +38,7 @@ def run_benchmark(hardware_configs, algorithms, qubit_ranges, opt_levels, num_ru
 
                 print(f"--- Benchmark: {algo} ({n_qubits} Qubits) ---")
 
-                qasm_path = provider.get_circuit(algo, n_qubits)
+                qasm_path = get_circuit(algo, n_qubits)
                 if not qasm_path:
                     continue
 
@@ -66,13 +64,14 @@ def run_benchmark(hardware_configs, algorithms, qubit_ranges, opt_levels, num_ru
                                     row["success"] = False
 
                                 if compiled_qasm_path and n_qubits == 5 and opt_level == 3 and run_i == 0:
+                                    if run_visualisation:
+                                        visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
+
                                     if run_verification:
-                                        equivalence = provider.verify_circuit(qasm_path, compiled_qasm_path)
+                                        equivalence = verify_circuit(qasm_path, compiled_qasm_path)
                                         row["Eqivalenz"] = equivalence
                                     else:
                                         row["Eqivalenz"] = "Skipped"
-                                    if run_visualisation:
-                                        provider.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
                                 else:
                                     row["Eqivalenz"] = "Skipped"
                             except Exception as e:
