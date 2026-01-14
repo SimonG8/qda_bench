@@ -43,7 +43,8 @@ def plot_results(csv_file_path="benchmark_results_final.csv", visualisation_path
                 continue
 
             # Ordnerstruktur: visualisation/plots/{Hardware}/{Metrik}/
-            plot_dir = os.path.join(visualisation_path, "plots", hw, metric)
+            overview_dir = os.path.join(visualisation_path, "plots", hw, metric)
+            plot_dir = os.path.join(overview_dir, "algo")
             if not os.path.exists(plot_dir):
                 os.makedirs(plot_dir)
 
@@ -70,7 +71,7 @@ def plot_results(csv_file_path="benchmark_results_final.csv", visualisation_path
             plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0, title="Legende")
             plt.tight_layout()
 
-            filename = os.path.join(plot_dir, "overview.png")
+            filename = os.path.join(overview_dir, "overview.png")
             plt.savefig(filename)
             plt.close()
             print(f"  Erstellt: {filename}")
@@ -103,7 +104,7 @@ def plot_results(csv_file_path="benchmark_results_final.csv", visualisation_path
                 plt.legend(title="Compiler")
                 plt.tight_layout()
 
-                filename = os.path.join(plot_dir, f"algo_{algo}.png")
+                filename = os.path.join(plot_dir, f"{algo}.png")
                 plt.savefig(filename)
                 plt.close()
                 print(f"    Detail: {filename}")
