@@ -64,20 +64,27 @@ def run_benchmark(hardware, algorithms, qubit_ranges, opt_levels, num_runs=10,
                                     row.update(metrics)
                                     row["success"] = True
                                 else:
+                                    row.update({
+                                        "gate_count": None,
+                                        "depth": None,
+                                        "compile_time": None,
+                                        "2q_gates": None,
+                                        "swap_gates": None,
+                                    })
                                     row["success"] = False
 
-                                if compiled_qasm_path :
-                                    if run_visualisation and n_qubits == 5 and run_i == 0:
-                                        visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
+                                if run_visualisation and compiled_qasm_path and n_qubits == 5 and run_i == 0:
+                                    visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
 
-                                    if run_verification and n_qubits == 5 and run_i == 0:
+                                if run_verification:
+                                    if compiled_qasm_path and n_qubits == 5 and run_i == 0:
                                         equivalence = verify_circuit(qasm_path, compiled_qasm_path)
                                         row["Eqivalenz"] = equivalence
                                     else:
                                         row["Eqivalenz"] = "Skipped"
                             except Exception as e:
                                 row["success"] = False
-                                row["error"] = str(e)
+                                print(f"Fehler während des Kompilierens: {e}")
 
                             print(row)
                             results.append(row)
