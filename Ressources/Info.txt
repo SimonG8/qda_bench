@@ -1,0 +1,9 @@
+Meine Masterarbeit im Studiengang "Information Engeneering" mit dem Titel "Vergleichende Analyse von Methoden zur Entwurfsautomatisierung für Quantencomputer" soll 60-66 Seiten umfassen.
+
+Ziel der Arbeit ist es, verschiedene Ansätze der Entwurfsautomatisierung (Routing/Mapping und Gate-Optimierung) zu vergleichen (Laufzeit, Gatteranzahl, SWAPs). Dabei werden Compiler-Frameworks wie Qiskit, Cirq oder pytket verwendet, die unterschiedliche Strategien zur Anpassung und Optimierung von Quanten-Schaltkreisen implementieren. Bewertet wird mittels standardisierten Benchmark (MQT Bench).
+MQT Bench: Benchmarking Software and Design Automation Tools for Quantum Computing https://quantum-journal.org/papers/q-2023-07-20-1062/pdf/
+
+Mögliche Forschungsfragen:
+Wie unterscheiden sich aktuelle Entwurfs- und Optimierungsmethoden in ihrer Effizienz und Genauigkeit?
+In welchen Anwendungsbereichen (Algorithmusklassen,) zeigen bestimmte Automatisierungsstrategien besondere Stärken oder Schwächen?
+Lassen sich aus den Ergebnissen allgemeine Empfehlungen für den Einsatz bestimmter Entwurfsstrategien ableiten?

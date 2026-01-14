@@ -9,7 +9,7 @@ if __name__ == "__main__":
         qubit_ranges=[5, 10, 15, 20],
         opt_levels=[3],
         num_runs=1,
-        output_file="test_result.csv",
+        output_file="test_results.csv",
         run_visualisation=False,
         run_verification=False,
         run_plotter=False
