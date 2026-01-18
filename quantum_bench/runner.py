@@ -58,8 +58,8 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
             QiskitAdapter(hardware)
         ]
         for benchmark_level in benchmark_levels:
-            for algo_name in algo_names:
-                for n_qubits in qubit_ranges:
+            for n_qubits in qubit_ranges:
+                for algo_name in algo_names:
                     if n_qubits > hardware.num_qubits:
                         continue
 
