@@ -11,14 +11,30 @@ from quantum_bench.hardware.model import get_hardware
 from quantum_bench.plotter import plot_results
 
 
-def run_benchmark(hardware_names, algo_names, qubit_ranges, benchmark_levels, opt_levels, num_runs=10,
-                  run_verification=False, run_visualisation=False, run_plotter=False,
-                  output_file="benchmark_results_final.csv", visualisation_path=None, seed=None,
+def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int], benchmark_levels: List[str],
+                  opt_levels: List[int], num_runs: int = 10,
+                  run_verification: bool = False, run_visualisation: bool = False, run_plotter: bool = False,
+                  output_file: str = "benchmark_results_final.csv", visualisation_path: str = None, seed: int = None,
                   active_phases: Optional[List[str]] = None):
     """
-    Führt den Benchmark durch.
+    Executes the benchmark suite.
+
+    Args:
+        hardware_names: List of hardware names to benchmark against.
+        algo_names: List of algorithm names to benchmark.
+        qubit_ranges: Range of qubit counts to test.
+        benchmark_levels: List of benchmark levels (e.g., 'ALG', 'INDEP').
+        opt_levels: List of optimization levels to test.
+        num_runs: Number of runs per configuration.
+        run_verification: Whether to verify the compiled circuits.
+        run_visualisation: Whether to visualize the circuits.
+        run_plotter: Whether to plot the results after benchmarking.
+        output_file: Path to the output CSV file.
+        visualisation_path: Path for visualisation output.
+        seed: Random seed.
+        active_phases: List of active compiler phases.
     """
-    print(f"Starte Benchmarking-Suite ({num_runs} Runs pro Config)...")
+    print(f"Starting Benchmarking Suite ({num_runs} runs per config)...")
 
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -26,11 +42,12 @@ def run_benchmark(hardware_names, algo_names, qubit_ranges, benchmark_levels, op
     results = []
 
     for hardware_name in hardware_names:
-        hardware = mqt.get_hardware(hardware_name)
+        hardware = mqt.get_hardware_model(hardware_name)
 
         if not hardware:
             hardware = get_hardware(hardware_name)
             if not hardware:
+                print(f"Skipping unknown hardware: {hardware_name}")
                 continue
 
         print(f"\n=== Hardware: {hardware_name} ===")
@@ -94,12 +111,12 @@ def run_benchmark(hardware_names, algo_names, qubit_ranges, benchmark_levels, op
                                     if run_verification:
                                         if compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
                                             equivalence = mqt.verify_circuit(qasm_path, compiled_qasm_path)
-                                            row["Eqivalenz"] = equivalence
+                                            row["Equivalence"] = equivalence
                                         else:
-                                            row["Eqivalenz"] = "Skipped"
+                                            row["Equivalence"] = "Skipped"
                                 except Exception as e:
                                     row["success"] = False
-                                    print(f"Fehler während des Kompilierens: {e}")
+                                    print(f"Error during compilation: {e}")
 
                                 print(row)
                                 results.append(row)
@@ -109,8 +126,8 @@ def run_benchmark(hardware_names, algo_names, qubit_ranges, benchmark_levels, op
                                 df_row.to_csv(output_file, mode='a', header=write_header, index=False)
 
     if os.path.exists(output_file):
-        print(f"Benchmark abgeschlossen. Ergebnisse in {output_file} gespeichert.")
+        print(f"Benchmark finished. Results saved to {output_file}.")
         if run_plotter:
             plot_results(output_file, visualisation_path)
     else:
-        print("Benchmark fehlgeschlagen.")
+        print("Benchmark failed.")

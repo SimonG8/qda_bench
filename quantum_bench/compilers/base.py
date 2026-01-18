@@ -7,10 +7,18 @@ from quantum_bench.hardware.model import HardwareModel
 
 class CompilerAdapter(ABC):
     """
-    Abstraktes Interface für alle Quanten-Compiler.
+    Abstract base class for all quantum compiler adapters.
     """
 
-    def __init__(self, name: str, hardware: HardwareModel, export_dir: str):
+    def __init__(self, name: str, hardware: HardwareModel, export_dir: Optional[str] = None):
+        """
+        Initializes the compiler adapter.
+
+        Args:
+            name: Name of the compiler.
+            hardware: The target hardware model.
+            export_dir: Directory to export compiled circuits to. Defaults to 'benchmarks_cache/<hardware_name>'.
+        """
         self.name = name
         self.hardware = hardware
         if export_dir is None:
@@ -22,16 +30,16 @@ class CompilerAdapter(ABC):
     @abstractmethod
     def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         """
-        Kompiliert den gegebenen QASM-Schaltkreis.
+        Compiles the given QASM circuit.
 
         Args:
-            qasm_file: Pfad zur QASM-Datei.
-            optimization_level: Allgemeines Optimierungslevel (0-3).
-            active_phases: Liste der aktiven Phasen (z.B. ["mapping", "routing", "optimization"]). None = alle.
-            optimization_passes: Liste der spezifischen Optimierungen (z.B. ["peephole", "kak"]).
-            seed: Random Seed.
+            qasm_file: Path to the QASM file.
+            optimization_level: General optimization level (0-3).
+            active_phases: List of active phases (e.g., ["mapping", "routing", "optimization"]). None implies all phases.
+            seed: Random seed for reproducibility.
 
         Returns:
-            Dictionary mit Metriken und Pfad zur kompilierten Datei.
+            A tuple containing a dictionary with metrics and the path to the compiled QASM file.
+            Returns (None, None) if compilation fails.
         """
         pass

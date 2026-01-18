@@ -2,7 +2,6 @@ import os
 import time
 from typing import Optional, Tuple, Dict, Any, List
 
-from cirq.ops.matrix_gates import two_qubit_to_cz
 from qiskit import QuantumCircuit, transpile
 from qiskit import qasm2
 from qiskit.circuit.library import XGate, SXGate, RZGate, CXGate, CZGate, IGate, Measure, SwapGate, HGate, RYGate, \
@@ -10,10 +9,10 @@ from qiskit.circuit.library import XGate, SXGate, RZGate, CXGate, CZGate, IGate,
 from qiskit.transpiler import Target, PassManager
 from qiskit.transpiler.passes import (
     Optimize1qGatesDecomposition, CommutativeCancellation,
-    OptimizeSwapBeforeMeasure, RemoveResetInZeroState,
+    RemoveResetInZeroState,
     Collect2qBlocks, ConsolidateBlocks, UnitarySynthesis,
-    BasicSwap, LookaheadSwap, SabreSwap,
-    TrivialLayout, DenseLayout, SabreLayout, Unroll3qOrMore
+    SabreSwap,
+    SabreLayout, Unroll3qOrMore
 )
 
 from quantum_bench.hardware.model import HardwareModel
@@ -26,7 +25,7 @@ class QiskitAdapter(CompilerAdapter):
         self.target = self._build_target()
 
     def _build_target(self) -> Target:
-        """Erstellt ein Qiskit Target-Objekt aus der Hardware-Konfiguration."""
+        """Creates a Qiskit Target object from the hardware configuration."""
         num_qubits = self.hardware.num_qubits
         coupling_map = self.hardware.coupling_map
         basis_gates = self.hardware.basis_gates
@@ -49,16 +48,16 @@ class QiskitAdapter(CompilerAdapter):
             "swap": SwapGate()
         }
 
-        # Basisgatter hinzufügen
+        # Add basis gates
         for gate_name in basis_gates:
             gate_obj = gate_map.get(gate_name.lower())
             if gate_obj:
                 if gate_name.lower() in ["cx", "cz"]:
-                    # 2-Qubit Gatter auf den definierten Kanten
+                    # 2-Qubit gates on defined edges
                     props = {edge: None for edge in coupling_map}
                     target.add_instruction(gate_obj, properties=props)
                 else:
-                    # 1-Qubit Gatter auf allen Qubits
+                    # 1-Qubit gates on all qubits
                     target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
 
         return target
@@ -72,7 +71,7 @@ class QiskitAdapter(CompilerAdapter):
 
         start_time = time.time()
 
-        # Wenn keine Phasen spezifiziert sind, nutze Standard-Transpile
+        # If no phases are specified, use standard transpile
         if active_phases is None:
             transpiled_circuit = transpile(
                 circuit,
@@ -81,18 +80,18 @@ class QiskitAdapter(CompilerAdapter):
                 seed_transpiler=seed,
             )
         else:
-            # Benutzerdefinierte Pipeline
             pm = PassManager()
 
+            # 0. Rebasing
             if "rebase" in active_phases:
                 pm.append(Unroll3qOrMore(self.target))
 
             # 1. Mapping / Layout
             if "mapping" in active_phases:
                 pm.append(SabreLayout(self.target, seed=seed))
-                pm.append(SabreSwap(self.target.build_coupling_map(), "decay",seed=seed))
+                pm.append(SabreSwap(self.target.build_coupling_map(), "decay", seed=seed))
 
-            # 3. Optimierung
+            # 2. Optimization
             if "optimization" in active_phases:
                 pm.append([
                     Optimize1qGatesDecomposition(target=self.target),
@@ -108,7 +107,7 @@ class QiskitAdapter(CompilerAdapter):
 
         duration = time.time() - start_time
         operations = transpiled_circuit.count_ops()
-        gate_count = transpiled_circuit.size()-operations.get('barrier', 0)
+        gate_count = transpiled_circuit.size() - operations.get('barrier', 0)
         depth = transpiled_circuit.depth()
         two_q_count = transpiled_circuit.num_nonlocal_gates()
         swap_count = operations.get('swap', 0)

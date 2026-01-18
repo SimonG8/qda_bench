@@ -7,13 +7,12 @@ from pytket._tket.passes import AutoRebase, RebaseTket
 from pytket.architecture import Architecture
 from pytket.mapping import MappingManager, LexiLabellingMethod, LexiRouteRoutingMethod
 from pytket.passes import (
-    SynthesiseTket, FullPeepholeOptimise,
-    DecomposeSwapsToCXs, RemoveRedundancies,
+    FullPeepholeOptimise,
+    RemoveRedundancies,
     DecomposeBoxes, KAKDecomposition, CliffordSimp,
-    PeepholeOptimise2Q, ContextSimp
+    ContextSimp
 )
 from pytket.qasm import circuit_from_qasm, circuit_to_qasm
-from pytket.circuit import Circuit
 
 from quantum_bench.hardware.model import HardwareModel
 from .base import CompilerAdapter
@@ -43,7 +42,7 @@ class PytketAdapter(CompilerAdapter):
             "measure": OpType.Measure,
             "swap": OpType.SWAP
         }
-        
+
         allowed_optypes = set()
         for g in self.hardware.basis_gates:
             if g.lower() in gate_map:
@@ -59,15 +58,18 @@ class PytketAdapter(CompilerAdapter):
 
         start_time = time.time()
 
+        # 0. Rebasing
         if active_phases is None or "rebase" in active_phases:
-            # Rebase auf Basisgatter
+            # Rebase to basis gates
             try:
                 DecomposeBoxes().apply(circuit)
                 rebase = AutoRebase(self.basis_gates)
             except Exception as e:
+                # Fallback if AutoRebase fails
                 rebase = RebaseTket()
             rebase.apply(circuit)
-        # 1. Optimierung vor Mapping (Pre-Optimization)
+
+        # 1. Optimization before Mapping (Pre-Optimization)
         if active_phases is None or "optimization" in active_phases:
             FullPeepholeOptimise().apply(circuit)
             CliffordSimp().apply(circuit)
@@ -75,10 +77,7 @@ class PytketAdapter(CompilerAdapter):
 
         # 2. Mapping & Routing
         if active_phases is None or "mapping" in active_phases:
-            # Pytket trennt Mapping und Routing nicht so strikt wie Qiskit in der High-Level API,
-            # aber wir können MappingManager nutzen.
-            
-            # Lookahead basierend auf Opt-Level
+            # Lookahead based on Opt-Level
             lookahead = 0
             if optimization_level == 1: lookahead = 2
             if optimization_level >= 2: lookahead = 5
@@ -87,13 +86,13 @@ class PytketAdapter(CompilerAdapter):
             lexi_route = LexiRouteRoutingMethod(lookahead)
             self.mapping_manager.route_circuit(circuit, [lexi_label, lexi_route])
 
-        # 3. Optimierung nach Mapping (Post-Optimization)
+        # 3. Optimization after Mapping (Post-Optimization)
         if active_phases is None or "optimization" in active_phases:
             KAKDecomposition().apply(circuit)
             RemoveRedundancies().apply(circuit)
 
         duration = time.time() - start_time
-        gate_count = circuit.n_gates-circuit.n_gates_of_type(OpType.Barrier)
+        gate_count = circuit.n_gates - circuit.n_gates_of_type(OpType.Barrier)
         depth = circuit.depth()
         two_q_count = circuit.n_2qb_gates()
         swap_count = circuit.n_gates_of_type(OpType.SWAP)

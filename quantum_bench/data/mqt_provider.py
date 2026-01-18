@@ -3,28 +3,27 @@ from typing import Optional
 
 from mqt.bench import get_benchmark, BenchmarkLevel
 from mqt.bench.targets import get_device
-from mqt.qcec import verify_compilation, verify
-from numpy.f2py.auxfuncs import throw_error
+from mqt.qcec import verify
 from qiskit import QuantumCircuit, qasm2
 
 from quantum_bench.hardware.model import HardwareModel
 
 
-def get_circuit(hardware_name, algo_name: str, num_qubits: int, benchmark_level: str, export_dir: str = "benchmarks_cache") -> Optional[str]:
+def get_circuit(hardware_name: str, algo_name: str, num_qubits: int, benchmark_level: str, export_dir: str = "benchmarks_cache") -> Optional[str]:
     """
-    Lädt einen Benchmark-Schaltkreis und gibt den OpenQASM 2 String zurück.
-    Wir nutzen QASM 2 als neutrales Austauschformat, da Qiskit's from_qasm_file
-    standardmäßig QASM 2 erwartet und Cirq/pytket damit besser klarkommen.
+    Loads a benchmark circuit and returns the path to the OpenQASM 2 file.
+    QASM 2 is used as a neutral exchange format.
 
     Args:
-        algo_name: Name des Algorithmus (z.B. 'dj', 'ghz', 'qft').
-        num_qubits: Anzahl der Qubits.
-        export_dir: Exportordner (path)
+        hardware_name: Name of the target hardware.
+        algo_name: Name of the algorithm (e.g., 'dj', 'ghz', 'qft').
+        num_qubits: Number of qubits.
+        benchmark_level: Level of the benchmark ('ALG', 'INDEP', 'NATIVEGATES', 'MAPPED').
+        export_dir: Directory to save the generated QASM file.
 
     Returns:
-        Pfad zur generierten QASM-Datei oder der QASM-String.
+        Path to the generated QASM file or None if generation fails.
     """
-
     try:
         match benchmark_level:
             case "ALG":
@@ -53,9 +52,8 @@ def get_circuit(hardware_name, algo_name: str, num_qubits: int, benchmark_level:
                     level=BenchmarkLevel.MAPPED,
                     circuit_size=num_qubits
                 )
-            case _: throw_error(f"Unbekannter Benchmark-Level: {benchmark_level}")
-
-        # Abruf des Schaltkreises auf Algorithmischer Ebene
+            case _:
+                raise ValueError(f"Unknown benchmark level: {benchmark_level}")
 
         if not os.path.exists(export_dir):
             os.makedirs(export_dir)
@@ -66,25 +64,40 @@ def get_circuit(hardware_name, algo_name: str, num_qubits: int, benchmark_level:
         return filename
 
     except Exception as e:
-        print(f" Laden von {benchmark_level}-Benchmark {algo_name} mit {num_qubits} Qubits fehlgeschlagen: {e}")
+        print(f"Failed to load {benchmark_level} benchmark {algo_name} with {num_qubits} qubits: {e}")
         return None
 
 
 def verify_circuit(qasm_file: str, compiled_qasm_file: str) -> str:
     """
-    Verifiziert die Äquivalenz zwischen Original und Kompilat mittels MQT QCEC.
+    Verifies the equivalence between the original and compiled circuit using MQT QCEC.
+
+    Args:
+        qasm_file: Path to the original QASM file.
+        compiled_qasm_file: Path to the compiled QASM file.
+
+    Returns:
+        Result of the equivalence check (e.g., "equivalent", "not_equivalent", "error").
     """
     try:
         result = verify(qasm_file, compiled_qasm_file, check_partial_equivalence=True,
-                                    transform_dynamic_circuit=True)
+                        transform_dynamic_circuit=True)
         return result.equivalence.name
 
     except Exception as e:
-        print(f"Verifikation von {compiled_qasm_file} fehlgeschlagen: {e}")
+        print(f"Verification of {compiled_qasm_file} failed: {e}")
         return "Error"
 
 
 def visualize_circuit(qasm_file: str, hardware: str, visualisation_path: str = None):
+    """
+    Visualizes the quantum circuit and saves it as an image.
+
+    Args:
+        qasm_file: Path to the QASM file.
+        hardware: Name of the hardware (used for directory structure).
+        visualisation_path: Base path for visualization output.
+    """
     if visualisation_path is None:
         visualisation_path = "visualisation"
     try:
@@ -93,14 +106,20 @@ def visualize_circuit(qasm_file: str, hardware: str, visualisation_path: str = N
             os.makedirs(circuit_dir)
         _, file = os.path.split(qasm_file.removesuffix(".qasm"))
         filename = os.path.join(circuit_dir, f"{file}.png")
-        QuantumCircuit.from_qasm_file(qasm_file).draw(output="mpl", filename=filename,idle_wires=False)
+        QuantumCircuit.from_qasm_file(qasm_file).draw(output="mpl", filename=filename, idle_wires=False)
     except Exception as e:
-        print(f"Visualisierung von {qasm_file} fehlgeschlagen: {e}")
+        print(f"Visualization of {qasm_file} failed: {e}")
 
 
-def get_hardware(device_name: str) -> Optional[HardwareModel]:
+def get_hardware_model(device_name: str) -> Optional[HardwareModel]:
     """
-    Lädt ein Hardware-Modell aus MQT Bench.
+    Loads a hardware model from MQT Bench.
+
+    Args:
+        device_name: Name of the device to load.
+
+    Returns:
+        HardwareModel instance or None if loading fails.
     """
     try:
         device = get_device(device_name)
@@ -111,5 +130,5 @@ def get_hardware(device_name: str) -> Optional[HardwareModel]:
         return HardwareModel(device_name, num_qubits, coupling_map, basis_gates)
 
     except Exception as e:
-        print(f"Konnte Hardware {device_name} nicht laden: {e}")
+        print(f"Could not load hardware {device_name}: {e}")
         return None

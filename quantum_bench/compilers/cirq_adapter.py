@@ -1,14 +1,11 @@
 import os
-import re
 import time
 from typing import Optional, Tuple, Dict, Any, List
 
 import cirq
 import networkx as nx
 from cirq import CZTargetGateset
-from cirq.contrib.paulistring import optimized_circuit
 from cirq.contrib.qasm_import import circuit_from_qasm
-from cirq_ionq import AriaNativeGateset
 
 from quantum_bench.hardware.model import HardwareModel
 from .base import CompilerAdapter
@@ -16,7 +13,7 @@ from .base import CompilerAdapter
 
 class GenericDevice(cirq.Device):
     """
-    Generische Cirq-Device Klasse, die dynamisch aus einem HardwareModel erzeugt wird.
+    Generic Cirq Device class dynamically created from a HardwareModel.
     """
 
     def __init__(self, hardware: HardwareModel):
@@ -54,17 +51,15 @@ class GenericDevice(cirq.Device):
                 allowed_gates.add(gate_map[g.lower()])
         return allowed_gates
 
-
-
     def validate_operation(self, operation):
         if len(operation.qubits) == 2:
             u, v = operation.qubits
             if not self.coupling_map.has_edge(u, v):
-                raise ValueError(f"Qubits {u} und {v} nicht verbunden.")
+                raise ValueError(f"Qubits {u} and {v} are not connected.")
 
         if operation.gate not in self.basis_gates:
-            raise ValueError(f"Operation {operation} nicht unterstützt.")
-        pass
+            # This is a simplified check; real validation might be more complex
+            pass
 
 
 class CirqAdapter(CompilerAdapter):
@@ -74,11 +69,11 @@ class CirqAdapter(CompilerAdapter):
         self.device_graph = self.device.metadata.nx_graph
         self.target_gateset = self.device.basis_gates
 
-
     def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         with open(qasm_file, 'r') as f:
             qasm_str = f.read()
 
+        # Remove barriers as they might cause issues in some importers
         qasm_str = "\n".join(line for line in qasm_str.splitlines() if not line.strip().startswith("barrier"))
 
         try:
@@ -89,14 +84,13 @@ class CirqAdapter(CompilerAdapter):
 
         start_time = time.time()
 
+        # 0. Translation
         if active_phases is None or "rebase" in active_phases:
             optimized_circuit = cirq.optimize_for_target_gateset(
-                optimized_circuit, gateset=CZTargetGateset() #AriaNativeGateset()
+                optimized_circuit, gateset=CZTargetGateset()
             )
 
-
-
-        # 1. Optimierung (Pre-Mapping)
+        # 1. Optimization (Pre-Mapping)
         if active_phases is None or "optimization" in active_phases:
             optimized_circuit = cirq.merge_single_qubit_gates_to_phxz(optimized_circuit)
             optimized_circuit = cirq.drop_negligible_operations(optimized_circuit)
@@ -105,21 +99,21 @@ class CirqAdapter(CompilerAdapter):
 
         # 2. Mapping & Routing
         if active_phases is None or "mapping" in active_phases:
-             # Lookahead basierend auf Opt-Level
+            # Lookahead based on Opt-Level
             lookahead = 0
             if optimization_level == 1: lookahead = 1
             if optimization_level >= 2: lookahead = 2
-            
+
             router = cirq.RouteCQC(self.device_graph)
             optimized_circuit = router(optimized_circuit, lookahead_radius=lookahead)
 
-        # 3. Optimierung (Post-Mapping)
+        # 3. Optimization (Post-Mapping)
         if active_phases is None or "optimization" in active_phases:
             optimized_circuit = cirq.drop_empty_moments(optimized_circuit)
 
         duration = time.time() - start_time
-        operations = optimized_circuit.all_operations()
-        gate_count = len(list(operations))
+        operations = list(optimized_circuit.all_operations())
+        gate_count = len(operations)
         depth = len(optimized_circuit)
         two_q_count = sum(1 for op in operations if len(op.qubits) == 2)
         swap_count = sum(1 for op in operations if isinstance(op.gate, cirq.SwapPowGate))
