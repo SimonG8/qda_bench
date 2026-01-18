@@ -49,7 +49,7 @@ class QiskitAdapter(CompilerAdapter):
             "measure": Measure(),
             "swap": SwapGate(),
             "ecr": ECRGate(),
-            "delay": Delay(),
+            "delay": Delay(0),
             "rxpi": RXPIGate(),
             "rxpi2": RXPI2Gate(),
             "rxpi2dg": RXPI2DgGate(),
@@ -63,7 +63,7 @@ class QiskitAdapter(CompilerAdapter):
         for gate_name in basis_gates:
             gate_obj = gate_map.get(gate_name.lower())
             if gate_obj:
-                if gate_name.lower() in ["cx", "cz"]:
+                if gate_obj.num_qubits==2:
                     # 2-Qubit gates on defined edges
                     props = {edge: None for edge in coupling_map}
                     target.add_instruction(gate_obj, properties=props)
