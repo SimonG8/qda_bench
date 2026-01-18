@@ -3,4 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (Entwurfsautomatisierung_Quantencomputing)" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.14 (qda_bench)" project-jdk-type="Python SDK" />
 </project>

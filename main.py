@@ -6,9 +6,9 @@ from quantum_bench.plotter import plot_results
 from quantum_bench.runner import run_benchmark
 
 if __name__ == "__main__":
-    benchmarks = ["qft", "grover", "vqe", "qaoa", "randomcircuit", "ghz"]
+    benchmarks = ["qft", "vqe", "qaoa", "randomcircuit", "ghz"]
     hardware = ["ibm_eagle_127", "rigetti_ankaa_84", "ionq_forte_36"]
-    qubits = [4, 8, 16, 32, 64]
+    qubits = [4, 5, 8, 10, 15, 16, 20, 25, 32, 36, 40, 50, 64, 75, 84, 100, 127]
     # Startet die Benchmarking-Suite mit den definierten Parametern
     run_benchmark(
         hardware_names=["ibm_falcon_27"], #"ionq_forte_36", "ionq_aria_25"
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         run_verification=False,
         run_plotter=False,
         full_compilation=True
-    # # )
+    )
     # plot_results("all_bench_levels_falcon27_rebase_mapping.csv",True)
 
 
