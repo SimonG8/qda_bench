@@ -1,0 +1,9 @@
+mqt.bench
+mqt.qcec
+qiskit
+cirq
+pytket
+pandas
+matplotlib
+seaborn
+networkx
