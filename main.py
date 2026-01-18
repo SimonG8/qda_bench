@@ -13,7 +13,7 @@ if __name__ == "__main__":
         hardware_names=["ibm_falcon_27"], #"ionq_forte_36", "ionq_aria_25"
         algo_names=["grover"],
         qubit_ranges=[5],
-        benchmark_levels=["ALG", "INDEP", "NATIVEGATES", "MAPPED"], #"alg", "indep", "nativegates", "mapped"
+        benchmark_levels=["ALG"], #"alg", "indep", "nativegates", "mapped"
         opt_levels=[3],
         num_runs=1,
         output_file="testing.csv",
