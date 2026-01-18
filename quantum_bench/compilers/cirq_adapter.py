@@ -1,13 +1,16 @@
 import os
 import re
 import time
-from typing import Optional, Tuple, Dict, Any
+from typing import Optional, Tuple, Dict, Any, List
 
 import cirq
 import networkx as nx
+from cirq import CZTargetGateset
+from cirq.contrib.paulistring import optimized_circuit
 from cirq.contrib.qasm_import import circuit_from_qasm
+from cirq_ionq import AriaNativeGateset
 
-from quantum_bench.hardware.config import HardwareModel
+from quantum_bench.hardware.model import HardwareModel
 from .base import CompilerAdapter
 
 
@@ -17,24 +20,51 @@ class GenericDevice(cirq.Device):
     """
 
     def __init__(self, hardware: HardwareModel):
-        # Convert int graph to LineQubit graph
-        int_graph = hardware.nx_graph
-        # Relabel nodes from int to LineQubit
-        self.graph = nx.relabel_nodes(int_graph, lambda x: cirq.LineQubit(x))
+        self.coupling_map = nx.Graph(hardware.coupling_map)
+        self.graph = nx.relabel_nodes(self.coupling_map, lambda x: cirq.NamedQubit(str(x)))
         self.qubits = list(self.graph.nodes)
         self._metadata = cirq.DeviceMetadata(self.qubits, nx_graph=self.graph)
+        self.basis_gates = self._define_gateset(hardware.basis_gates)
 
     @property
     def metadata(self):
         return self._metadata
 
+    def _define_gateset(self, basis_gates):
+        # Map string names to Cirq Gate Types
+        gate_map = {
+            "x": cirq.X,
+            "y": cirq.Y,
+            "z": cirq.Z,
+            "sx": cirq.S,
+            "rz": cirq.Rz,
+            "rx": cirq.Rx,
+            "ry": cirq.Ry,
+            "h": cirq.H,
+            "cx": cirq.CNOT,
+            "cz": cirq.CZ,
+            "id": cirq.I,
+            "measure": cirq.measure,
+            "swap": cirq.SWAP
+        }
+
+        allowed_gates = set()
+        for g in basis_gates:
+            if g.lower() in gate_map:
+                allowed_gates.add(gate_map[g.lower()])
+        return allowed_gates
+
+
+
     def validate_operation(self, operation):
-        if not super().validate_operation(operation):
-            return False
         if len(operation.qubits) == 2:
             u, v = operation.qubits
-            if not self.graph.has_edge(u, v):
+            if not self.coupling_map.has_edge(u, v):
                 raise ValueError(f"Qubits {u} und {v} nicht verbunden.")
+
+        if operation.gate not in self.basis_gates:
+            raise ValueError(f"Operation {operation} nicht unterstützt.")
+        pass
 
 
 class CirqAdapter(CompilerAdapter):
@@ -42,64 +72,57 @@ class CirqAdapter(CompilerAdapter):
         super().__init__("Cirq", hardware, export_dir)
         self.device = GenericDevice(hardware)
         self.device_graph = self.device.metadata.nx_graph
+        self.target_gateset = self.device.basis_gates
 
-    def compile(self, qasm_file: str, opt_level: int, seed: Optional[int] = None) -> Tuple[Dict[str, Any], str]:
+
+    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         with open(qasm_file, 'r') as f:
             qasm_str = f.read()
 
         qasm_str = "\n".join(line for line in qasm_str.splitlines() if not line.strip().startswith("barrier"))
 
         try:
-            circuit = circuit_from_qasm(qasm_str)
+            optimized_circuit = circuit_from_qasm(qasm_str)
         except Exception as e:
             print(f"Cirq QASM Import Error: {e}")
             return None, None
 
-        def qubit_index(q):
-            s = str(q)
-            # Sucht nach der ersten zusammenhängenden Zahl im String
-            match = re.search(r'\d+', s)
-            if match:
-                return int(match.group())
-            # Fallback: Hash des Namens, um zumindest deterministisch zu sein
-            return hash(s)
-
-        sorted_qubits = sorted(circuit.all_qubits(), key=qubit_index)
-        qubit_map = {q: cirq.LineQubit(i) for i, q in enumerate(sorted_qubits)}
-        circuit = circuit.transform_qubits(qubit_map)
-
         start_time = time.time()
 
-        circuit = cirq.optimize_for_target_gateset(
-            circuit, gateset=cirq.CZTargetGateset()
-        )
+        if active_phases is None or "rebase" in active_phases:
+            optimized_circuit = cirq.optimize_for_target_gateset(
+                optimized_circuit, gateset=CZTargetGateset() #AriaNativeGateset()
+            )
 
-        lookahead = 4
-        if opt_level >= 2: lookahead = 8
-        if opt_level >= 3: lookahead = 15
 
-        router = cirq.RouteCQC(self.device_graph)
 
-        routed_circuit = router(circuit, lookahead_radius=lookahead)
+        # 1. Optimierung (Pre-Mapping)
+        if active_phases is None or "optimization" in active_phases:
+            optimized_circuit = cirq.merge_single_qubit_gates_to_phxz(optimized_circuit)
+            optimized_circuit = cirq.drop_negligible_operations(optimized_circuit)
+            optimized_circuit = cirq.eject_phased_paulis(optimized_circuit)
+            optimized_circuit = cirq.eject_z(optimized_circuit)
 
-        if opt_level >= 1:
-            routed_circuit = cirq.drop_negligible_operations(routed_circuit)
-        if opt_level >= 2:
-            routed_circuit = cirq.eject_z(routed_circuit)
-        if opt_level >= 3:
-            routed_circuit = cirq.align_left(routed_circuit)
+        # 2. Mapping & Routing
+        if active_phases is None or "mapping" in active_phases:
+             # Lookahead basierend auf Opt-Level
+            lookahead = 0
+            if optimization_level == 1: lookahead = 1
+            if optimization_level >= 2: lookahead = 2
+            
+            router = cirq.RouteCQC(self.device_graph)
+            optimized_circuit = router(optimized_circuit, lookahead_radius=lookahead)
+
+        # 3. Optimierung (Post-Mapping)
+        if active_phases is None or "optimization" in active_phases:
+            optimized_circuit = cirq.drop_empty_moments(optimized_circuit)
 
         duration = time.time() - start_time
-
-        gate_count = len(list(routed_circuit.all_operations()))
-        depth = len(routed_circuit)
-
-        two_q_count = sum(1 for op in routed_circuit.all_operations() if len(op.qubits) == 2)
-
-        swap_count = 0
-        for op in routed_circuit.all_operations():
-            if isinstance(op.gate, cirq.SwapPowGate) and op.gate.exponent == 1.0:
-                swap_count += 1
+        operations = optimized_circuit.all_operations()
+        gate_count = len(list(operations))
+        depth = len(optimized_circuit)
+        two_q_count = sum(1 for op in operations if len(op.qubits) == 2)
+        swap_count = sum(1 for op in operations if isinstance(op.gate, cirq.SwapPowGate))
 
         metrics = {
             "gate_count": gate_count,
@@ -111,9 +134,8 @@ class CirqAdapter(CompilerAdapter):
 
         try:
             _, file = os.path.split(qasm_file.removesuffix(".qasm"))
-            filename = os.path.join(self.export_dir, f"{file}_cirq_opt{opt_level}.qasm")
-            with open(filename, 'w') as f:
-                f.write(routed_circuit.to_qasm())
+            filename = os.path.join(self.export_dir, f"{file}_cirq_opt{optimization_level}.qasm")
+            optimized_circuit.save_qasm(filename)
         except Exception as e:
             print(f"Cirq QASM Export Error: {e}")
             return metrics, None

@@ -1,8 +1,8 @@
 import os
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, List
 
-from quantum_bench.hardware.config import HardwareModel
+from quantum_bench.hardware.model import HardwareModel
 
 
 class CompilerAdapter(ABC):
@@ -20,9 +20,18 @@ class CompilerAdapter(ABC):
             os.makedirs(self.export_dir)
 
     @abstractmethod
-    def compile(self, qasm_file: str, opt_level: int, seed: Optional[int] = None) -> Tuple[Dict[str, Any], str]:
+    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         """
         Kompiliert den gegebenen QASM-Schaltkreis.
-        Gibt ein Dictionary mit Metriken und das kompilierte Schaltkreis-Objekt zurück.
+
+        Args:
+            qasm_file: Pfad zur QASM-Datei.
+            optimization_level: Allgemeines Optimierungslevel (0-3).
+            active_phases: Liste der aktiven Phasen (z.B. ["mapping", "routing", "optimization"]). None = alle.
+            optimization_passes: Liste der spezifischen Optimierungen (z.B. ["peephole", "kak"]).
+            seed: Random Seed.
+
+        Returns:
+            Dictionary mit Metriken und Pfad zur kompilierten Datei.
         """
         pass

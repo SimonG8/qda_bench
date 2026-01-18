@@ -1,22 +1,24 @@
 from mqt.bench.benchmarks import get_available_benchmark_names
+from mqt.bench.targets import get_available_device_names, get_device
 
-from quantum_bench.plotter import plot_results
 from quantum_bench.runner import run_benchmark
 
 if __name__ == "__main__":
     benchmarks = get_available_benchmark_names()
     benchmarks.remove('grover')
     benchmarks.remove('qwalk')
+    hardware = get_available_device_names()
     # Startet die Benchmarking-Suite mit den definierten Parametern
     run_benchmark(
-        hardware=["Falcon27"],
-        algorithms=benchmarks,
-        qubit_ranges=[4,5,6,7,8,9,10,11,12,13,14,15,16],
+        hardware_names=["ibm_falcon_27"], #"ionq_forte_36", "ionq_aria_25"
+        algo_names=["grover"],
+        qubit_ranges=[5],
+        benchmark_levels=["ALG", "INDEP", "NATIVEGATES", "MAPPED"], #"alg", "indep", "nativegates", "mapped"
         opt_levels=[3],
         num_runs=1,
-        output_file="test_result.csv",
-        run_visualisation=False,
+        output_file="testing.csv",
+        run_visualisation=True,
         run_verification=False,
-        run_plotter=True
+        run_plotter=False,
+        active_phases=[], # "rebase", "mapping", "optimization"
     )
-    #plot_results("test_result.csv");

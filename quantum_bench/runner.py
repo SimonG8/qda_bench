@@ -1,18 +1,20 @@
 import os
+from typing import List, Optional
 
 import pandas as pd
 
 from quantum_bench.compilers.cirq_adapter import CirqAdapter
 from quantum_bench.compilers.pytket_adapter import PytketAdapter
 from quantum_bench.compilers.qiskit_adapter import QiskitAdapter
-from quantum_bench.data.mqt_provider import get_circuit, verify_circuit, visualize_circuit
-from quantum_bench.hardware.config import get_hardware
+import quantum_bench.data.mqt_provider as mqt
+from quantum_bench.hardware.model import get_hardware
 from quantum_bench.plotter import plot_results
 
 
-def run_benchmark(hardware, algorithms, qubit_ranges, opt_levels, num_runs=10,
+def run_benchmark(hardware_names, algo_names, qubit_ranges, benchmark_levels, opt_levels, num_runs=10,
                   run_verification=False, run_visualisation=False, run_plotter=False,
-                  output_file="benchmark_results_final.csv", visualisation_path=None, seed=None):
+                  output_file="benchmark_results_final.csv", visualisation_path=None, seed=None,
+                  active_phases: Optional[List[str]] = None):
     """
     Führt den Benchmark durch.
     """
@@ -23,76 +25,92 @@ def run_benchmark(hardware, algorithms, qubit_ranges, opt_levels, num_runs=10,
 
     results = []
 
-    for hardware_name in hardware:
-        hardware = get_hardware(hardware_name)
+    for hardware_name in hardware_names:
+        hardware = mqt.get_hardware(hardware_name)
 
-        print(f"\n=== Hardware: {hardware.name} ===")
+        if not hardware:
+            hardware = get_hardware(hardware_name)
+            if not hardware:
+                continue
+
+        print(f"\n=== Hardware: {hardware_name} ===")
 
         compilers = [
             CirqAdapter(hardware),
             PytketAdapter(hardware),
             QiskitAdapter(hardware)
         ]
+        for benchmark_level in benchmark_levels:
+            for algo_name in algo_names:
+                for n_qubits in qubit_ranges:
+                    if n_qubits > hardware.num_qubits:
+                        continue
 
-        for algo in algorithms:
-            for n_qubits in qubit_ranges:
-                if n_qubits > hardware.num_qubits:
-                    continue
+                    qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
+                    if not qasm_path:
+                        continue
 
-                print(f"--- Benchmark: {algo} ({n_qubits} Qubits) ---")
+                    if run_visualisation and n_qubits == min(qubit_ranges):
+                        mqt.visualize_circuit(qasm_path, hardware.name, visualisation_path)
 
-                qasm_path = get_circuit(algo, n_qubits)
-                if not qasm_path:
-                    continue
+                    print(f"--- {benchmark_level}-Benchmark: {algo_name} ({n_qubits} Qubits) ---")
 
-                for compiler in compilers:
-                    for opt_level in opt_levels:
-                        for run_i in range(num_runs):
-                            row = {
-                                "hardware": hardware.name,
-                                "algorithm": algo,
-                                "qubits": n_qubits,
-                                "compiler": compiler.name,
-                                "opt_level": opt_level,
-                                "run": run_i,
-                            }
+                    for compiler in compilers:
+                        for opt_level in opt_levels:
+                            for run_i in range(num_runs):
+                                row = {
+                                    "hardware": hardware.name,
+                                    "algorithm": algo_name,
+                                    "qubits": n_qubits,
+                                    "compiler": compiler.name,
+                                    "opt_level": opt_level,
+                                    "run": run_i,
+                                }
 
-                            try:
-                                metrics, compiled_qasm_path = compiler.compile(qasm_path, opt_level, seed)
+                                try:
+                                    metrics, compiled_qasm_path = compiler.compile(
+                                        qasm_file=qasm_path,
+                                        optimization_level=opt_level,
+                                        active_phases=active_phases,
+                                        seed=seed
+                                    )
 
-                                if metrics:
-                                    row.update(metrics)
-                                    row["success"] = True
-                                else:
-                                    row.update({
-                                        "gate_count": None,
-                                        "depth": None,
-                                        "compile_time": None,
-                                        "2q_gates": None,
-                                        "swap_gates": None,
-                                    })
-                                    row["success"] = False
-
-                                if run_visualisation and compiled_qasm_path and n_qubits == 5 and run_i == 0:
-                                    visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
-
-                                if run_verification:
-                                    if compiled_qasm_path and n_qubits == 5 and run_i == 0:
-                                        equivalence = verify_circuit(qasm_path, compiled_qasm_path)
-                                        row["Eqivalenz"] = equivalence
+                                    if metrics:
+                                        row.update(metrics)
+                                        row["success"] = True
                                     else:
-                                        row["Eqivalenz"] = "Skipped"
-                            except Exception as e:
-                                row["success"] = False
-                                print(f"Fehler während des Kompilierens: {e}")
+                                        row.update({
+                                            "gate_count": None,
+                                            "depth": None,
+                                            "compile_time": None,
+                                            "2q_gates": None,
+                                            "swap_gates": None,
+                                        })
+                                        row["success"] = False
 
-                            print(row)
-                            results.append(row)
+                                    if run_visualisation and compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
+                                        mqt.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
 
-                            df_row = pd.DataFrame([row])
-                            write_header = not os.path.exists(output_file)
-                            df_row.to_csv(output_file, mode='a', header=write_header, index=False)
+                                    if run_verification:
+                                        if compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
+                                            equivalence = mqt.verify_circuit(qasm_path, compiled_qasm_path)
+                                            row["Eqivalenz"] = equivalence
+                                        else:
+                                            row["Eqivalenz"] = "Skipped"
+                                except Exception as e:
+                                    row["success"] = False
+                                    print(f"Fehler während des Kompilierens: {e}")
 
-    print(f"Benchmark abgeschlossen. Ergebnisse in {output_file} gespeichert.")
-    if run_plotter:
-        plot_results(output_file, visualisation_path)
+                                print(row)
+                                results.append(row)
+
+                                df_row = pd.DataFrame([row])
+                                write_header = not os.path.exists(output_file)
+                                df_row.to_csv(output_file, mode='a', header=write_header, index=False)
+
+    if os.path.exists(output_file):
+        print(f"Benchmark abgeschlossen. Ergebnisse in {output_file} gespeichert.")
+        if run_plotter:
+            plot_results(output_file, visualisation_path)
+    else:
+        print("Benchmark fehlgeschlagen.")
