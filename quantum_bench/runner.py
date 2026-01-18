@@ -14,7 +14,7 @@ from quantum_bench.plotter import plot_results
 def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int], benchmark_levels: List[str],
                   opt_levels: List[int], num_runs: int = 1,
                   run_verification: bool = False, run_visualisation: bool = False, run_plotter: bool = False,
-                  output_file: str = "benchmark_results_final.csv", visualisation_path: str = None, seed: int = None,
+                  output_file: str = "benchmark_results_final.csv", visualisation_path: str = None, full_compilation: bool = None, seed: int = None,
                   active_phases: Optional[List[str]] = None):
     """
     Executes the benchmark suite.
@@ -130,6 +130,6 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
     if os.path.exists(output_file):
         print(f"Benchmark finished. Results saved to {output_file}.")
         if run_plotter:
-            plot_results(output_file, visualisation_path)
+            plot_results(output_file, visualisation_path, full_compilation)
     else:
         print("Benchmark failed.")

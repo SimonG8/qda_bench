@@ -139,10 +139,9 @@ class BenchmarkPlotter:
         """
         category = "Mapping_Only"
         
-        # 1. Pro Kombination an Hardware und Compiler einen Plot mit jedem benchmark_level als Graphen
         # Group by: Hardware, Compiler, Opt_Level (as requested to have separate graphs per opt_level)
         # Hue: benchmark_level
-        # Average: algos (handled by seaborn aggregation)
+        # Average: algos
         self.run_plot_config(
             category_name=category,
             sub_category_name="Hardware_Compiler_vs_BenchmarkLevel",
@@ -150,7 +149,6 @@ class BenchmarkPlotter:
             hue_col="benchmark_level"
         )
 
-        # 2. Pro Kombination an Benchmark_Level und Compiler einen Plot mit jeder Hardware als Graphen
         # Group by: Benchmark_Level, Compiler, Opt_Level
         # Hue: hardware
         self.run_plot_config(
@@ -160,7 +158,6 @@ class BenchmarkPlotter:
             hue_col="hardware"
         )
 
-        # 3. Pro Kombination an Benchmark_Level und Hardware einen Plot mit jedem Compiler als Graphen
         # Group by: Benchmark_Level, Hardware, Opt_Level
         # Hue: compiler
         self.run_plot_config(
@@ -176,10 +173,9 @@ class BenchmarkPlotter:
         """
         category = "Full_Compilation"
 
-        # 1. Pro Kombination an op_level und Algorithmus einen Plot mit jedem Compiler als Graphen
-        # Group by: opt_level, algorithm, benchmark_level (as requested to have separate graphs per benchmark_level)
+        # Group by: opt_level, algorithm, benchmark_level
         # Hue: compiler
-        # Average: hardware (handled by seaborn aggregation)
+        # Average: hardware
         self.run_plot_config(
             category_name=category,
             sub_category_name="OptLevel_Algorithm_vs_Compiler",
@@ -187,7 +183,6 @@ class BenchmarkPlotter:
             hue_col="compiler"
         )
 
-        # 2. Pro Kombination an op_level und Hardware einen Plot mit jedem Compiler als Graphen
         # Group by: opt_level, hardware, benchmark_level
         # Hue: compiler
         # Average: algos
@@ -198,17 +193,9 @@ class BenchmarkPlotter:
             hue_col="compiler"
         )
 
-        # 3. Pro Kombination an Algorithmus und Hardware einen Plot mit jedem Compiler als Graphen
         # Group by: algorithm, hardware, benchmark_level
         # Hue: compiler
-        # Average: opt_level (Wait, the prompt says "Durchschnitt aller op_level" for this one? 
-        # "Pro Kombination an Algorithmus und Hardware einen Plot mit jedem Compiler als Graphen und Durchschnitt aller op_level")
-        # But earlier it said "Bei dieser Kategorie werden num_runs und benchmark_level nicht verändert."
-        # If we average over opt_level, we don't group by it.
-        # However, the prompt also said "Trotzdem würde ich pro benchmark_level weitere graphen haben".
-        # So Group by: algorithm, hardware, benchmark_level.
-        # Hue: compiler.
-        # The data will contain multiple opt_levels. Seaborn will average them.
+        # Average: opt_level
         self.run_plot_config(
             category_name=category,
             sub_category_name="Algorithm_Hardware_vs_Compiler",
@@ -216,11 +203,13 @@ class BenchmarkPlotter:
             hue_col="compiler"
         )
 
-def plot_results(csv_file_path="benchmark_results_final.csv", visualisation_path="visualisation"):
+def plot_results(csv_file_path="benchmark_results_final.csv", visualisation_path="visualisation", full_compilation=False):
     plotter = BenchmarkPlotter(csv_file_path, visualisation_path)
     if plotter.load_data():
-        plotter.plot_mapping_benchmarks()
-        plotter.plot_compilation_benchmarks()
+        if full_compilation:
+            plotter.plot_compilation_benchmarks()
+        else:
+            plotter.plot_mapping_benchmarks()
     else:
         print("Could not load data or data is empty.")
 
