@@ -1,4 +1,5 @@
 import os
+import concurrent.futures
 from typing import List, Optional
 
 import pandas as pd
@@ -9,6 +10,77 @@ from quantum_bench.compilers.qiskit_adapter import QiskitAdapter
 import quantum_bench.data.mqt_provider as mqt
 from quantum_bench.hardware.model import get_hardware
 from quantum_bench.plotter import plot_results
+
+
+def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_cls, opt_level, run_i, qasm_path, active_phases, seed, do_visualize, run_verification, is_verification_run, visualisation_path):
+
+    # Re-fetch hardware inside the worker process
+    hardware = mqt.get_hardware_model(hardware_name)
+    if not hardware:
+        hardware = get_hardware(hardware_name)
+    
+    if not hardware:
+        return {
+            "hardware": hardware_name,
+            "benchmark_level": benchmark_level,
+            "algorithm": algo_name,
+            "qubits": n_qubits,
+            "compiler": compiler_cls.__name__,
+            "opt_level": opt_level,
+            "run": run_i,
+            "success": False,
+            "error": "Hardware not found"
+        }
+
+    compiler = compiler_cls(hardware)
+    
+    row = {
+        "hardware": hardware.name,
+        "benchmark_level": benchmark_level,
+        "algorithm": algo_name,
+        "qubits": n_qubits,
+        "compiler": compiler.name,
+        "opt_level": opt_level,
+        "run": run_i,
+    }
+
+    try:
+        metrics, compiled_qasm_path = compiler.compile(
+            qasm_file=qasm_path,
+            optimization_level=opt_level,
+            active_phases=active_phases,
+            seed=seed
+        )
+
+        if metrics:
+            row.update(metrics)
+            row["success"] = True
+        else:
+            row.update({
+                "gate_count": '-',
+                "depth": '-',
+                "compile_time": '-',
+                "2q_gates": '-',
+                "swap_gates": '-',
+                "initial": '-'
+            })
+            row["success"] = False
+
+        if do_visualize and compiled_qasm_path:
+             mqt.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
+
+        if run_verification:
+            if is_verification_run and compiled_qasm_path:
+                equivalence = mqt.verify_circuit(qasm_path, compiled_qasm_path)
+                row["Equivalence"] = equivalence
+            else:
+                row["Equivalence"] = "Skipped"
+
+    except Exception as e:
+        row["success"] = False
+        print(f"Error during compilation in worker: {e}")
+
+    return row
 
 
 def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int], benchmark_levels: List[str],
@@ -36,100 +108,101 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
     """
     print(f"Starting Benchmarking Suite ({num_runs} runs per config)...")
 
-    if os.path.exists(output_file):
-        os.remove(output_file)
-
     results = []
+    interrupted = False
+    
+    # Use ProcessPoolExecutor for parallelism
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        futures = []
 
-    for hardware_name in hardware_names:
-        hardware = mqt.get_hardware_model(hardware_name)
+        for hardware_name in hardware_names:
+            hardware = mqt.get_hardware_model(hardware_name)
 
-        if not hardware:
-            hardware = get_hardware(hardware_name)
             if not hardware:
-                print(f"Skipping unknown hardware: {hardware_name}")
-                continue
+                hardware = get_hardware(hardware_name)
+                if not hardware:
+                    print(f"Skipping unknown hardware: {hardware_name}")
+                    continue
 
-        print(f"\n=== Hardware: {hardware_name} ===")
+            print(f"\n=== Scheduling Hardware: {hardware_name} ===")
 
-        compilers = [
-            CirqAdapter(hardware),
-            PytketAdapter(hardware),
-            QiskitAdapter(hardware)
-        ]
-        for benchmark_level in benchmark_levels:
-            for n_qubits in qubit_ranges:
-                for algo_name in algo_names:
-                    if n_qubits > hardware.num_qubits:
-                        continue
+            # List of compiler classes to instantiate in workers
+            compiler_classes = [
+                CirqAdapter,
+                PytketAdapter,
+                QiskitAdapter
+            ]
+            
+            for benchmark_level in benchmark_levels:
+                for n_qubits in qubit_ranges:
+                    for algo_name in algo_names:
+                        if n_qubits > hardware.num_qubits:
+                            continue
 
-                    qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
-                    if not qasm_path:
-                        continue
+                        qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
+                        if not qasm_path:
+                            continue
 
-                    if run_visualisation and n_qubits == min(qubit_ranges):
-                        mqt.visualize_circuit(qasm_path, hardware.name, visualisation_path)
+                        if run_visualisation and n_qubits == min(qubit_ranges):
+                            mqt.visualize_circuit(qasm_path, hardware.name, visualisation_path)
 
-                    print(f"--- {benchmark_level}-Benchmark: {algo_name} ({n_qubits} Qubits) ---")
+                        # Removed the immediate print here to avoid flooding the console
+                        # print(f"--- {benchmark_level}-Benchmark: {algo_name} ({n_qubits} Qubits) ---")
 
-                    for compiler in compilers:
-                        for opt_level in opt_levels:
-                            for run_i in range(num_runs):
-                                row = {
-                                    "hardware": hardware.name,
-                                    "benchmark_level": benchmark_level,
-                                    "algorithm": algo_name,
-                                    "qubits": n_qubits,
-                                    "compiler": compiler.name,
-                                    "opt_level": opt_level,
-                                    "run": run_i,
-                                }
-
-                                try:
-                                    metrics, compiled_qasm_path = compiler.compile(
-                                        qasm_file=qasm_path,
-                                        optimization_level=opt_level,
-                                        active_phases=active_phases,
-                                        seed=seed
+                        for compiler_cls in compiler_classes:
+                            for opt_level in opt_levels:
+                                for run_i in range(num_runs):
+                                    
+                                    do_visualize = (run_visualisation and n_qubits == min(qubit_ranges) and run_i == 0)
+                                    is_verification_run = (n_qubits == min(qubit_ranges) and run_i == 0)
+                                    
+                                    future = executor.submit(
+                                        process_task,
+                                        hardware_name,
+                                        benchmark_level,
+                                        algo_name,
+                                        n_qubits,
+                                        compiler_cls,
+                                        opt_level,
+                                        run_i,
+                                        qasm_path,
+                                        active_phases,
+                                        seed,
+                                        do_visualize,
+                                        run_verification,
+                                        is_verification_run,
+                                        visualisation_path
                                     )
+                                    futures.append(future)
 
-                                    if metrics:
-                                        row.update(metrics)
-                                        row["success"] = True
-                                    else:
-                                        row.update({
-                                            "gate_count": '-',
-                                            "depth": '-',
-                                            "compile_time": '-',
-                                            "2q_gates": '-',
-                                            "swap_gates": '-',
-                                            "initial": '-'
-                                        })
-                                        row["success"] = False
+        print(f"Scheduled {len(futures)} tasks. Waiting for results...")
 
-                                    if run_visualisation and compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
-                                        mqt.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
+        # Collect results as they complete
+        try:
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    row = future.result()
+                    results.append(row)
+                    print(row, flush=True)
 
-                                    if run_verification:
-                                        if compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
-                                            equivalence = mqt.verify_circuit(qasm_path, compiled_qasm_path)
-                                            row["Equivalence"] = equivalence
-                                        else:
-                                            row["Equivalence"] = "Skipped"
-                                except Exception as e:
-                                    row["success"] = False
-                                    print(f"Error during compilation: {e}")
-
-                                print(row)
-                                results.append(row)
-
-                                df_row = pd.DataFrame([row])
-                                write_header = not os.path.exists(output_file)
-                                df_row.to_csv(output_file, mode='a', header=write_header, index=False)
+                    df_row = pd.DataFrame([row])
+                    write_header = not os.path.exists(output_file)
+                    df_row.to_csv(output_file, mode='a', header=write_header, index=False)
+                except Exception as e:
+                    print(f"Task failed with error: {e}")
+        except KeyboardInterrupt:
+            print("\nBenchmark interrupted. Cancelling pending tasks...")
+            for f in futures:
+                f.cancel()
+            interrupted = True
 
     if os.path.exists(output_file):
-        print(f"Benchmark finished. Results saved to {output_file}.")
+        if interrupted:
+            print(f"Benchmark interrupted. Partial results saved to {output_file}.")
+        else:
+            print(f"Benchmark finished. Results saved to {output_file}.")
+
         if run_plotter:
             plot_results(output_file, visualisation_path, full_compilation)
     else:
-        print("Benchmark failed.")
+        print("Benchmark failed or no results generated.")
