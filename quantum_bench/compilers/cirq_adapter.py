@@ -42,7 +42,9 @@ class GenericDevice(cirq.Device):
             "cz": cirq.CZ,
             "id": cirq.I,
             "measure": cirq.measure,
-            "swap": cirq.SWAP
+            "swap": cirq.SWAP,
+            "iswap": cirq.ISWAP,
+            "zz": cirq.ZZ,
         }
 
         allowed_gates = set()

@@ -40,7 +40,7 @@ class PytketAdapter(CompilerAdapter):
             "cz": OpType.CZ,
             "id": OpType.noop,
             "measure": OpType.Measure,
-            "swap": OpType.SWAP
+            "swap": OpType.SWAP,
         }
 
         allowed_optypes = set()
@@ -51,7 +51,7 @@ class PytketAdapter(CompilerAdapter):
 
     def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         try:
-            circuit = circuit_from_qasm(qasm_file)
+            circuit = circuit_from_qasm(qasm_file,maxwidth=127)
         except Exception as e:
             print(f"Pytket QASM Import Error: {e}")
             return None, None
