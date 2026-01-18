@@ -12,7 +12,7 @@ from quantum_bench.plotter import plot_results
 
 
 def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int], benchmark_levels: List[str],
-                  opt_levels: List[int], num_runs: int = 10,
+                  opt_levels: List[int], num_runs: int = 1,
                   run_verification: bool = False, run_visualisation: bool = False, run_plotter: bool = False,
                   output_file: str = "benchmark_results_final.csv", visualisation_path: str = None, seed: int = None,
                   active_phases: Optional[List[str]] = None):
@@ -77,6 +77,7 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
                             for run_i in range(num_runs):
                                 row = {
                                     "hardware": hardware.name,
+                                    "benchmark_level": benchmark_level,
                                     "algorithm": algo_name,
                                     "qubits": n_qubits,
                                     "compiler": compiler.name,
@@ -97,11 +98,12 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
                                         row["success"] = True
                                     else:
                                         row.update({
-                                            "gate_count": None,
-                                            "depth": None,
-                                            "compile_time": None,
-                                            "2q_gates": None,
-                                            "swap_gates": None,
+                                            "gate_count": '-',
+                                            "depth": '-',
+                                            "compile_time": '-',
+                                            "2q_gates": '-',
+                                            "swap_gates": '-',
+                                            "initial": '-'
                                         })
                                         row["success"] = False
 

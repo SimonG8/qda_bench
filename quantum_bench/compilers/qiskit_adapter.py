@@ -69,6 +69,19 @@ class QiskitAdapter(CompilerAdapter):
             print(f"Qiskit QASM Import Error: {e}")
             return None, None
 
+        operations = circuit.count_ops()
+        gate_count = circuit.size() - operations.get('barrier', 0)
+        depth = circuit.depth()
+        two_q_count = circuit.num_nonlocal_gates()
+        swap_count = operations.get('swap', 0)
+        initial_metrics = {
+            "gate_count": gate_count,
+            "depth": depth,
+            "compile_time": '-',
+            "2q_gates": two_q_count,
+            "swap_gates": swap_count,
+        }
+
         start_time = time.time()
 
         # If no phases are specified, use standard transpile
@@ -89,7 +102,7 @@ class QiskitAdapter(CompilerAdapter):
             # 1. Mapping / Layout
             if "mapping" in active_phases:
                 pm.append(SabreLayout(self.target, seed=seed))
-                pm.append(SabreSwap(self.target.build_coupling_map(), "decay", seed=seed))
+                pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
 
             # 2. Optimization
             if "optimization" in active_phases:
@@ -110,13 +123,13 @@ class QiskitAdapter(CompilerAdapter):
         gate_count = transpiled_circuit.size() - operations.get('barrier', 0)
         depth = transpiled_circuit.depth()
         two_q_count = transpiled_circuit.num_nonlocal_gates()
-        swap_count = operations.get('swap', 0)
         metrics = {
             "gate_count": gate_count,
             "depth": depth,
             "compile_time": duration,
             "2q_gates": two_q_count,
             "swap_gates": swap_count,
+            "initial": initial_metrics
         }
 
         try:

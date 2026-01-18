@@ -82,6 +82,20 @@ class CirqAdapter(CompilerAdapter):
             print(f"Cirq QASM Import Error: {e}")
             return None, None
 
+        operations = list(optimized_circuit.all_operations())
+        gate_count = len(operations)
+        depth = len(optimized_circuit)
+        two_q_count = sum(1 for op in operations if len(op.qubits) == 2)
+        swap_count = sum(1 for op in operations if isinstance(op.gate, cirq.SwapPowGate))
+
+        initial_metrics = {
+            "gate_count": gate_count,
+            "depth": depth,
+            "compile_time": '-',
+            "2q_gates": two_q_count,
+            "swap_gates": swap_count,
+        }
+
         start_time = time.time()
 
         # 0. Translation
@@ -124,6 +138,7 @@ class CirqAdapter(CompilerAdapter):
             "compile_time": duration,
             "2q_gates": two_q_count,
             "swap_gates": swap_count,
+            "initial": initial_metrics
         }
 
         try:

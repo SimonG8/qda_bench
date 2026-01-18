@@ -56,6 +56,19 @@ class PytketAdapter(CompilerAdapter):
             print(f"Pytket QASM Import Error: {e}")
             return None, None
 
+        gate_count = circuit.n_gates - circuit.n_gates_of_type(OpType.Barrier)
+        depth = circuit.depth()
+        two_q_count = circuit.n_2qb_gates()
+        swap_count = circuit.n_gates_of_type(OpType.SWAP)
+
+        initial_metrics = {
+            "gate_count": gate_count,
+            "depth": depth,
+            "compile_time": '-',
+            "2q_gates": two_q_count,
+            "swap_gates": swap_count,
+        }
+
         start_time = time.time()
 
         # 0. Rebasing
@@ -103,6 +116,7 @@ class PytketAdapter(CompilerAdapter):
             "compile_time": duration,
             "2q_gates": two_q_count,
             "swap_gates": swap_count,
+            "initial": initial_metrics
         }
 
         circuit.remove_blank_wires()
