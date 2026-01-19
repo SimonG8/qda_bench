@@ -56,10 +56,10 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
         ]
         for benchmark_level in benchmark_levels:
             for n_qubits in qubit_ranges:
-                for algo_name in algo_names:
-                    if n_qubits > hardware.num_qubits:
-                        continue
+                if n_qubits > hardware.num_qubits:
+                    continue
 
+                for algo_name in algo_names:
                     qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
                     if not qasm_path:
                         continue

@@ -1,112 +1,103 @@
-# Comparative Analysis of Design Automation Methods for Quantum Computers
+# Vergleichende Analyse von Entwurfsautomatisierungsmethoden für Quantencomputer
 
-This repository contains the source code and benchmark suite for the Master's thesis in the "Information Engineering" program. The goal of the project is a sound, comparative analysis of different software frameworks for the design automation of quantum circuits.
+Dieses Repository enthält den Quellcode und die Benchmark-Suite für die Masterarbeit im Studiengang "Information Engineering". Ziel des Projekts ist eine fundierte, vergleichende Analyse verschiedener Software-Frameworks für die Entwurfsautomatisierung von Quantenschaltkreisen.
 
-## Project Goal
+## Projektziel
 
-The thesis investigates how efficiently current compiler frameworks (Qiskit, Cirq, pytket) map quantum algorithms to realistic hardware topologies. The focus is on the following aspects:
-- **Routing & Mapping:** How are logical qubits distributed to physical qubits considering limited connectivity?
-- **Gate Optimization:** How well can the tools reduce the number of gates and circuit depth?
-- **Comparison Metrics:** Compiler runtime, resulting gate count (esp. 2-qubit gates), circuit depth, and number of inserted SWAP gates.
+Die Arbeit untersucht, wie effizient aktuelle Compiler-Frameworks (Qiskit, Cirq, pytket) Quantenalgorithmen auf realistische Hardware-Topologien abbilden. Der Fokus liegt auf folgenden Aspekten:
+- **Routing & Mapping:** Wie werden logische Qubits unter Berücksichtigung begrenzter Konnektivität auf physische Qubits verteilt?
+- **Gatter-Optimierung:** Wie gut können die Tools die Anzahl der Gatter und die Schaltkreistiefe reduzieren?
+- **Vergleichsmetriken:** Compiler-Laufzeit, resultierende Gatter-Anzahl (insb. 2-Qubit-Gatter), Schaltkreistiefe und Anzahl eingefügter SWAP-Gatter.
 
-**MQT Bench**, a standardized benchmark suite for quantum computing, serves as the basis for the evaluation.
+Als Basis für die Evaluation dient **MQT Bench**, eine standardisierte Benchmark-Suite für Quantencomputing.
 
-## Research Questions
+## Forschungsfragen
 
-The project addresses the following key questions:
-1. **Efficiency and Accuracy:** How do current design automation methods differ in terms of efficiency and accuracy?
-2. **Hardware and Circuit Behavior:** How do compilers and algorithms behave on different hardware with different circuits? Can conclusions be drawn for specific application areas?
+Das Projekt adressiert folgende Kernfragen:
+1. **Effizienz und Genauigkeit:** Wie unterscheiden sich aktuelle Entwurfsautomatisierungsmethoden hinsichtlich Effizienz und Genauigkeit?
+2. **Hardware- und Schaltkreisverhalten:** Wie verhalten sich Compiler und Algorithmen auf unterschiedlicher Hardware mit verschiedenen Schaltkreisen? Lassen sich Rückschlüsse für spezifische Anwendungsbereiche ziehen?
 
-## Project Structure and Functionality
+## Benchmark-Kategorien
 
-The code is modular to allow flexible testing of different compilers and hardware architectures.
+Das Framework bietet spezialisierte Benchmark-Modi, um verschiedene Aspekte der Kompilierung isoliert zu betrachten (siehe `quantum_bench/runner.py` und `quantum_bench/plotter.py`):
 
-### Main Components
+### 1. Nur Mapping (Mapping Only)
+Dieser Modus vergleicht, wie sich verschiedene Hardware-Architekturen auf die Mapping-Algorithmen der Compiler auswirken.
+- **Fokus:** Isoliertes Betrachten der Mapping- und Routing-Phasen (z.B. durch Beschränkung auf `rebase` und `mapping`).
+- **Analyse:** Untersucht wird das Verhalten über verschiedene Abstraktionsebenen hinweg (ALG, INDEP, NATIVEGATES, MAPPED).
+- **Ziel:** Identifikation von Stärken und Schwächen der Router bei unterschiedlichen Topologien.
+
+### 2. Vollständige Kompilierung (Full Compiling)
+Dieser Modus vergleicht, wie sich verschiedene Schaltkreise auf die gesamte Kompilierungskette auswirken.
+- **Fokus:** Vollständiger Kompilierungsdurchlauf mit allen Optimierungen.
+- **Analyse:** Konzentration auf die algorithmische Ebene (ALG).
+- **Ziel:** Bewertung der Gesamtperformance der Compiler für verschiedene Quantenalgorithmen.
+
+## Parallelisierung
+
+Für das Ausführen großer Benchmarks steht der separate Git-Branch **`Paralelisierung`** zur Verfügung. Dieser Branch erweitert das Framework um Multiprocessing-Fähigkeiten, wodurch Benchmarks auf mehreren Kernen gleichzeitig ausgeführt werden können. Dies reduziert die Wartezeit bei umfangreichen Experimenten erheblich.
+
+## Projektstruktur und Funktionalität
+
+Der Code ist modular aufgebaut, um flexible Tests verschiedener Compiler und Hardware-Architekturen zu ermöglichen.
+
+### Hauptkomponenten
 
 *   **`main.py`**
-    The entry point of the application. Here, the benchmark configuration is defined (which hardware, which algorithms, qubit count, optimization level) and the `run_benchmark` process is initiated. It supports different modes, such as focusing on mapping/routing or full compilation.
-
+    Der Einstiegspunkt der Anwendung. Hier wird die Benchmark-Konfiguration definiert (welche Hardware, welche Algorithmen, Qubit-Anzahl, Optimierungslevel) und der `run_benchmark` Prozess angestoßen.
+    
 *   **`quantum_bench/runner.py`**
-    The central control unit.
-    - Iterates over all configured combinations of hardware, algorithms, and compilers.
-    - Calls the respective compiler adapters.
-    - Collects metrics (Gate Count, Depth, Compile Time, etc.) and saves them in a CSV file.
-    - Can optionally trigger verification (equivalence checking) and visualization.
+    Die zentrale Steuereinheit.
+    - Iteriert über alle konfigurierten Kombinationen aus Hardware, Algorithmen und Compilern.
+    - Ruft die entsprechenden Compiler-Adapter auf.
+    - Sammelt Metriken (Gate Count, Depth, Compile Time, etc.) und speichert sie in einer CSV-Datei.
+    - Implementiert die Logik für `run_mapping_benchmark` und `run_compilation_benchmark`.
 
 *   **`quantum_bench/data/mqt_provider.py`**
-    Interface to MQT Bench.
-    - `get_circuit`: Loads benchmark circuits (e.g., DJ, GHZ, QFT) in the desired qubit size and exports them as OpenQASM 2.0 files.
-    - `verify_circuit`: Uses MQT QCEC to ensure that the compiled circuit is equivalent to the original.
-    - `visualize_circuit`: Creates graphics of the circuits.
-    - `get_hardware_model`: Loads hardware definitions from MQT Bench.
+    Schnittstelle zu MQT Bench.
+    - Lädt Benchmark-Schaltkreise und Hardware-Definitionen.
+    - Verifiziert und visualisiert Schaltkreise.
 
 *   **`quantum_bench/hardware/model.py`**
-    Defines the hardware models.
-    - Represents the hardware topology (coupling map) and basis gates.
-    - Provides a unified interface for the compiler adapters.
+    Definiert die Hardware-Modelle (Topologie, Basis-Gatter).
 
 *   **`quantum_bench/plotter.py`**
-    Analyzes the generated CSV file.
-    - Creates detailed plots using `seaborn` and `matplotlib`.
-    - Generates overview graphs (comparison of all compilers over qubit count) and detail plots per algorithm.
-    - Visualizes metrics such as compilation time, depth, SWAP count, etc.
+    Analysiert die generierten CSV-Dateien.
+    - Erstellt detaillierte Plots mittels `seaborn` und `matplotlib`.
+    - Bietet spezialisierte Plot-Funktionen für die "Mapping Only" und "Full Compiling" Szenarien.
 
-### Compiler Adapters (`quantum_bench/compilers/`)
+### Compiler-Adapter (`quantum_bench/compilers/`)
 
-To ensure a fair and unified interface, the Adapter Pattern is used. All adapters inherit from `base.py`.
+Um eine faire und einheitliche Schnittstelle zu gewährleisten, wird das Adapter-Pattern verwendet (Qiskit, Cirq, pytket).
 
-*   **`base.py`**: Defines the abstract interface `CompilerAdapter`.
-*   **`qiskit_adapter.py`**:
-    - Uses the IBM Qiskit `transpile` workflow.
-    - Creates a `Target` object based on the hardware definition.
-    - Maps metrics from the transpiled circuit.
-*   **`cirq_adapter.py`**:
-    - Implements compilation for Google Cirq.
-    - Converts the hardware topology into a `cirq.Device`.
-    - Uses routers like `cirq.RouteCQC` and optimizers like `cirq.optimize_for_target_gateset`.
-*   **`pytket_adapter.py`**:
-    - Uses the `pytket` compiler stack.
-    - Uses `MappingManager` and `LexiRouteRoutingMethod` for routing.
-    - Executes optimization passes like `FullPeepholeOptimise` and `SynthesiseTket`.
+## Nutzung
 
-## Usage
+1.  **Abhängigkeiten installieren:**
+    Stellen Sie sicher, dass alle benötigten Bibliotheken installiert sind (`qiskit`, `cirq`, `pytket`, `mqt.bench`, `mqt.qcec`, `pandas`, `seaborn`, `networkx`).
 
-1.  **Install Dependencies:**
-    Ensure that all required libraries are installed (see imports in the files: `qiskit`, `cirq`, `pytket`, `mqt.bench`, `mqt.qcec`, `pandas`, `seaborn`, `networkx`).
+2.  **Benchmark konfigurieren:**
+    Passen Sie die Parameter in `main.py` an. Wählen Sie zwischen `run_mapping_benchmark` oder `run_compilation_benchmark` je nach Untersuchungsziel.
 
-2.  **Configure Benchmark:**
-    Adjust the parameters in `main.py`. The project supports running benchmarks on various hardware architectures (e.g., IBM Eagle, Rigetti Ankaa, IonQ Forte) and algorithms (e.g., QFT, Grover, VQE, QAOA).
-
-    Example configuration from `main.py`:
+    Beispielkonfiguration:
     ```python
-    # Example: Running a mapping-focused benchmark
-    run_benchmark(
-        hardware_names=["ibm_eagle_127", "rigetti_ankaa_84", "ionq_forte_36"],
-        algo_names=["qft", "grover", "vqe", "qaoa", "randomcircuit", "ghz"],
-        qubit_ranges=[4, 5, 8, 10, 15, 16, 20, 25, 32, 36, 40, 50, 64, 75, 84, 100, 127],
-        benchmark_levels=["ALG", "INDEP", "NATIVEGATES", "MAPPED"],
-        opt_levels=[3],
-        num_runs=1,
-        output_file="MAPPING_Result.csv",
-        full_compilation=False,
-        active_phases=["rebase", "mapping"]
+    # Beispiel: Ausführen eines Mapping-Benchmarks
+    run_mapping_benchmark(
+        hardware_names=["ibm_eagle_127", "rigetti_ankaa_84"],
+        algo_names=["qft", "grover"],
+        qubit_ranges=[4, 10, 20],
+        output_file="MAPPING_Result.csv"
     )
     ```
 
-3.  **Execute:**
-    Start the script via:
+3.  **Ausführen:**
+    Starten Sie das Skript über:
     ```bash
     python main.py
     ```
 
-4.  **Results:**
-    - The raw data can be found in the specified CSV file (e.g., `MAPPING_Result.csv`).
-    - Plots are saved (if enabled) in the `visualisation/plots/` folder.
-    - Compiled QASM files land in the cache folder `benchmarks_cache/`.
+## Quellen & Referenzen
 
-## Sources & References
-
-The work relies on current research literature and documentation of the tools used:
+Die Arbeit stützt sich auf aktuelle Forschungsliteratur und Dokumentationen der verwendeten Tools:
 - **MQT Bench:** [https://www.cda.cit.tum.de/mqtbench/](https://www.cda.cit.tum.de/mqtbench/)
 - **Qiskit:** [https://qiskit.org/](https://qiskit.org/)
 - **Cirq:** [https://quantumai.google/cirq](https://quantumai.google/cirq)

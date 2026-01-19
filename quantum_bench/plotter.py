@@ -21,7 +21,13 @@ class BenchmarkPlotter:
             "gate_count": "Total Gate Count",
             "depth": "Circuit Depth",
             "2q_gates": "Number of 2-Qubit Gates",
-            "swap_gates": "Number of SWAP Gates"
+            "swap_gates": "Number of SWAP Gates",
+            "qubits": "Number of Qubits",
+            "algorithm": "Algorithm",
+            "hardware": "Hardware Architecture",
+            "benchmark_level": "Benchmark Level",
+            "compiler": "Compiler",
+            "opt_level": "Optimization Level"
         }
 
     def load_data(self):
@@ -32,6 +38,8 @@ class BenchmarkPlotter:
         # Filter for successful runs
         if "success" in self.df.columns:
             self.df = self.df[self.df["success"] == True]
+        
+        self.df.rename(columns=self.metric_labels, inplace=True)
         return not self.df.empty
 
     def _generate_plot(self, data, x_col, y_col, hue_col, style_col, title, output_path):
@@ -56,12 +64,12 @@ class BenchmarkPlotter:
                 errorbar=('ci', 95) # 95% confidence interval for statistical dispersion
             )
             
-            if y_col == "compile_time":
+            if y_col == self.metric_labels.get("compile_time", "compile_time"):
                 plt.yscale("log")
 
             plt.title(title)
-            plt.xlabel("Number of Qubits")
-            plt.ylabel(self.metric_labels.get(y_col, y_col))
+            plt.xlabel(x_col)
+            plt.ylabel(y_col)
             plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
             plt.tight_layout()
             
@@ -85,24 +93,29 @@ class BenchmarkPlotter:
         """
         print(f"--- Processing {category_name} ---")
         
+        real_group_cols = [self.metric_labels.get(c, c) for c in group_cols]
+        real_line_cols = [self.metric_labels.get(c, c) for c in line_cols]
+        real_x_col = self.metric_labels.get(x_col, x_col)
+
         # Ensure all columns exist
-        required_cols = group_cols + line_cols + [x_col]
+        required_cols = real_group_cols + real_line_cols + [real_x_col]
         for col in required_cols:
             if col not in self.df.columns:
                 print(f"Warning: Column '{col}' not found in data. Skipping config.")
                 return
 
-        if len(line_cols) == 1:
-            line_cols = [line_cols[0], line_cols[0]]
+        if len(real_line_cols) == 1:
+            real_line_cols = [real_line_cols[0], real_line_cols[0]]
 
         # Iterate over each metric
         for metric in self.metrics:
-            if metric not in self.df.columns:
+            real_metric = self.metric_labels.get(metric, metric)
+            if real_metric not in self.df.columns:
                 continue
 
             # Group by the specified columns to create separate plots
             # We use groupby on the dataframe to iterate over unique combinations
-            grouped = self.df.groupby(group_cols)
+            grouped = self.df.groupby(real_group_cols)
             
             for name, group_data in grouped:
                 # name is a tuple of values corresponding to group_cols
@@ -110,10 +123,10 @@ class BenchmarkPlotter:
                     name = (name,)
 
                 # Construct description from group values
-                group_desc = " ".join([f"{col}: {val}" for col, val in zip(group_cols, name)])
+                group_desc = " ".join([f"{col}: {val}" for col, val in zip(real_group_cols, name)])
 
                 #Create title from category and description
-                title = f"{category_name}\n{group_desc} - {self.metric_labels.get(metric, metric)}"
+                title = f"{category_name}\n{group_desc}\n{real_metric}"
 
                 # Clean desc for filename
                 filename = group_desc.replace(": ", "-").replace(" ", "_")
@@ -130,10 +143,10 @@ class BenchmarkPlotter:
                 )
                 self._generate_plot(
                     data=group_data,
-                    x_col=x_col,
-                    y_col=metric,
-                    hue_col=line_cols[0],
-                    style_col=line_cols[1],
+                    x_col=real_x_col,
+                    y_col=real_metric,
+                    hue_col=real_line_cols[0],
+                    style_col=real_line_cols[1],
                     title=title,
                     output_path=output_path
                 )
@@ -144,7 +157,7 @@ def plot_results(csv_file_path="benchmark_results.csv", visualisation_path="visu
     plotter = BenchmarkPlotter(csv_file_path=csv_file_path, output_dir=visualisation_path)
     if plotter.load_data():
         plotter.run_plot_config(
-            category_name="category_name",
+            category_name="Compiler Benchmark",
             group_cols=["algorithm", "hardware", "benchmark_level"],
             line_cols=["compiler","opt_level"]
         )
@@ -161,7 +174,7 @@ def plot_mapping_benchmark(csv_file_path="mapping_results.csv", visualisation_pa
         # Hue: benchmark_level
         # Average: algos
         plotter.run_plot_config(
-            category_name="Hardware_Compiler_vs_BenchmarkLevel",
+            category_name="Mapping Only",
             group_cols=["hardware", "compiler", "opt_level"],
             line_cols=["benchmark_level"]
         )
@@ -169,7 +182,7 @@ def plot_mapping_benchmark(csv_file_path="mapping_results.csv", visualisation_pa
         # Group by: Benchmark_Level, Compiler, Opt_Level
         # Hue: hardware
         plotter.run_plot_config(
-            category_name="BenchmarkLevel_Compiler_vs_Hardware",
+            category_name="Mapping Only",
             group_cols=["benchmark_level", "compiler", "opt_level"],
             line_cols=["hardware"]
         )
@@ -178,7 +191,7 @@ def plot_mapping_benchmark(csv_file_path="mapping_results.csv", visualisation_pa
         # Hue: compiler
         plotter.run_plot_config(
             
-            category_name="BenchmarkLevel_Hardware_vs_Compiler",
+            category_name="Mapping Only",
             group_cols=["benchmark_level", "hardware", "opt_level"],
             line_cols=["compiler"]
         )
@@ -196,7 +209,7 @@ def plot_compilation_benchmark(csv_file_path="compilation_results.csv", visualis
         # Average: hardware
         plotter.run_plot_config(
             
-            category_name="OptLevel_Algorithm_vs_Compiler",
+            category_name="Full Compilation",
             group_cols=["opt_level", "algorithm", "benchmark_level"],
             line_cols=["compiler"]
         )
@@ -206,7 +219,7 @@ def plot_compilation_benchmark(csv_file_path="compilation_results.csv", visualis
         # Average: algos
         plotter.run_plot_config(
             
-            category_name="OptLevel_Hardware_vs_Compiler",
+            category_name="Full Compilation",
             group_cols=["opt_level", "hardware", "benchmark_level"],
             line_cols=["compiler"]
         )
@@ -216,7 +229,7 @@ def plot_compilation_benchmark(csv_file_path="compilation_results.csv", visualis
         # Average: opt_level
         plotter.run_plot_config(
             
-            category_name="Algorithm_Hardware_vs_Compiler",
+            category_name="Full Compilation",
             group_cols=["algorithm", "hardware", "benchmark_level"],
             line_cols=["compiler"]
         )
