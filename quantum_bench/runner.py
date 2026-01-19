@@ -222,7 +222,7 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
 
 
 def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
-                          output_file: str = "mapping_results.csv", plot_path: str = None, run_plotter: bool = False,
+                          output_file: str = "mapping_results.csv", plot_path: str = "mapping_plots", run_plotter: bool = False,
                           max_workers: Optional[int] = None, max_queued_tasks: int = 20):
     run_benchmark(
         hardware_names=hardware_names,
@@ -244,7 +244,7 @@ def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubi
 
 
 def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
-                              output_file: str = "compilation_results.csv", plot_path: str = None,
+                              output_file: str = "compilation_results.csv", plot_path: str = "compilation_plots",
                               run_plotter: bool = False,
                               max_workers: Optional[int] = None, max_queued_tasks: int = 20):
     run_benchmark(
@@ -252,7 +252,7 @@ def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], 
         algo_names=algo_names,
         qubit_ranges=qubit_ranges,
         benchmark_levels=["ALG"],
-        opt_levels=[3],
+        opt_levels=[0, 3],
         num_runs=1,
         output_file=output_file,
         run_visualisation=False,
