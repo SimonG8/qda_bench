@@ -66,17 +66,19 @@ class QiskitAdapter(CompilerAdapter):
         # Add basis gates
         for gate_name in basis_gates:
             gate_obj = gate_map.get(gate_name.lower())
-            if gate_obj.num_qubits == 2:
-                # 2-Qubit gates on defined edges
-                props = {edge: None for edge in coupling_map}
-                target.add_instruction(gate_obj, properties=props)
-            else:
-                # 1-Qubit gates on all qubits
-                target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
+            if gate_obj:
+                if gate_name.lower() in ["cx", "cz", "ecr"]:
+                    # 2-Qubit gates on defined edges
+                    props = {edge: None for edge in coupling_map}
+                    target.add_instruction(gate_obj, properties=props)
+                else:
+                    # 1-Qubit gates on all qubits
+                    target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
 
         return target
 
-    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None,
+                seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         try:
             circuit = QuantumCircuit.from_qasm_file(qasm_file)
         except Exception as e:
@@ -115,15 +117,13 @@ class QiskitAdapter(CompilerAdapter):
 
             # 1. Mapping / Layout
             if "mapping" in active_phases:
-                # Try VF2Layout first (good for subgraph isomorphism), fallback to Sabre
-                if self.target.build_coupling_map():
-                    pm.append(ApplyLayout())
-                    pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
+                pm.append(SabreLayout(self.target, seed=seed))
+                pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
 
             transpiled_circuit = pm.run(circuit)
             swap_count = transpiled_circuit.count_ops().get('swap', 0)
 
-                # 2. Optimization
+            # 2. Optimization
             if "optimization" in active_phases:
                 pm = PassManager()
 

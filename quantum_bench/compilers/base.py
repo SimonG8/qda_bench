@@ -28,7 +28,8 @@ class CompilerAdapter(ABC):
             os.makedirs(self.export_dir)
 
     @abstractmethod
-    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None,
+                seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         """
         Compiles the given QASM circuit.
 

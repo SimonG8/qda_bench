@@ -23,7 +23,6 @@ class GenericDevice(cirq.Device):
         self.basis_gates = hardware.basis_gates
         self.gateset = self._create_cirq_gateset()
 
-
     @property
     def metadata(self):
         return self._metadata
@@ -72,7 +71,8 @@ class CirqAdapter(CompilerAdapter):
         self.device_graph = self.device.metadata.nx_graph
         self.target_gateset = self.device.gateset
 
-    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None,
+                seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         with open(qasm_file, 'r') as f:
             qasm_str = f.read()
 

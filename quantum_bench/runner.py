@@ -12,15 +12,15 @@ from quantum_bench.hardware.model import get_hardware
 from quantum_bench.plotter import plot_results, plot_compilation_benchmark, plot_mapping_benchmark
 
 
-def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_cls, opt_level, run_i, qasm_path, active_phases, seed, do_visualize, run_verification, is_verification_run, visualisation_path):
-
+def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_cls, opt_level, run_i, qasm_path,
+                 active_phases, seed, do_visualize, run_verification, is_verification_run, visualisation_path):
     # Re-fetch hardware inside the worker process
     hardware = mqt.get_hardware_model(hardware_name)
     if not hardware:
         hardware = get_hardware(hardware_name)
 
     compiler = compiler_cls(hardware)
-    
+
     row = {
         "hardware": hardware.name,
         "benchmark_level": benchmark_level,
@@ -54,7 +54,7 @@ def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_c
             row["success"] = False
 
         if do_visualize and compiled_qasm_path:
-             mqt.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
+            mqt.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
 
         if run_verification:
             if is_verification_run and compiled_qasm_path:
@@ -70,11 +70,13 @@ def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_c
     return row
 
 
-def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int], benchmark_levels: List[str],
+def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
+                  benchmark_levels: List[str],
                   opt_levels: List[int], num_runs: int = 1,
                   run_verification: bool = False, run_visualisation: bool = False, run_plotter: bool = False,
                   output_file: str = "benchmark_results_final.csv", visualisation_path: str = None, seed: int = None,
-                  active_phases: Optional[List[str]] = None, max_workers: Optional[int] = None, max_queued_tasks: int = 20):
+                  active_phases: Optional[List[str]] = None, max_workers: Optional[int] = None,
+                  max_queued_tasks: int = 20):
     """
     Executes the benchmark suite.
 
@@ -95,20 +97,20 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
         max_workers: Maximum number of parallel workers.
         max_queued_tasks: Maximum number of tasks to schedule ahead of execution.
     """
-    
+
     if max_workers is None:
         max_workers = os.cpu_count() or 1
-    
+
     # Ensure we don't block workers by having a too small queue
     if max_queued_tasks < max_workers:
         max_queued_tasks = max_workers
-        
+
     print(f"Starting Benchmarking Suite ({num_runs} runs per config)...")
     print(f"Parallelism: max_workers={max_workers}, max_queued_tasks={max_queued_tasks}")
 
     results = []
     interrupted = False
-    
+
     def handle_result(future):
         try:
             row = future.result()
@@ -143,13 +145,12 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
                     PytketAdapter,
                     QiskitAdapter
                 ]
-                
+
                 for benchmark_level in benchmark_levels:
                     for n_qubits in qubit_ranges:
                         if n_qubits > hardware.num_qubits:
                             continue
                         for algo_name in algo_names:
-
 
                             qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
                             if not qasm_path:
@@ -164,17 +165,19 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
                             for compiler_cls in compiler_classes:
                                 for opt_level in opt_levels:
                                     for run_i in range(num_runs):
-                                        
+
                                         # Limit backlog
                                         while len(futures) >= max_queued_tasks:
-                                            done, _ = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
+                                            done, _ = concurrent.futures.wait(futures,
+                                                                              return_when=concurrent.futures.FIRST_COMPLETED)
                                             for f in done:
                                                 futures.remove(f)
                                                 handle_result(f)
 
-                                        do_visualize = (run_visualisation and n_qubits == min(qubit_ranges) and run_i == 0)
+                                        do_visualize = (
+                                                    run_visualisation and n_qubits == min(qubit_ranges) and run_i == 0)
                                         is_verification_run = (n_qubits == min(qubit_ranges) and run_i == 0)
-                                        
+
                                         future = executor.submit(
                                             process_task,
                                             hardware_name,
@@ -199,7 +202,7 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
             # Collect remaining results
             for future in concurrent.futures.as_completed(futures):
                 handle_result(future)
-                
+
         except KeyboardInterrupt:
             print("\nBenchmark interrupted. Cancelling pending tasks...")
             for f in futures:
@@ -219,7 +222,7 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
 
 
 def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
-                          output_file: str = "mapping_results.csv", plot_path: str = None, run_plotter: bool = False,
+                          output_file: str = "mapping_results.csv", plot_path: str = "mapping_plots", run_plotter: bool = False,
                           max_workers: Optional[int] = None, max_queued_tasks: int = 20):
     run_benchmark(
         hardware_names=hardware_names,
@@ -239,15 +242,17 @@ def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubi
     if run_plotter:
         plot_mapping_benchmark(output_file, plot_path)
 
+
 def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
-                              output_file: str = "compilation_results.csv", plot_path: str = None, run_plotter: bool = False,
+                              output_file: str = "compilation_results.csv", plot_path: str = "compilation_plots",
+                              run_plotter: bool = False,
                               max_workers: Optional[int] = None, max_queued_tasks: int = 20):
     run_benchmark(
         hardware_names=hardware_names,
         algo_names=algo_names,
         qubit_ranges=qubit_ranges,
         benchmark_levels=["ALG"],
-        opt_levels=[3],
+        opt_levels=[0, 3],
         num_runs=1,
         output_file=output_file,
         run_visualisation=False,
