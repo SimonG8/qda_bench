@@ -35,7 +35,8 @@ class CompilerAdapter(ABC):
         Args:
             qasm_file: Path to the QASM file.
             optimization_level: General optimization level (0-3).
-            active_phases: List of active phases (e.g., ["mapping", "routing", "optimization"]). None implies all phases.
+            active_phases: List of active phases (e.g., ["rebase", "mapping", "optimization"]).
+                           If None, all phases are executed. If empty list, no phases are executed.
             seed: Random seed for reproducibility.
 
         Returns:

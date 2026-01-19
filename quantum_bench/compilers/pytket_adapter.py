@@ -10,7 +10,7 @@ from pytket.passes import (
     FullPeepholeOptimise,
     RemoveRedundancies,
     DecomposeBoxes, KAKDecomposition, CliffordSimp,
-    ContextSimp
+    ContextSimp, PeepholeOptimise2Q, PauliSimp, DecomposeSwapsToCXs
 )
 from pytket.qasm import circuit_from_qasm, circuit_to_qasm
 
@@ -40,7 +40,7 @@ class PytketAdapter(CompilerAdapter):
             "cz": OpType.CZ,
             "id": OpType.noop,
             "measure": OpType.Measure,
-            "swap": OpType.SWAP,
+            "swap": OpType.SWAP
         }
 
         allowed_optypes = set()
@@ -51,7 +51,7 @@ class PytketAdapter(CompilerAdapter):
 
     def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         try:
-            circuit = circuit_from_qasm(qasm_file,maxwidth=127)
+            circuit = circuit_from_qasm(qasm_file,maxwidth=128)
         except Exception as e:
             print(f"Pytket QASM Import Error: {e}")
             return None, None
@@ -71,8 +71,12 @@ class PytketAdapter(CompilerAdapter):
 
         start_time = time.time()
 
+        # If no phases are specified, run all
+        if active_phases is None:
+            active_phases = ["rebase", "mapping", "optimization"]
+
         # 0. Rebasing
-        if active_phases is None or "rebase" in active_phases:
+        if "rebase" in active_phases:
             # Rebase to basis gates
             try:
                 DecomposeBoxes().apply(circuit)
@@ -83,13 +87,13 @@ class PytketAdapter(CompilerAdapter):
             rebase.apply(circuit)
 
         # 1. Optimization before Mapping (Pre-Optimization)
-        if active_phases is None or "optimization" in active_phases:
+        if "optimization" in active_phases:
             FullPeepholeOptimise().apply(circuit)
             CliffordSimp().apply(circuit)
             ContextSimp().apply(circuit)
 
         # 2. Mapping & Routing
-        if active_phases is None or "mapping" in active_phases:
+        if "mapping" in active_phases:
             # Lookahead based on Opt-Level
             lookahead = 0
             if optimization_level == 1: lookahead = 2
@@ -100,7 +104,8 @@ class PytketAdapter(CompilerAdapter):
             self.mapping_manager.route_circuit(circuit, [lexi_label, lexi_route])
 
         # 3. Optimization after Mapping (Post-Optimization)
-        if active_phases is None or "optimization" in active_phases:
+        if "optimization" in active_phases:
+            PeepholeOptimise2Q().apply(circuit)
             KAKDecomposition().apply(circuit)
             RemoveRedundancies().apply(circuit)
 
@@ -124,9 +129,10 @@ class PytketAdapter(CompilerAdapter):
         try:
             _, file = os.path.split(qasm_file.removesuffix(".qasm"))
             filename = os.path.join(self.export_dir, f"{file}_pytket_opt{optimization_level}.qasm")
-            circuit_to_qasm(circuit, filename,maxwidth=127)
+            circuit_to_qasm(circuit, filename,maxwidth=128)
         except Exception as e:
             print(f"Pytket QASM Export Error: {e}")
             return metrics, None
 
         return metrics, filename
+

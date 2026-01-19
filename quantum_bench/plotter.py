@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
+
 class BenchmarkPlotter:
     def __init__(self, csv_file_path, output_dir="visualisation"):
         self.csv_file_path = csv_file_path
@@ -34,10 +35,10 @@ class BenchmarkPlotter:
             self.df = self.df[self.df["success"] == True]
         return not self.df.empty
 
-    def _generate_plot(self, data, x_col, y_col, hue_col, title, output_path):
+    def _generate_plot(self, data, x_col, y_col, hue_col, style_col, title, output_path):
         plt.figure(figsize=(12, 7))
         sns.set_theme(style="whitegrid")
-        
+
         # Check if data is sufficient
         if data.empty:
             return
@@ -48,14 +49,14 @@ class BenchmarkPlotter:
                 x=x_col,
                 y=y_col,
                 hue=hue_col,
-                style=hue_col,
+                style=style_col,
                 markers=True,
                 dashes=False,
                 linewidth=2,
                 markersize=8,
-                errorbar=('ci', 95) # 95% confidence interval for statistical dispersion
+                errorbar=('ci', 95)  # 95% confidence interval for statistical dispersion
             )
-            
+
             if y_col == "compile_time":
                 plt.yscale("log")
 
@@ -64,7 +65,7 @@ class BenchmarkPlotter:
             plt.ylabel(self.metric_labels.get(y_col, y_col))
             plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
             plt.tight_layout()
-            
+
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             plt.savefig(output_path)
             plt.close()
@@ -73,25 +74,27 @@ class BenchmarkPlotter:
             print(f"Failed to generate plot {output_path}: {e}")
             plt.close()
 
-    def run_plot_config(self, category_name, sub_category_name, group_cols, hue_col, x_col="qubits"):
+    def run_plot_config(self, category_name, group_cols, line_cols, x_col="qubits"):
         """
         Abstract function to generate plots based on configuration.
-        
+
         Args:
-            category_name: Top level folder (e.g., "Mapping_Only")
-            sub_category_name: Sub folder (e.g., "Hardware_Compiler_vs_BenchmarkLevel")
+            category_name: Sub folder (e.g., "Hardware_Compiler_vs_BenchmarkLevel")
             group_cols: List of columns to group by (creates separate plot files)
-            hue_col: Column to use for different lines in the graph
+            line_col: Column to use for different lines in the graph. First value is used for hue, second for style.
             x_col: Column for x-axis
         """
-        print(f"--- Processing {category_name} / {sub_category_name} ---")
-        
+        print(f"--- Processing {category_name} ---")
+
         # Ensure all columns exist
-        required_cols = group_cols + [hue_col, x_col]
+        required_cols = group_cols + line_cols + [x_col]
         for col in required_cols:
             if col not in self.df.columns:
                 print(f"Warning: Column '{col}' not found in data. Skipping config.")
                 return
+
+        if len(line_cols) == 1:
+            line_cols = [line_cols[0], line_cols[0]]
 
         # Iterate over each metric
         for metric in self.metrics:
@@ -101,117 +104,129 @@ class BenchmarkPlotter:
             # Group by the specified columns to create separate plots
             # We use groupby on the dataframe to iterate over unique combinations
             grouped = self.df.groupby(group_cols)
-            
+
             for name, group_data in grouped:
                 # name is a tuple of values corresponding to group_cols
                 if not isinstance(name, tuple):
                     name = (name,)
-                
-                # Construct filename from group values
-                group_desc = "_".join([f"{col}-{val}" for col, val in zip(group_cols, name)])
-                
-                # Clean filename
-                group_desc = group_desc.replace(" ", "_").replace("/", "-")
-                
+
+                # Construct description from group values
+                group_desc = " ".join([f"{col}: {val}" for col, val in zip(group_cols, name)])
+
+                # Create title from category and description
+                title = f"{category_name}\n{group_desc} - {self.metric_labels.get(metric, metric)}"
+
+                # Clean desc for filename
+                filename = group_desc.replace(": ", "-").replace(" ", "_")
+
+                # Clean category for directory
+                directory = category_name.replace(": ", "-").replace(" ", "_")
+
                 # Output path: {root}/{Category}/{SubCategory}/{Metric}/{group_desc}.png
                 output_path = os.path.join(
                     self.output_dir,
-                    category_name,
-                    sub_category_name,
+                    directory,
                     metric,
-                    f"{group_desc}.png"
+                    f"{filename}.png"
                 )
-                
-                title = f"{sub_category_name}\n{group_desc} - {self.metric_labels.get(metric, metric)}"
-                
                 self._generate_plot(
                     data=group_data,
                     x_col=x_col,
                     y_col=metric,
-                    hue_col=hue_col,
+                    hue_col=line_cols[0],
+                    style_col=line_cols[1],
                     title=title,
                     output_path=output_path
                 )
 
-    def plot_mapping_benchmarks(self):
-        """
-        Category 1: Mapping Only
-        """
-        category = "Mapping_Only"
-        
+
+def plot_results(csv_file_path="benchmark_results.csv", visualisation_path="visualisation"):
+    if visualisation_path is None:
+        visualisation_path = "visualisation"
+    plotter = BenchmarkPlotter(csv_file_path=csv_file_path, output_dir=visualisation_path)
+    if plotter.load_data():
+        plotter.run_plot_config(
+            category_name="category_name",
+            group_cols=["algorithm", "hardware", "benchmark_level"],
+            line_cols=["compiler", "opt_level"]
+        )
+    else:
+        print("Could not load data or data is empty.")
+
+
+def plot_mapping_benchmark(csv_file_path="mapping_results.csv", visualisation_path="visualisation"):
+    """
+    Category 1: Mapping Only
+    """
+    plotter = BenchmarkPlotter(csv_file_path, visualisation_path)
+    if plotter.load_data():
         # Group by: Hardware, Compiler, Opt_Level (as requested to have separate graphs per opt_level)
         # Hue: benchmark_level
         # Average: algos
-        self.run_plot_config(
-            category_name=category,
-            sub_category_name="Hardware_Compiler_vs_BenchmarkLevel",
+        plotter.run_plot_config(
+            category_name="Hardware_Compiler_vs_BenchmarkLevel",
             group_cols=["hardware", "compiler", "opt_level"],
-            hue_col="benchmark_level"
+            line_cols=["benchmark_level"]
         )
 
         # Group by: Benchmark_Level, Compiler, Opt_Level
         # Hue: hardware
-        self.run_plot_config(
-            category_name=category,
-            sub_category_name="BenchmarkLevel_Compiler_vs_Hardware",
+        plotter.run_plot_config(
+            category_name="BenchmarkLevel_Compiler_vs_Hardware",
             group_cols=["benchmark_level", "compiler", "opt_level"],
-            hue_col="hardware"
+            line_cols=["hardware"]
         )
 
         # Group by: Benchmark_Level, Hardware, Opt_Level
         # Hue: compiler
-        self.run_plot_config(
-            category_name=category,
-            sub_category_name="BenchmarkLevel_Hardware_vs_Compiler",
+        plotter.run_plot_config(
+
+            category_name="BenchmarkLevel_Hardware_vs_Compiler",
             group_cols=["benchmark_level", "hardware", "opt_level"],
-            hue_col="compiler"
+            line_cols=["compiler"]
         )
+    else:
+        print("Could not load data or data is empty.")
 
-    def plot_compilation_benchmarks(self):
-        """
-        Category 2: Full Compilation
-        """
-        category = "Full_Compilation"
 
+def plot_compilation_benchmark(csv_file_path="compilation_results.csv", visualisation_path="visualisation"):
+    """
+    Category 2: Full Compilation
+    """
+    plotter = BenchmarkPlotter(csv_file_path, visualisation_path)
+    if plotter.load_data():
         # Group by: opt_level, algorithm, benchmark_level
         # Hue: compiler
         # Average: hardware
-        self.run_plot_config(
-            category_name=category,
-            sub_category_name="OptLevel_Algorithm_vs_Compiler",
+        plotter.run_plot_config(
+
+            category_name="OptLevel_Algorithm_vs_Compiler",
             group_cols=["opt_level", "algorithm", "benchmark_level"],
-            hue_col="compiler"
+            line_cols=["compiler"]
         )
 
         # Group by: opt_level, hardware, benchmark_level
         # Hue: compiler
         # Average: algos
-        self.run_plot_config(
-            category_name=category,
-            sub_category_name="OptLevel_Hardware_vs_Compiler",
+        plotter.run_plot_config(
+
+            category_name="OptLevel_Hardware_vs_Compiler",
             group_cols=["opt_level", "hardware", "benchmark_level"],
-            hue_col="compiler"
+            line_cols=["compiler"]
         )
 
         # Group by: algorithm, hardware, benchmark_level
         # Hue: compiler
         # Average: opt_level
-        self.run_plot_config(
-            category_name=category,
-            sub_category_name="Algorithm_Hardware_vs_Compiler",
-            group_cols=["algorithm", "hardware", "benchmark_level"],
-            hue_col="compiler"
-        )
+        plotter.run_plot_config(
 
-def plot_results(csv_file_path="benchmark_results_final.csv", visualisation_path="visualisation", full_compilation=False):
-    plotter = BenchmarkPlotter(csv_file_path, visualisation_path)
-    if plotter.load_data():
-        if full_compilation:
-            plotter.plot_compilation_benchmarks()
-        else:
-            plotter.plot_mapping_benchmarks()
+            category_name="Algorithm_Hardware_vs_Compiler",
+            group_cols=["algorithm", "hardware", "benchmark_level"],
+            line_cols=["compiler"]
+        )
     else:
         print("Could not load data or data is empty.")
+
 
 if __name__ == "__main__":
     plot_results()
