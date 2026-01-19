@@ -130,5 +130,9 @@ def get_hardware_model(device_name: str) -> Optional[HardwareModel]:
         return HardwareModel(device_name, num_qubits, coupling_map, basis_gates)
 
     except Exception as e:
-        print(f"Could not load hardware {device_name}: {e}")
-        return None
+        hardware_model = get_hardware_model(device_name)
+        if hardware_model:
+            return hardware_model
+        else:
+            print(f"Could not load hardware {device_name}: {e}")
+            return None
