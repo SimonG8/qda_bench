@@ -8,13 +8,17 @@ from qiskit import QuantumCircuit, transpile
 from qiskit import qasm2
 from qiskit.circuit import Delay
 from qiskit.circuit.library import *
+from qiskit.circuit.equivalence_library import SessionEquivalenceLibrary
 from qiskit.transpiler import Target, PassManager
 from qiskit.transpiler.passes import (
     Optimize1qGatesDecomposition, CommutativeCancellation,
     RemoveResetInZeroState,
     Collect2qBlocks, ConsolidateBlocks, UnitarySynthesis,
     SabreSwap,
-    SabreLayout, Unroll3qOrMore
+    SabreLayout, Unroll3qOrMore,
+    VF2Layout, ApplyLayout, BasisTranslator,
+    RemoveDiagonalGatesBeforeMeasure, RemoveFinalReset,
+    InverseCancellation
 )
 
 from quantum_bench.hardware.model import HardwareModel
@@ -49,14 +53,14 @@ class QiskitAdapter(CompilerAdapter):
             "measure": Measure(),
             "swap": SwapGate(),
             "ecr": ECRGate(),
-            "delay": Delay(),
+            "delay": Delay(0),
             "rxpi": RXPIGate(),
             "rxpi2": RXPI2Gate(),
             "rxpi2dg": RXPI2DgGate(),
             "iswap": iSwapGate(),
-            "gpi": GPIGate(0.0),
-            "gpi2": GPI2Gate(0.0),
-            "zz": ZZGate(0.0),
+            "gpi": GPIGate(phi=0),
+            "gpi2": GPI2Gate(phi=0),
+            "zz": ZZGate(theta=0),
         }
 
         # Add basis gates
@@ -106,28 +110,52 @@ class QiskitAdapter(CompilerAdapter):
         else:
             pm = PassManager()
 
-            # 0. Rebasing
+            # 0. Unrolling
             if "rebase" in active_phases:
                 pm.append(Unroll3qOrMore(self.target))
 
             # 1. Mapping / Layout
             if "mapping" in active_phases:
-                pm.append(SabreLayout(self.target, seed=seed))
-                pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
+                # Try VF2Layout first (good for subgraph isomorphism), fallback to Sabre
+                if self.target.build_coupling_map():
+                    pm.append(ApplyLayout())
+                    pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
 
-            # 2. Optimization
+            transpiled_circuit = pm.run(circuit)
+            swap_count = transpiled_circuit.count_ops().get('swap', 0)
+
+                # 2. Optimization
             if "optimization" in active_phases:
+                pm = PassManager()
+
+                # Ensure SWAPs and other gates are decomposed to basis
+                pm.append(BasisTranslator(SessionEquivalenceLibrary, target=self.target))
+
                 pm.append([
                     Optimize1qGatesDecomposition(target=self.target),
                     RemoveResetInZeroState()
                 ])
+
+                # Inverse cancellation for CNOTs (self-inverse)
+                pm.append(InverseCancellation([(CXGate(), CXGate())]))
+
                 pm.append(CommutativeCancellation())
+
+                # More aggressive optimization for higher levels
+                if optimization_level >= 2:
+                    pm.append([
+                        Collect2qBlocks(),
+                        ConsolidateBlocks(target=self.target),
+                        UnitarySynthesis(target=self.target)
+                    ])
+
+                # Cleanup
                 pm.append([
-                    Collect2qBlocks(),
-                    ConsolidateBlocks(target=self.target),
-                    UnitarySynthesis(target=self.target)
+                    RemoveDiagonalGatesBeforeMeasure(),
+                    RemoveFinalReset()
                 ])
-            transpiled_circuit = pm.run(circuit)
+
+                transpiled_circuit = pm.run(circuit)
 
         duration = time.time() - start_time
         operations = transpiled_circuit.count_ops()
