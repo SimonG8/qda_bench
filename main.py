@@ -13,56 +13,16 @@ if __name__ == "__main__":
     run_benchmark(
         hardware_names=hardware, #"ionq_forte_36", "ionq_aria_25"
         algo_names=benchmarks,
-        qubit_ranges=[5],
-        benchmark_levels=["ALG"],#, "INDEP", "NATIVEGATES", "MAPPED"],
+        qubit_ranges=qubits,
+        benchmark_levels=["MAPPED"],
         opt_levels=[3],
         num_runs=1,
-        output_file="MAPPING_Result.csv",
+        output_file="MAPPING_Result_MAPPED.csv",
         run_visualisation=False,
         run_verification=False,
         run_plotter=False,
         full_compilation=False,
         active_phases=["rebase","mapping"]
-    )
-    run_benchmark(
-        hardware_names=hardware,
-        algo_names=benchmarks,
-        qubit_ranges=qubits,
-        benchmark_levels=["ALG"], #"INDEP", "NATIVEGATES", "MAPPED"],
-        opt_levels=[0, 3],
-        num_runs=1,
-        output_file="FULL_COMPILATION_Result.csv",
-        run_visualisation=False,
-        run_verification=False,
-        run_plotter=False,
-        full_compilation=True
-    )
-    run_benchmark(
-        hardware_names=hardware,  # "ionq_forte_36", "ionq_aria_25"
-        algo_names=["grover"],
-        qubit_ranges=qubits,
-        benchmark_levels=["ALG", "INDEP", "NATIVEGATES", "MAPPED"],
-        opt_levels=[3],
-        num_runs=1,
-        output_file="MAPPING_Result_grover.csv",
-        run_visualisation=False,
-        run_verification=False,
-        run_plotter=False,
-        full_compilation=False,
-        active_phases=["rebase", "mapping"]
-    )
-    run_benchmark(
-        hardware_names=hardware,  # "ionq_forte_36", "ionq_aria_25"
-        algo_names=["grover"],
-        qubit_ranges=qubits,
-        benchmark_levels=["ALG"],  # "INDEP", "NATIVEGATES", "MAPPED"],
-        opt_levels=[0, 3],
-        num_runs=1,
-        output_file="FULL_COMPILATION_Result_grover.csv",
-        run_visualisation=False,
-        run_verification=False,
-        run_plotter=False,
-        full_compilation=True
     )
     # plot_results("all_bench_levels_falcon27_rebase_mapping.csv",True)
 
@@ -79,3 +39,17 @@ if __name__ == "__main__":
     # for benchmark in benchmarks:
     #     qasm = get_circuit(hw,benchmark,4,"ALG")
     #     visualize_circuit(qasm,hw)
+
+
+
+
+
+    # FEHLENDE BENCHMARKS:
+
+    # Mapping Only:
+    # ibm_eagle_127,ALG,qft,84,Pytket,3
+    # ibm_eagle_127,ALG,qaoa,100,Pytket,3
+    # ibm_eagle_127,INDEP,qaoa,100,Pytket,3
+
+    # Full Compilation:
+    # ibm_eagle_127,ALG,qaoa,100,Pytket,3

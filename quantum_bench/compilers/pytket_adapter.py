@@ -124,7 +124,7 @@ class PytketAdapter(CompilerAdapter):
         try:
             _, file = os.path.split(qasm_file.removesuffix(".qasm"))
             filename = os.path.join(self.export_dir, f"{file}_pytket_opt{optimization_level}.qasm")
-            circuit_to_qasm(circuit, filename)
+            circuit_to_qasm(circuit, filename,maxwidth=127)
         except Exception as e:
             print(f"Pytket QASM Export Error: {e}")
             return metrics, None

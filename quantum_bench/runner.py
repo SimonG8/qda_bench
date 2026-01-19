@@ -135,9 +135,10 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
             
             for benchmark_level in benchmark_levels:
                 for n_qubits in qubit_ranges:
+                    if n_qubits > hardware.num_qubits:
+                        continue
                     for algo_name in algo_names:
-                        if n_qubits > hardware.num_qubits:
-                            continue
+
 
                         qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
                         if not qasm_path:
@@ -183,7 +184,7 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
                 try:
                     row = future.result()
                     results.append(row)
-                    print(row, flush=True)
+                    print(row)
 
                     df_row = pd.DataFrame([row])
                     write_header = not os.path.exists(output_file)
