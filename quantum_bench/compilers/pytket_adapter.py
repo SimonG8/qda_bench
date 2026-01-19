@@ -49,9 +49,10 @@ class PytketAdapter(CompilerAdapter):
                 allowed_optypes.add(gate_map[g.lower()])
         return allowed_optypes
 
-    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None,
+                seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         try:
-            circuit = circuit_from_qasm(qasm_file,maxwidth=128)
+            circuit = circuit_from_qasm(qasm_file, maxwidth=128)
         except Exception as e:
             print(f"Pytket QASM Import Error: {e}")
             return None, None
@@ -129,10 +130,9 @@ class PytketAdapter(CompilerAdapter):
         try:
             _, file = os.path.split(qasm_file.removesuffix(".qasm"))
             filename = os.path.join(self.export_dir, f"{file}_pytket_opt{optimization_level}.qasm")
-            circuit_to_qasm(circuit, filename,maxwidth=128)
+            circuit_to_qasm(circuit, filename, maxwidth=128)
         except Exception as e:
             print(f"Pytket QASM Export Error: {e}")
             return metrics, None
 
         return metrics, filename
-

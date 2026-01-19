@@ -9,7 +9,8 @@ from qiskit import QuantumCircuit, qasm2
 from quantum_bench.hardware.model import HardwareModel
 
 
-def get_circuit(hardware_name: str, algo_name: str, num_qubits: int, benchmark_level: str, export_dir: str = "benchmarks_cache") -> Optional[str]:
+def get_circuit(hardware_name: str, algo_name: str, num_qubits: int, benchmark_level: str,
+                export_dir: str = "benchmarks_cache") -> Optional[str]:
     """
     Loads a benchmark circuit and returns the path to the OpenQASM 2 file.
     QASM 2 is used as a neutral exchange format.

@@ -77,7 +77,8 @@ class QiskitAdapter(CompilerAdapter):
 
         return target
 
-    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None,
+                seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         try:
             circuit = QuantumCircuit.from_qasm_file(qasm_file)
         except Exception as e:
@@ -124,7 +125,7 @@ class QiskitAdapter(CompilerAdapter):
             transpiled_circuit = pm.run(circuit)
             swap_count = transpiled_circuit.count_ops().get('swap', 0)
 
-                # 2. Optimization
+            # 2. Optimization
             if "optimization" in active_phases:
                 pm = PassManager()
 
