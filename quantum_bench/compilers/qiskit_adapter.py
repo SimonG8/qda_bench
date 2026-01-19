@@ -66,14 +66,13 @@ class QiskitAdapter(CompilerAdapter):
         # Add basis gates
         for gate_name in basis_gates:
             gate_obj = gate_map.get(gate_name.lower())
-            if gate_obj:
-                if gate_name.lower() in ["cx", "cz", "ecr"]:
-                    # 2-Qubit gates on defined edges
-                    props = {edge: None for edge in coupling_map}
-                    target.add_instruction(gate_obj, properties=props)
-                else:
-                    # 1-Qubit gates on all qubits
-                    target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
+            if gate_obj.num_qubits == 2:
+                # 2-Qubit gates on defined edges
+                props = {edge: None for edge in coupling_map}
+                target.add_instruction(gate_obj, properties=props)
+            else:
+                # 1-Qubit gates on all qubits
+                target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
 
         return target
 
