@@ -117,10 +117,8 @@ class QiskitAdapter(CompilerAdapter):
 
             # 1. Mapping / Layout
             if "mapping" in active_phases:
-                # Try VF2Layout first (good for subgraph isomorphism), fallback to Sabre
-                if self.target.build_coupling_map():
-                    pm.append(ApplyLayout())
-                    pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
+                pm.append(SabreLayout(self.target, seed=seed))
+                pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
 
             transpiled_circuit = pm.run(circuit)
             swap_count = transpiled_circuit.count_ops().get('swap', 0)
