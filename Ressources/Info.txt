@@ -4,6 +4,5 @@ Ziel der Arbeit ist es, verschiedene Ansätze der Entwurfsautomatisierung (Routi
 MQT Bench: Benchmarking Software and Design Automation Tools for Quantum Computing https://quantum-journal.org/papers/q-2023-07-20-1062/pdf/
 
 Mögliche Forschungsfragen:
-Wie unterscheiden sich aktuelle Entwurfs- und Optimierungsmethoden in ihrer Effizienz und Genauigkeit?
-In welchen Anwendungsbereichen (Algorithmusklassen,) zeigen bestimmte Automatisierungsstrategien besondere Stärken oder Schwächen?
-Lassen sich aus den Ergebnissen allgemeine Empfehlungen für den Einsatz bestimmter Entwurfsstrategien ableiten?
+Wie unterscheiden sich aktuelle Methoden zur Entwurfsautomatisierung im Hinblick auf Effizienz und Genauigkeit?
+Wie verhalten sich Compiler und Algorithmen auf unterschiedlicher Hardware mit unterschiedlichen Schaltkreisen? Lassen sich Rückschlüsse auf bestimmte Anwendungsbereiche ziehen?

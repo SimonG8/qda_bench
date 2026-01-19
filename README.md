@@ -13,10 +13,9 @@ The thesis investigates how efficiently current compiler frameworks (Qiskit, Cir
 
 ## Research Questions
 
-The project addresses, among others, the following questions:
-1. How do current design and optimization methods differ in their efficiency and accuracy?
-2. In which application areas (e.g., specific algorithm classes like QFT, Graph-State) do certain strategies show strengths or weaknesses?
-3. Can general recommendations for the use of certain compiler strategies be derived depending on hardware and algorithm?
+The project addresses the following key questions:
+1. **Efficiency and Accuracy:** How do current design automation methods differ in terms of efficiency and accuracy?
+2. **Hardware and Circuit Behavior:** How do compilers and algorithms behave on different hardware with different circuits? Can conclusions be drawn for specific application areas?
 
 ## Project Structure and Functionality
 
@@ -25,13 +24,13 @@ The code is modular to allow flexible testing of different compilers and hardwar
 ### Main Components
 
 *   **`main.py`**
-    The entry point of the application. Here, the benchmark configuration is defined (which hardware, which algorithms, qubit count, optimization level) and the `run_benchmark` process is initiated.
+    The entry point of the application. Here, the benchmark configuration is defined (which hardware, which algorithms, qubit count, optimization level) and the `run_benchmark` process is initiated. It supports different modes, such as focusing on mapping/routing or full compilation.
 
 *   **`quantum_bench/runner.py`**
     The central control unit.
     - Iterates over all configured combinations of hardware, algorithms, and compilers.
     - Calls the respective compiler adapters.
-    - Collects metrics (Gate Count, Depth, Compile Time, etc.) and saves them in a CSV file (e.g., `benchmark_results_final.csv`).
+    - Collects metrics (Gate Count, Depth, Compile Time, etc.) and saves them in a CSV file.
     - Can optionally trigger verification (equivalence checking) and visualization.
 
 *   **`quantum_bench/data/mqt_provider.py`**
@@ -76,16 +75,21 @@ To ensure a fair and unified interface, the Adapter Pattern is used. All adapter
     Ensure that all required libraries are installed (see imports in the files: `qiskit`, `cirq`, `pytket`, `mqt.bench`, `mqt.qcec`, `pandas`, `seaborn`, `networkx`).
 
 2.  **Configure Benchmark:**
-    Adjust the parameters in `main.py`:
+    Adjust the parameters in `main.py`. The project supports running benchmarks on various hardware architectures (e.g., IBM Eagle, Rigetti Ankaa, IonQ Forte) and algorithms (e.g., QFT, Grover, VQE, QAOA).
+
+    Example configuration from `main.py`:
     ```python
+    # Example: Running a mapping-focused benchmark
     run_benchmark(
-        hardware_names=["ibm_falcon_27"], # Hardware to test
-        algo_names=["dj", "ghz"],         # Algorithms from MQT Bench
-        qubit_ranges=[5, 10, 15],         # Qubit counts
-        benchmark_levels=["ALG"],         # Benchmark levels
-        opt_levels=[3],                   # Optimization levels
-        num_runs=5,                       # Repetitions per configuration
-        output_file="results.csv"
+        hardware_names=["ibm_eagle_127", "rigetti_ankaa_84", "ionq_forte_36"],
+        algo_names=["qft", "grover", "vqe", "qaoa", "randomcircuit", "ghz"],
+        qubit_ranges=[4, 5, 8, 10, 15, 16, 20, 25, 32, 36, 40, 50, 64, 75, 84, 100, 127],
+        benchmark_levels=["ALG", "INDEP", "NATIVEGATES", "MAPPED"],
+        opt_levels=[3],
+        num_runs=1,
+        output_file="MAPPING_Result.csv",
+        full_compilation=False,
+        active_phases=["rebase", "mapping"]
     )
     ```
 
@@ -96,7 +100,7 @@ To ensure a fair and unified interface, the Adapter Pattern is used. All adapter
     ```
 
 4.  **Results:**
-    - The raw data can be found in the specified CSV file (e.g., `benchmark_results_final.csv`).
+    - The raw data can be found in the specified CSV file (e.g., `MAPPING_Result.csv`).
     - Plots are saved (if enabled) in the `visualisation/plots/` folder.
     - Compiled QASM files land in the cache folder `benchmarks_cache/`.
 
