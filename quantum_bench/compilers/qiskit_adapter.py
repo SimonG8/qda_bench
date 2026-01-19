@@ -2,10 +2,12 @@ import os
 import time
 from typing import Optional, Tuple, Dict, Any, List
 
+from cirq_ionq import GPIGate, GPI2Gate, ZZGate
+from mqt.bench.targets.gatesets.rigetti import RXPIGate, RXPI2Gate, RXPI2DgGate
 from qiskit import QuantumCircuit, transpile
 from qiskit import qasm2
-from qiskit.circuit.library import XGate, SXGate, RZGate, CXGate, CZGate, IGate, Measure, SwapGate, HGate, RYGate, \
-    RXGate, ZGate, YGate
+from qiskit.circuit import Delay
+from qiskit.circuit.library import *
 from qiskit.transpiler import Target, PassManager
 from qiskit.transpiler.passes import (
     Optimize1qGatesDecomposition, CommutativeCancellation,
@@ -45,7 +47,16 @@ class QiskitAdapter(CompilerAdapter):
             "cz": CZGate(),
             "id": IGate(),
             "measure": Measure(),
-            "swap": SwapGate()
+            "swap": SwapGate(),
+            "ecr": ECRGate(),
+            "delay": Delay(),
+            "rxpi": RXPIGate(),
+            "rxpi2": RXPI2Gate(),
+            "rxpi2dg": RXPI2DgGate(),
+            "iswap": iSwapGate(),
+            "gpi": GPIGate(0.0),
+            "gpi2": GPI2Gate(0.0),
+            "zz": ZZGate(0.0),
         }
 
         # Add basis gates
