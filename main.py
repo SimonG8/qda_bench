@@ -31,7 +31,7 @@ if __name__ == "__main__":
         benchmark_levels=["ALG"],  # "INDEP", "NATIVEGATES", "MAPPED"],
         opt_levels=[0, 3],
         num_runs=1,
-        output_file="FULL_COMPILATION_Result_grover.csv",
+        output_file="FULL_COMPILATION_Result.csv",
         run_visualisation=False,
         run_verification=False,
         run_plotter=True,
