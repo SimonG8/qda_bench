@@ -7,14 +7,13 @@ from quantum_bench.compilers.cirq_adapter import CirqAdapter
 from quantum_bench.compilers.pytket_adapter import PytketAdapter
 from quantum_bench.compilers.qiskit_adapter import QiskitAdapter
 import quantum_bench.data.mqt_provider as mqt
-from quantum_bench.hardware.model import get_hardware
-from quantum_bench.plotter import plot_results
+from quantum_bench.plotter import plot_results, plot_mapping_benchmark, plot_compilation_benchmark
 
 
 def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int], benchmark_levels: List[str],
                   opt_levels: List[int], num_runs: int = 1,
                   run_verification: bool = False, run_visualisation: bool = False, run_plotter: bool = False,
-                  output_file: str = "benchmark_results_final.csv", visualisation_path: str = None, full_compilation: bool = None, seed: int = None,
+                  output_file: str = "benchmark_results.csv", visualisation_path: str = None, seed: int = None,
                   active_phases: Optional[List[str]] = None):
     """
     Executes the benchmark suite.
@@ -45,10 +44,8 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
         hardware = mqt.get_hardware_model(hardware_name)
 
         if not hardware:
-            hardware = get_hardware(hardware_name)
-            if not hardware:
-                print(f"Skipping unknown hardware: {hardware_name}")
-                continue
+            print(f"Skipping unknown hardware: {hardware_name}")
+            continue
 
         print(f"\n=== Hardware: {hardware_name} ===")
 
@@ -130,6 +127,39 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
     if os.path.exists(output_file):
         print(f"Benchmark finished. Results saved to {output_file}.")
         if run_plotter:
-            plot_results(output_file, visualisation_path, full_compilation)
+            plot_results(output_file, visualisation_path)
     else:
         print("Benchmark failed.")
+
+def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
+                          output_file: str = "mapping_results.csv"):
+    run_benchmark(
+        hardware_names=hardware_names,
+        algo_names=algo_names,
+        qubit_ranges=qubit_ranges,
+        benchmark_levels=["ALG", "INDEP", "NATIVEGATES", "MAPPED"],
+        opt_levels=[3],
+        num_runs=1,
+        output_file=output_file,
+        run_visualisation=False,
+        run_verification=False,
+        run_plotter=False,
+        active_phases=["rebase", "mapping"]
+    )
+    plot_mapping_benchmark("mapping_results.csv", "mapping_visualisation")
+
+def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
+                              output_file: str = "compilation_results.csv"):
+    run_benchmark(
+        hardware_names=hardware_names,
+        algo_names=algo_names,
+        qubit_ranges=qubit_ranges,
+        benchmark_levels=["ALG"],
+        opt_levels=[3],
+        num_runs=1,
+        output_file=output_file,
+        run_visualisation=False,
+        run_verification=False,
+        run_plotter=False,
+    )
+    plot_compilation_benchmark("compilation_results.csv", "compilation_visualisation")

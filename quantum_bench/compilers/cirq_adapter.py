@@ -109,7 +109,7 @@ class CirqAdapter(CompilerAdapter):
         if "rebase" in active_phases:
             try:
                 optimized_circuit = cirq.optimize_for_target_gateset(
-                    optimized_circuit, 
+                    optimized_circuit,
                     gateset=cirq.CZTargetGateset())
             except Exception as e:
                 print(f"Cirq Rebase Error: {e}")
@@ -117,9 +117,12 @@ class CirqAdapter(CompilerAdapter):
         # 1. Optimization (Pre-Mapping)
         if "optimization" in active_phases:
             optimized_circuit = cirq.merge_single_qubit_gates_to_phxz(optimized_circuit)
-            optimized_circuit = cirq.drop_negligible_operations(optimized_circuit)
             optimized_circuit = cirq.eject_phased_paulis(optimized_circuit)
             optimized_circuit = cirq.eject_z(optimized_circuit)
+            optimized_circuit = cirq.align_left(optimized_circuit)
+            optimized_circuit = cirq.drop_negligible_operations(optimized_circuit)
+            optimized_circuit = cirq.drop_empty_moments(optimized_circuit)
+            optimized_circuit = cirq.synchronize_terminal_measurements(optimized_circuit)
 
         # 2. Mapping & Routing
         if "mapping" in active_phases:
