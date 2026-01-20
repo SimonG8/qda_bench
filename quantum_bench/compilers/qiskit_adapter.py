@@ -73,7 +73,7 @@ class QiskitAdapter(CompilerAdapter):
                 target.add_instruction(gate_obj, properties=props)
             else:
                 # 1-Qubit gates on all qubits
-                target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
+                target.add_instruction(gate_obj,name=gate_name, properties={(i,): None for i in range(num_qubits)})
 
         return target
 
@@ -121,7 +121,6 @@ class QiskitAdapter(CompilerAdapter):
 
                 # 2. Optimization
             if "optimization" in active_phases:
-
                 # Ensure SWAPs and other gates are decomposed to basis
                 pm.append(BasisTranslator(SessionEquivalenceLibrary, target=self.target))
 

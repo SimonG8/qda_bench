@@ -140,6 +140,7 @@ class CirqAdapter(CompilerAdapter):
         if "optimization" in active_phases:
             optimized_circuit = cirq.drop_empty_moments(optimized_circuit)
 
+
         duration = time.time() - start_time
         operations = list(optimized_circuit.all_operations())
         gate_count = len(operations)
