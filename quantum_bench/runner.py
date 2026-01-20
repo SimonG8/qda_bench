@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 import pandas as pd
 
@@ -13,7 +13,7 @@ from quantum_bench.plotter import plot_results, plot_mapping_benchmark, plot_com
 def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int], benchmark_levels: List[str],
                   opt_levels: List[int], num_runs: int = 1,
                   run_verification: bool = False, run_visualisation: bool = False, run_plotter: bool = False,
-                  output_file: str = "benchmark_results.csv", visualisation_path: str = None, seed: int = None,
+                  output_file: str = "benchmark_results.csv", visualisation_path: str = "visualisation", seed: int = None,
                   active_phases: Optional[List[str]] = None):
     """
     Executes the benchmark suite.
@@ -38,91 +38,26 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
     if os.path.exists(output_file):
         os.remove(output_file)
 
-    results = []
-
     for hardware_name in hardware_names:
         hardware = mqt.get_hardware_model(hardware_name)
-
         if not hardware:
             print(f"Skipping unknown hardware: {hardware_name}")
             continue
 
         print(f"\n=== Hardware: {hardware_name} ===")
+        compilers = [CirqAdapter(hardware), PytketAdapter(hardware), QiskitAdapter(hardware)]
 
-        compilers = [
-            CirqAdapter(hardware),
-            PytketAdapter(hardware),
-            QiskitAdapter(hardware)
-        ]
         for benchmark_level in benchmark_levels:
             for n_qubits in qubit_ranges:
                 if n_qubits > hardware.num_qubits:
                     continue
 
                 for algo_name in algo_names:
-                    qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
-                    if not qasm_path:
-                        continue
-
-                    if run_visualisation and n_qubits == min(qubit_ranges):
-                        mqt.visualize_circuit(qasm_path, hardware.name, visualisation_path)
-
-                    print(f"--- {benchmark_level}-Benchmark: {algo_name} ({n_qubits} Qubits) ---")
-
-                    for compiler in compilers:
-                        for opt_level in opt_levels:
-                            for run_i in range(num_runs):
-                                row = {
-                                    "hardware": hardware.name,
-                                    "benchmark_level": benchmark_level,
-                                    "algorithm": algo_name,
-                                    "qubits": n_qubits,
-                                    "compiler": compiler.name,
-                                    "opt_level": opt_level,
-                                    "run": run_i,
-                                }
-
-                                try:
-                                    metrics, compiled_qasm_path = compiler.compile(
-                                        qasm_file=qasm_path,
-                                        optimization_level=opt_level,
-                                        active_phases=active_phases,
-                                        seed=seed
-                                    )
-
-                                    if metrics:
-                                        row.update(metrics)
-                                        row["success"] = True
-                                    else:
-                                        row.update({
-                                            "gate_count": '-',
-                                            "depth": '-',
-                                            "compile_time": '-',
-                                            "2q_gates": '-',
-                                            "swap_gates": '-',
-                                            "initial": '-'
-                                        })
-                                        row["success"] = False
-
-                                    if run_visualisation and compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
-                                        mqt.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
-
-                                    if run_verification:
-                                        if compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
-                                            equivalence = mqt.verify_circuit(qasm_path, compiled_qasm_path)
-                                            row["Equivalence"] = equivalence
-                                        else:
-                                            row["Equivalence"] = "Skipped"
-                                except Exception as e:
-                                    row["success"] = False
-                                    print(f"Error during compilation: {e}")
-
-                                print(row)
-                                results.append(row)
-
-                                df_row = pd.DataFrame([row])
-                                write_header = not os.path.exists(output_file)
-                                df_row.to_csv(output_file, mode='a', header=write_header, index=False)
+                    _run_single_benchmark_case(
+                        hardware, compilers, benchmark_level, n_qubits, algo_name,
+                        opt_levels, num_runs, run_verification, run_visualisation,
+                        output_file, visualisation_path, seed, active_phases, qubit_ranges
+                    )
 
     if os.path.exists(output_file):
         print(f"Benchmark finished. Results saved to {output_file}.")
@@ -130,6 +65,79 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
             plot_results(output_file, visualisation_path)
     else:
         print("Benchmark failed.")
+
+
+def _run_single_benchmark_case(hardware, compilers, benchmark_level, n_qubits, algo_name,
+                               opt_levels, num_runs, run_verification, run_visualisation,
+                               output_file, visualisation_path, seed, active_phases, qubit_ranges):
+    
+    qasm_path = mqt.get_circuit(hardware.name, algo_name, n_qubits, benchmark_level)
+    if not qasm_path:
+        return
+
+    if run_visualisation and n_qubits == min(qubit_ranges):
+        mqt.visualize_circuit(qasm_path, hardware.name, visualisation_path)
+
+    print(f"--- {benchmark_level}-Benchmark: {algo_name} ({n_qubits} Qubits) ---")
+
+    for compiler in compilers:
+        for opt_level in opt_levels:
+            for run_i in range(num_runs):
+                _execute_and_record_run(
+                    hardware, benchmark_level, algo_name, n_qubits, compiler, opt_level, run_i,
+                    qasm_path, active_phases, seed, run_verification, run_visualisation,
+                    output_file, visualisation_path, qubit_ranges
+                )
+
+
+def _execute_and_record_run(hardware, benchmark_level, algo_name, n_qubits, compiler, opt_level, run_i,
+                            qasm_path, active_phases, seed, run_verification, run_visualisation,
+                            output_file, visualisation_path, qubit_ranges):
+    
+    row = {
+        "hardware": hardware.name,
+        "benchmark_level": benchmark_level,
+        "algorithm": algo_name,
+        "qubits": n_qubits,
+        "compiler": compiler.name,
+        "opt_level": opt_level,
+        "run": run_i,
+    }
+
+    try:
+        metrics, compiled_qasm_path = compiler.compile(
+            qasm_file=qasm_path,
+            optimization_level=opt_level,
+            active_phases=active_phases,
+            seed=seed
+        )
+
+        if metrics:
+            row.update(metrics)
+            row["success"] = True
+        else:
+            row.update({k: '-' for k in ["gate_count", "depth", "compile_time", "2q_gates", "swap_gates", "initial"]})
+            row["success"] = False
+
+        if run_visualisation and compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
+            mqt.visualize_circuit(compiled_qasm_path, hardware.name, visualisation_path)
+
+        if run_verification:
+            if compiled_qasm_path and n_qubits == min(qubit_ranges) and run_i == 0:
+                row["Equivalence"] = mqt.verify_circuit(qasm_path, compiled_qasm_path)
+            else:
+                row["Equivalence"] = "Skipped"
+                
+    except Exception as e:
+        row["success"] = False
+        print(f"Error during compilation: {e}")
+
+    print(row)
+    
+    df_row = pd.DataFrame([row])
+    write_header = not os.path.exists(output_file)
+    df_row.to_csv(output_file, mode='a', header=write_header, index=False)
+
 
 def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
                           output_file: str = "mapping_results.csv"):
@@ -141,12 +149,10 @@ def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubi
         opt_levels=[3],
         num_runs=1,
         output_file=output_file,
-        run_visualisation=False,
-        run_verification=False,
-        run_plotter=False,
         active_phases=["rebase", "mapping"]
     )
     plot_mapping_benchmark("mapping_results.csv", "mapping_visualisation")
+
 
 def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
                               output_file: str = "compilation_results.csv"):
@@ -158,8 +164,5 @@ def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], 
         opt_levels=[3],
         num_runs=1,
         output_file=output_file,
-        run_visualisation=False,
-        run_verification=False,
-        run_plotter=False,
     )
     plot_compilation_benchmark("compilation_results.csv", "compilation_visualisation")

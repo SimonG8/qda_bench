@@ -19,6 +19,8 @@ from .base import CompilerAdapter
 
 
 class PytketAdapter(CompilerAdapter):
+    """Adapter for the Pytket compiler."""
+
     def __init__(self, hardware: HardwareModel, export_dir: str = None):
         super().__init__("Pytket", hardware, export_dir)
         self.architecture = Architecture(hardware.coupling_map)
@@ -26,7 +28,6 @@ class PytketAdapter(CompilerAdapter):
         self.basis_gates = self._define_gateset()
 
     def _define_gateset(self):
-        # Map string names to Pytket OpTypes
         gate_map = {
             "x": OpType.X,
             "y": OpType.Y,
@@ -42,57 +43,35 @@ class PytketAdapter(CompilerAdapter):
             "measure": OpType.Measure,
             "swap": OpType.SWAP
         }
-
-        allowed_optypes = set()
-        for g in self.hardware.basis_gates:
-            if g.lower() in gate_map:
-                allowed_optypes.add(gate_map[g.lower()])
-        return allowed_optypes
+        return {gate_map[g.lower()] for g in self.hardware.basis_gates if g.lower() in gate_map}
 
     def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         try:
-            circuit = circuit_from_qasm(qasm_file,maxwidth=128)
+            circuit = circuit_from_qasm(qasm_file, maxwidth=128)
         except Exception as e:
             print(f"Pytket QASM Import Error: {e}")
             return None, None
 
-        gate_count = circuit.n_gates - circuit.n_gates_of_type(OpType.Barrier)
-        depth = circuit.depth()
-        two_q_count = circuit.n_2qb_gates()
-        swap_count = circuit.n_gates_of_type(OpType.SWAP)
-
-        initial_metrics = {
-            "gate_count": gate_count,
-            "depth": depth,
-            "compile_time": '-',
-            "2q_gates": two_q_count,
-            "swap_gates": swap_count,
-        }
+        initial_metrics = self._calculate_metrics(circuit)
+        initial_metrics["compile_time"] = '-'
 
         start_time = time.time()
 
-        # If no phases are specified, run all
         if active_phases is None:
             active_phases = ["rebase", "mapping", "optimization"]
 
-        # 0. Rebasing
         if "rebase" in active_phases:
-            # Rebase to basis gates
             try:
                 DecomposeBoxes().apply(circuit)
-                rebase = AutoRebase(self.basis_gates)
-            except Exception as e:
-                # Fallback if AutoRebase fails
-                rebase = RebaseTket()
-            rebase.apply(circuit)
+                AutoRebase(self.basis_gates).apply(circuit)
+            except Exception:
+                RebaseTket().apply(circuit)
 
-        # 1. Optimization before Mapping (Pre-Optimization)
         if "optimization" in active_phases:
             FullPeepholeOptimise().apply(circuit)
             CliffordSimp().apply(circuit)
             ContextSimp().apply(circuit)
 
-        # 2. Mapping & Routing
         if "mapping" in active_phases:
             # Lookahead based on Opt-Level
             lookahead = 0
@@ -103,35 +82,35 @@ class PytketAdapter(CompilerAdapter):
             lexi_route = LexiRouteRoutingMethod(lookahead)
             self.mapping_manager.route_circuit(circuit, [lexi_label, lexi_route])
 
-        # 3. Optimization after Mapping (Post-Optimization)
         if "optimization" in active_phases:
             PeepholeOptimise2Q().apply(circuit)
             KAKDecomposition().apply(circuit)
             RemoveRedundancies().apply(circuit)
 
         duration = time.time() - start_time
-        gate_count = circuit.n_gates - circuit.n_gates_of_type(OpType.Barrier)
-        depth = circuit.depth()
-        two_q_count = circuit.n_2qb_gates()
-        swap_count = circuit.n_gates_of_type(OpType.SWAP)
-
-        metrics = {
-            "gate_count": gate_count,
-            "depth": depth,
-            "compile_time": duration,
-            "2q_gates": two_q_count,
-            "swap_gates": swap_count,
-            "initial": initial_metrics
-        }
+        metrics = self._calculate_metrics(circuit)
+        metrics["compile_time"] = duration
+        metrics["initial"] = initial_metrics
 
         circuit.remove_blank_wires()
+        filename = self._save_circuit(circuit, qasm_file, optimization_level)
+        
+        return (metrics, filename) if filename else (metrics, None)
 
+    def _calculate_metrics(self, circuit) -> Dict[str, Any]:
+        return {
+            "gate_count": circuit.n_gates - circuit.n_gates_of_type(OpType.Barrier),
+            "depth": circuit.depth(),
+            "2q_gates": circuit.n_2qb_gates(),
+            "swap_gates": circuit.n_gates_of_type(OpType.SWAP),
+        }
+
+    def _save_circuit(self, circuit, original_file: str, opt_level: int) -> Optional[str]:
         try:
-            _, file = os.path.split(qasm_file.removesuffix(".qasm"))
-            filename = os.path.join(self.export_dir, f"{file}_pytket_opt{optimization_level}.qasm")
-            circuit_to_qasm(circuit, filename,maxwidth=128)
+            _, file = os.path.split(original_file.removesuffix(".qasm"))
+            filename = os.path.join(self.export_dir, f"{file}_pytket_opt{opt_level}.qasm")
+            circuit_to_qasm(circuit, filename, maxwidth=128)
+            return filename
         except Exception as e:
             print(f"Pytket QASM Export Error: {e}")
-            return metrics, None
-
-        return metrics, filename
+            return None

@@ -12,7 +12,6 @@ from quantum_bench.hardware.model import HardwareModel
 def get_circuit(hardware_name: str, algo_name: str, num_qubits: int, benchmark_level: str, export_dir: str = "benchmarks_cache") -> Optional[str]:
     """
     Loads a benchmark circuit and returns the path to the OpenQASM 2 file.
-    QASM 2 is used as a neutral exchange format.
 
     Args:
         hardware_name: Name of the target hardware.
@@ -25,39 +24,23 @@ def get_circuit(hardware_name: str, algo_name: str, num_qubits: int, benchmark_l
         Path to the generated QASM file or None if generation fails.
     """
     try:
-        match benchmark_level:
-            case "ALG":
-                qc = get_benchmark(
-                    benchmark=algo_name,
-                    level=BenchmarkLevel.ALG,
-                    circuit_size=num_qubits
-                )
-            case "INDEP":
-                qc = get_benchmark(
-                    benchmark=algo_name,
-                    level=BenchmarkLevel.INDEP,
-                    circuit_size=num_qubits
-                )
-            case "NATIVEGATES":
-                qc = get_benchmark(
-                    target=get_device(hardware_name),
-                    benchmark=algo_name,
-                    level=BenchmarkLevel.NATIVEGATES,
-                    circuit_size=num_qubits
-                )
-            case "MAPPED":
-                qc = get_benchmark(
-                    target=get_device(hardware_name),
-                    benchmark=algo_name,
-                    level=BenchmarkLevel.MAPPED,
-                    circuit_size=num_qubits
-                )
-            case _:
-                raise ValueError(f"Unknown benchmark level: {benchmark_level}")
+        level_map = {
+            "ALG": BenchmarkLevel.ALG,
+            "INDEP": BenchmarkLevel.INDEP,
+            "NATIVEGATES": BenchmarkLevel.NATIVEGATES,
+            "MAPPED": BenchmarkLevel.MAPPED
+        }
+        
+        if benchmark_level not in level_map:
+            raise ValueError(f"Unknown benchmark level: {benchmark_level}")
 
-        if not os.path.exists(export_dir):
-            os.makedirs(export_dir)
+        kwargs = {"benchmark": algo_name, "level": level_map[benchmark_level], "circuit_size": num_qubits}
+        if benchmark_level in ["NATIVEGATES", "MAPPED"]:
+            kwargs["target"] = get_device(hardware_name)
 
+        qc = get_benchmark(**kwargs)
+
+        os.makedirs(export_dir, exist_ok=True)
         filename = os.path.join(export_dir, f"{benchmark_level}_{algo_name}_{num_qubits}.qasm")
         qasm2.dump(qc, filename)
 
@@ -80,16 +63,14 @@ def verify_circuit(qasm_file: str, compiled_qasm_file: str) -> str:
         Result of the equivalence check (e.g., "equivalent", "not_equivalent", "error").
     """
     try:
-        result = verify(qasm_file, compiled_qasm_file, check_partial_equivalence=True,
-                        transform_dynamic_circuit=True)
+        result = verify(qasm_file, compiled_qasm_file, check_partial_equivalence=True, transform_dynamic_circuit=True)
         return result.equivalence.name
-
     except Exception as e:
         print(f"Verification of {compiled_qasm_file} failed: {e}")
         return "Error"
 
 
-def visualize_circuit(qasm_file: str, hardware: str, visualisation_path: str = None):
+def visualize_circuit(qasm_file: str, hardware: str, visualisation_path: str = "visualisation"):
     """
     Visualizes the quantum circuit and saves it as an image.
 
@@ -98,14 +79,13 @@ def visualize_circuit(qasm_file: str, hardware: str, visualisation_path: str = N
         hardware: Name of the hardware (used for directory structure).
         visualisation_path: Base path for visualization output.
     """
-    if visualisation_path is None:
-        visualisation_path = "visualisation"
     try:
         circuit_dir = os.path.join(visualisation_path, "circuits", hardware)
-        if not os.path.exists(circuit_dir):
-            os.makedirs(circuit_dir)
+        os.makedirs(circuit_dir, exist_ok=True)
+        
         _, file = os.path.split(qasm_file.removesuffix(".qasm"))
         filename = os.path.join(circuit_dir, f"{file}.png")
+        
         QuantumCircuit.from_qasm_file(qasm_file).draw(output="mpl", filename=filename, idle_wires=False)
     except Exception as e:
         print(f"Visualization of {qasm_file} failed: {e}")
@@ -123,16 +103,12 @@ def get_hardware_model(device_name: str) -> Optional[HardwareModel]:
     """
     try:
         device = get_device(device_name)
-        basis_gates = list(device.operation_names)
-        coupling_map = list(device.build_coupling_map())
-        num_qubits = device.num_qubits
-
-        return HardwareModel(device_name, num_qubits, coupling_map, basis_gates)
-
+        return HardwareModel(
+            name=device_name,
+            num_qubits=device.num_qubits,
+            edges=list(device.build_coupling_map()),
+            basis_gates=list(device.operation_names)
+        )
     except Exception as e:
-        hardware_model = get_hardware_model(device_name)
-        if hardware_model:
-            return hardware_model
-        else:
-            print(f"Could not load hardware {device_name}: {e}")
-            return None
+        print(f"Could not load hardware {device_name}: {e}")
+        return None

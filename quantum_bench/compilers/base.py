@@ -6,9 +6,7 @@ from quantum_bench.hardware.model import HardwareModel
 
 
 class CompilerAdapter(ABC):
-    """
-    Abstract base class for all quantum compiler adapters.
-    """
+    """Abstract base class for all quantum compiler adapters."""
 
     def __init__(self, name: str, hardware: HardwareModel, export_dir: Optional[str] = None):
         """
@@ -21,11 +19,8 @@ class CompilerAdapter(ABC):
         """
         self.name = name
         self.hardware = hardware
-        if export_dir is None:
-            export_dir = os.path.join("benchmarks_cache", hardware.name)
-        self.export_dir = export_dir
-        if not os.path.exists(self.export_dir):
-            os.makedirs(self.export_dir)
+        self.export_dir = export_dir or os.path.join("benchmarks_cache", hardware.name)
+        os.makedirs(self.export_dir, exist_ok=True)
 
     @abstractmethod
     def compile(self, qasm_file: str, optimization_level: int = 1, active_phases: Optional[List[str]] = None, seed: Optional[int] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
@@ -35,8 +30,8 @@ class CompilerAdapter(ABC):
         Args:
             qasm_file: Path to the QASM file.
             optimization_level: General optimization level (0-3).
-            active_phases: List of active phases (e.g., ["rebase", "mapping", "optimization"]). 
-                           If None, all phases are executed. If empty list, no phases are executed.
+            active_phases: List of active phases (e.g., ["rebase", "mapping", "optimization"]).
+                           If None, all phases are executed.
             seed: Random seed for reproducibility.
 
         Returns:
