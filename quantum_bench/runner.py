@@ -82,7 +82,7 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
                   benchmark_levels: List[str],
                   opt_levels: List[int], num_runs: int = 1,
                   run_verification: bool = False, run_visualisation: bool = False, run_plotter: bool = False,
-                  output_file: str = "benchmark_results_final.csv", visualisation_path: str = None, seed: int = None,
+                  output_file: str = "benchmark_results.csv", visualisation_path: str = None, seed: int = None,
                   active_phases: Optional[List[str]] = None, max_workers: Optional[int] = None,
                   max_queued_tasks: int = 20):
     """
@@ -149,8 +149,8 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
 
                 # List of compiler classes to instantiate in workers
                 compiler_classes = [
-                    #CirqAdapter,
-                    #PytketAdapter,
+                    CirqAdapter,
+                    PytketAdapter,
                     QiskitAdapter
                 ]
 
@@ -161,7 +161,7 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
                         for algo_name in algo_names:
 
                             qasm_path = mqt.get_circuit(hardware_name, algo_name, n_qubits, benchmark_level)
-                            if not qasm_path:
+                            if not qasm_path or qasm_path is None:
                                 continue
 
                             if run_visualisation and n_qubits == min(qubit_ranges):
