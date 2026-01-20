@@ -1378,3 +1378,621 @@ rigetti_ankaa_84,MAPPED,qft,75,Cirq,3,0,12955,4187,578.8025457859039,5660,2998,"
 rigetti_ankaa_84,MAPPED,vqe_real_amp,75,Cirq,3,0,1581,568,31.77603054046631,628,340,"{'gate_count': 21584, 'depth': 5482, 'compile_time': '-', '2q_gates': 812, 'swap_gates': 0}",True
 rigetti_ankaa_84,MAPPED,vqe_real_amp,75,Pytket,3,0,-,-,-,-,-,-,False
 rigetti_ankaa_84,MAPPED,qaoa,75,Cirq,3,0,45541,11000,2362.5887269973755,23400,15404,"{'gate_count': 754585, 'depth': 79999, 'compile_time': '-', '2q_gates': 29752, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,4,Qiskit,3,0,180,129,0.01066136360168457,73,0,"{'gate_count': 9, 'depth': 4, 'compile_time': '-', '2q_gates': 2, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,4,Pytket,3,0,179,149,0.027280092239379883,67,15,"{'gate_count': 10, 'depth': 4, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,5,Qiskit,3,0,559,448,0.017987966537475586,244,0,"{'gate_count': 12, 'depth': 5, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,5,Pytket,3,0,543,446,0.05226945877075195,220,47,"{'gate_count': 13, 'depth': 5, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,4,Cirq,3,0,191,119,0.23366904258728027,73,19,"{'gate_count': 10, 'depth': 4, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,8,Qiskit,3,0,9039,6480,0.15955400466918945,4672,0,"{'gate_count': 23, 'depth': 10, 'compile_time': '-', '2q_gates': 8, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,5,Cirq,3,0,566,370,0.7088840007781982,247,79,"{'gate_count': 13, 'depth': 5, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,8,Pytket,3,0,8396,6069,0.7011408805847168,3806,1116,"{'gate_count': 24, 'depth': 10, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,10,Qiskit,3,0,40908,29383,0.6715221405029297,20251,0,"{'gate_count': 36, 'depth': 19, 'compile_time': '-', '2q_gates': 17, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,10,Pytket,3,0,39022,29560,4.213547468185425,17306,5240,"{'gate_count': 37, 'depth': 19, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,8,Cirq,3,0,9855,6200,11.221167087554932,4553,1689,"{'gate_count': 24, 'depth': 10, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,15,Qiskit,3,0,763218,591373,11.36186695098877,383789,0,"{'gate_count': 129, 'depth': 102, 'compile_time': '-', '2q_gates': 100, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,10,Cirq,3,0,46536,30516,54.6921820640564,22275,9219,"{'gate_count': 37, 'depth': 19, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,15,Pytket,3,0,701821,574103,117.6706748008728,300596,85191,"{'gate_count': 130, 'depth': 102, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,16,Qiskit,3,0,1279964,1006113,18.66492509841919,647465,0,"{'gate_count': 173, 'depth': 144, 'compile_time': '-', '2q_gates': 142, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,16,Pytket,3,0,1215576,994695,218.9911072254181,546108,187180,"{'gate_count': 174, 'depth': 144, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,15,Cirq,3,0,828698,566232,1480.8196551799774,397567,160767,"{'gate_count': 130, 'depth': 102, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ibm_eagle_127,ALG,grover,20,Qiskit,3,0,8810373,7176382,234.6814420223236,4508302,0,"{'gate_count': 607, 'depth': 570, 'compile_time': '-', '2q_gates': 568, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,4,Pytket,3,0,29,12,0.01384115219116211,9,0,"{'gate_count': 29, 'depth': 12, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,4,Cirq,3,0,59,29,0.05692553520202637,18,0,"{'gate_count': 5, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,4,Pytket,3,0,44,27,0.02004837989807129,18,0,"{'gate_count': 5, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,4,Cirq,3,0,38,17,0.045743703842163086,9,0,"{'gate_count': 29, 'depth': 12, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,4,Cirq,3,0,25,17,0.030138731002807617,8,0,"{'gate_count': 16, 'depth': 7, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,4,Pytket,3,0,24,15,0.04292178153991699,8,0,"{'gate_count': 16, 'depth': 7, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,4,Pytket,3,0,164,113,0.025204181671142578,54,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 2, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,4,Pytket,3,0,8,5,0.012783288955688477,3,0,"{'gate_count': 8, 'depth': 5, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,4,Cirq,3,0,15,8,0.022625446319580078,3,0,"{'gate_count': 8, 'depth': 5, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,5,Pytket,3,0,66,35,0.0213165283203125,26,0,"{'gate_count': 6, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,5,Pytket,3,0,37,13,0.015943050384521484,12,0,"{'gate_count': 37, 'depth': 13, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,5,Cirq,3,0,81,37,0.07814860343933105,26,0,"{'gate_count': 6, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,5,Cirq,3,0,50,20,0.07249855995178223,12,0,"{'gate_count': 37, 'depth': 13, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,5,Pytket,3,0,51,24,0.014708280563354492,24,0,"{'gate_count': 27, 'depth': 10, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,4,Cirq,3,0,16,9,0.21075057983398438,2,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 2, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,5,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,5,Cirq,3,0,66,29,0.07107114791870117,24,0,"{'gate_count': 27, 'depth': 10, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,5,Cirq,3,0,19,10,0.018596887588500977,4,0,"{'gate_count': 10, 'depth': 6, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,5,Pytket,3,0,169,101,0.023789167404174805,63,0,"{'gate_count': 25, 'depth': 11, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 1}",True
+ionq_forte_36,ALG,ghz,5,Pytket,3,0,10,6,0.020485401153564453,4,0,"{'gate_count': 10, 'depth': 6, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,8,Pytket,3,0,61,16,0.014862060546875,21,0,"{'gate_count': 61, 'depth': 16, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,8,Pytket,3,0,168,59,0.025390148162841797,68,0,"{'gate_count': 9, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,8,Pytket,3,0,108,54,0.019736528396606445,56,0,"{'gate_count': 52, 'depth': 20, 'compile_time': '-', '2q_gates': 28, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,8,Cirq,3,0,84,27,0.09292006492614746,21,0,"{'gate_count': 61, 'depth': 16, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,8,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,8,Cirq,3,0,202,64,0.192399263381958,68,0,"{'gate_count': 9, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,8,Cirq,3,0,31,16,0.02836298942565918,7,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,8,Pytket,3,0,16,9,0.013915061950683594,7,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,8,Cirq,3,0,163,69,0.1552734375,56,0,"{'gate_count': 52, 'depth': 20, 'compile_time': '-', '2q_gates': 28, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,8,Pytket,3,0,594,268,0.048805952072143555,222,0,"{'gate_count': 54, 'depth': 17, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,10,Pytket,3,0,77,18,0.015952587127685547,27,0,"{'gate_count': 77, 'depth': 18, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,10,Pytket,3,0,260,75,0.03486371040344238,105,0,"{'gate_count': 11, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,10,Pytket,3,0,186,72,0.01901102066040039,104,0,"{'gate_count': 82, 'depth': 26, 'compile_time': '-', '2q_gates': 52, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,10,Cirq,3,0,111,34,0.11635065078735352,27,0,"{'gate_count': 77, 'depth': 18, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,10,Cirq,3,0,39,20,0.033570289611816406,9,0,"{'gate_count': 20, 'depth': 11, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,10,Pytket,3,0,865,281,0.059363603591918945,313,0,"{'gate_count': 87, 'depth': 21, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,10,Cirq,3,0,305,82,0.32269835472106934,105,0,"{'gate_count': 11, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,10,Pytket,3,0,20,11,0.018235445022583008,9,0,"{'gate_count': 20, 'depth': 11, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,10,Cirq,3,0,292,93,0.2604250907897949,104,0,"{'gate_count': 82, 'depth': 26, 'compile_time': '-', '2q_gates': 52, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,15,Pytket,3,0,117,23,0.0247347354888916,42,0,"{'gate_count': 117, 'depth': 23, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,15,Pytket,3,0,576,115,0.0815279483795166,231,0,"{'gate_count': 16, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,15,Cirq,3,0,175,47,0.19679927825927734,42,0,"{'gate_count': 117, 'depth': 23, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,15,Pytket,3,0,345,96,0.023905515670776367,200,0,"{'gate_count': 145, 'depth': 34, 'compile_time': '-', '2q_gates': 100, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,15,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,10,Cirq,3,0,87,21,0.6870214939117432,7,0,"{'gate_count': 87, 'depth': 21, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,15,Pytket,3,0,30,16,0.014522075653076172,14,0,"{'gate_count': 30, 'depth': 16, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,15,Cirq,3,0,59,30,0.05060720443725586,14,0,"{'gate_count': 30, 'depth': 16, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,15,Cirq,3,0,646,126,0.6209020614624023,231,0,"{'gate_count': 16, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,15,Cirq,3,0,544,125,0.5030648708343506,200,0,"{'gate_count': 145, 'depth': 34, 'compile_time': '-', '2q_gates': 100, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,15,Pytket,3,0,2200,594,0.18339800834655762,805,0,"{'gate_count': 193, 'depth': 31, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 1}",True
+ionq_forte_36,ALG,vqe_real_amp,16,Pytket,3,0,125,24,0.018717527389526367,45,0,"{'gate_count': 125, 'depth': 24, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,16,Pytket,3,0,390,96,0.02576756477355957,228,0,"{'gate_count': 162, 'depth': 34, 'compile_time': '-', '2q_gates': 114, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,16,Pytket,3,0,656,123,0.07839369773864746,264,0,"{'gate_count': 17, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,16,Cirq,3,0,187,50,0.22251105308532715,45,0,"{'gate_count': 125, 'depth': 24, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,16,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,16,Cirq,3,0,63,32,0.053160905838012695,15,0,"{'gate_count': 32, 'depth': 17, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,16,Pytket,3,0,32,17,0.013930082321166992,15,0,"{'gate_count': 32, 'depth': 17, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,16,Pytket,3,0,2490,516,0.14472699165344238,931,0,"{'gate_count': 210, 'depth': 33, 'compile_time': '-', '2q_gates': 25, 'swap_gates': 1}",True
+ionq_forte_36,ALG,qft,16,Cirq,3,0,740,136,0.6842381954193115,264,0,"{'gate_count': 17, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,20,Pytket,3,0,157,28,0.02050328254699707,57,0,"{'gate_count': 157, 'depth': 28, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,16,Cirq,3,0,614,125,0.6050291061401367,228,0,"{'gate_count': 162, 'depth': 34, 'compile_time': '-', '2q_gates': 114, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,20,Pytket,3,0,1020,155,0.13225221633911133,410,0,"{'gate_count': 21, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,20,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,20,Pytket,3,0,612,138,0.04092836380004883,368,0,"{'gate_count': 244, 'depth': 48, 'compile_time': '-', '2q_gates': 184, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,20,Cirq,3,0,241,63,0.24620509147644043,57,0,"{'gate_count': 157, 'depth': 28, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,20,Pytket,3,0,40,21,0.015275239944458008,19,0,"{'gate_count': 40, 'depth': 21, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,20,Cirq,3,0,79,40,0.06587409973144531,19,0,"{'gate_count': 40, 'depth': 21, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,20,Cirq,3,0,1135,172,1.0418906211853027,410,0,"{'gate_count': 21, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,25,Pytket,3,0,1586,195,0.19115543365478516,636,0,"{'gate_count': 26, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,20,Pytket,3,0,4165,901,0.2586534023284912,1529,0,"{'gate_count': 328, 'depth': 41, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 3}",True
+ionq_forte_36,ALG,vqe_real_amp,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,25,Pytket,3,0,197,33,0.02492833137512207,72,0,"{'gate_count': 197, 'depth': 33, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,20,Cirq,3,0,988,181,0.9606826305389404,368,0,"{'gate_count': 244, 'depth': 48, 'compile_time': '-', '2q_gates': 184, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,25,Pytket,3,0,939,177,0.04473614692687988,576,0,"{'gate_count': 363, 'depth': 61, 'compile_time': '-', '2q_gates': 288, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,25,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,25,Cirq,3,0,300,79,0.3275158405303955,72,0,"{'gate_count': 197, 'depth': 33, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,25,Pytket,3,0,50,26,0.017333030700683594,24,0,"{'gate_count': 50, 'depth': 26, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,25,Cirq,3,0,99,50,0.08399105072021484,24,0,"{'gate_count': 50, 'depth': 26, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,25,Cirq,3,0,1736,216,1.5999488830566406,636,0,"{'gate_count': 26, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,25,Pytket,3,0,6232,1114,0.41379666328430176,2326,0,"{'gate_count': 510, 'depth': 51, 'compile_time': '-', '2q_gates': 62, 'swap_gates': 5}",True
+ionq_forte_36,ALG,vqe_real_amp,32,Pytket,3,0,253,40,0.03032660484313965,93,0,"{'gate_count': 253, 'depth': 40, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qft,32,Pytket,3,0,2592,251,0.3450284004211426,1040,0,"{'gate_count': 33, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,25,Cirq,3,0,1551,233,1.4217338562011719,576,0,"{'gate_count': 363, 'depth': 61, 'compile_time': '-', '2q_gates': 288, 'swap_gates': 0}",True
+ionq_forte_36,ALG,vqe_real_amp,32,Cirq,3,0,391,96,0.41224217414855957,93,0,"{'gate_count': 253, 'depth': 40, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,32,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,32,Pytket,3,0,1422,213,0.07876181602478027,884,0,"{'gate_count': 538, 'depth': 73, 'compile_time': '-', '2q_gates': 442, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,32,Pytket,3,0,64,33,0.018017292022705078,31,0,"{'gate_count': 64, 'depth': 33, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,32,Cirq,3,0,127,64,0.1389634609222412,31,0,"{'gate_count': 64, 'depth': 33, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,32,Pytket,3,0,9998,1391,0.5782756805419922,3728,0,"{'gate_count': 833, 'depth': 65, 'compile_time': '-', '2q_gates': 118, 'swap_gates': 6}",True
+ionq_forte_36,ALG,qft,32,Cirq,3,0,2754,280,2.5807883739471436,1010,0,"{'gate_count': 33, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,36,Pytket,3,0,3276,283,0.42941737174987793,1314,0,"{'gate_count': 37, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,36,Pytket,3,0,285,44,0.03384757041931152,105,0,"{'gate_count': 285, 'depth': 44, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,36,Pytket,3,0,1908,246,0.09696793556213379,1200,0,"{'gate_count': 708, 'depth': 84, 'compile_time': '-', '2q_gates': 600, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,qaoa,32,Cirq,3,0,2385,282,2.189129590988159,884,0,"{'gate_count': 538, 'depth': 73, 'compile_time': '-', '2q_gates': 442, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,36,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,vqe_real_amp,36,Cirq,3,0,444,112,0.45735836029052734,105,0,"{'gate_count': 285, 'depth': 44, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,ALG,randomcircuit,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,36,Pytket,3,0,72,37,0.019408464431762695,35,0,"{'gate_count': 72, 'depth': 37, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,ALG,ghz,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,ghz,36,Cirq,3,0,143,72,0.1490919589996338,35,0,"{'gate_count': 72, 'depth': 37, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,4,Pytket,3,0,38,24,0.015477895736694336,12,0,"{'gate_count': 14, 'depth': 8, 'compile_time': '-', '2q_gates': 6, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,4,Cirq,3,0,40,24,0.033150672912597656,12,0,"{'gate_count': 14, 'depth': 8, 'compile_time': '-', '2q_gates': 6, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,4,Pytket,3,0,29,12,0.013222694396972656,9,0,"{'gate_count': 29, 'depth': 12, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,4,Cirq,3,0,38,17,0.04404592514038086,9,0,"{'gate_count': 29, 'depth': 12, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,4,Cirq,3,0,25,17,0.028073787689208984,8,0,"{'gate_count': 14, 'depth': 7, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,4,Pytket,3,0,22,15,0.03869748115539551,8,0,"{'gate_count': 14, 'depth': 7, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,4,Pytket,3,0,164,113,0.021351099014282227,54,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 2, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,4,Cirq,3,0,15,8,0.014581680297851562,3,0,"{'gate_count': 8, 'depth': 5, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,4,Cirq,3,0,16,9,0.15114188194274902,2,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 2, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,4,Pytket,3,0,8,5,0.012499332427978516,3,0,"{'gate_count': 8, 'depth': 5, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,5,Pytket,3,0,60,32,0.016614913940429688,20,0,"{'gate_count': 20, 'depth': 10, 'compile_time': '-', '2q_gates': 10, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,5,Cirq,3,0,64,33,0.05536699295043945,20,0,"{'gate_count': 20, 'depth': 10, 'compile_time': '-', '2q_gates': 10, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,5,Pytket,3,0,37,13,0.02024245262145996,12,0,"{'gate_count': 37, 'depth': 13, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,5,Cirq,3,0,50,20,0.05679059028625488,12,0,"{'gate_count': 37, 'depth': 13, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,5,Pytket,3,0,51,24,0.01789689064025879,24,0,"{'gate_count': 27, 'depth': 10, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,5,Cirq,3,0,66,29,0.07006573677062988,24,0,"{'gate_count': 27, 'depth': 10, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,5,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,5,Pytket,3,0,166,101,0.021773338317871094,60,0,"{'gate_count': 24, 'depth': 11, 'compile_time': '-', '2q_gates': 8, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,5,Cirq,3,0,19,10,0.018003463745117188,4,0,"{'gate_count': 10, 'depth': 6, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,5,Pytket,3,0,10,6,0.012750864028930664,4,0,"{'gate_count': 10, 'depth': 6, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,8,Pytket,3,0,156,56,0.025857925415039062,56,0,"{'gate_count': 44, 'depth': 16, 'compile_time': '-', '2q_gates': 28, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,8,Cirq,3,0,168,60,0.1678156852722168,56,0,"{'gate_count': 44, 'depth': 16, 'compile_time': '-', '2q_gates': 28, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qft,36,Cirq,3,0,3339,316,3.0968799591064453,1224,0,"{'gate_count': 37, 'depth': 2, 'compile_time': '-', '2q_gates': 0, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,8,Pytket,3,0,61,16,0.014888525009155273,21,0,"{'gate_count': 61, 'depth': 16, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,8,Pytket,3,0,108,54,0.01593184471130371,56,0,"{'gate_count': 52, 'depth': 20, 'compile_time': '-', '2q_gates': 28, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,8,Cirq,3,0,84,27,0.10752439498901367,21,0,"{'gate_count': 61, 'depth': 16, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,8,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,8,Cirq,3,0,163,69,0.1595916748046875,56,0,"{'gate_count': 52, 'depth': 20, 'compile_time': '-', '2q_gates': 28, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,8,Cirq,3,0,31,16,0.028027057647705078,7,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,8,Pytket,3,0,593,268,0.04219365119934082,222,0,"{'gate_count': 53, 'depth': 17, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,8,Pytket,3,0,16,9,0.014889955520629883,7,0,"{'gate_count': 16, 'depth': 9, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,10,Pytket,3,0,245,72,0.03341794013977051,90,0,"{'gate_count': 65, 'depth': 20, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,10,Pytket,3,0,77,18,0.015325546264648438,27,0,"{'gate_count': 77, 'depth': 18, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,10,Cirq,3,0,111,34,0.12358927726745605,27,0,"{'gate_count': 77, 'depth': 18, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,10,Cirq,3,0,265,78,0.26091718673706055,90,0,"{'gate_count': 65, 'depth': 20, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,10,Pytket,3,0,186,72,0.018496036529541016,104,0,"{'gate_count': 82, 'depth': 26, 'compile_time': '-', '2q_gates': 52, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,10,Pytket,3,0,864,281,0.051485538482666016,313,0,"{'gate_count': 86, 'depth': 21, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,10,Cirq,3,0,292,93,0.26860928535461426,104,0,"{'gate_count': 82, 'depth': 26, 'compile_time': '-', '2q_gates': 52, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,10,Pytket,3,0,20,11,0.013175249099731445,9,0,"{'gate_count': 20, 'depth': 11, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,10,Cirq,3,0,39,20,0.03996443748474121,9,0,"{'gate_count': 20, 'depth': 11, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,ALG,randomcircuit,36,Pytket,3,0,13352,1650,0.9526998996734619,4954,0,"{'gate_count': 1043, 'depth': 73, 'compile_time': '-', '2q_gates': 135, 'swap_gates': 8}",True
+ionq_forte_36,INDEP,qft,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,15,Pytket,3,0,555,112,0.10354495048522949,210,0,"{'gate_count': 135, 'depth': 30, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,15,Cirq,3,0,175,47,0.17536306381225586,42,0,"{'gate_count': 117, 'depth': 23, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,15,Pytket,3,0,117,23,0.021622419357299805,42,0,"{'gate_count': 117, 'depth': 23, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,ALG,qaoa,36,Cirq,3,0,3236,326,3.0170321464538574,1200,0,"{'gate_count': 708, 'depth': 84, 'compile_time': '-', '2q_gates': 600, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,15,Pytket,3,0,345,96,0.02424001693725586,200,0,"{'gate_count': 145, 'depth': 34, 'compile_time': '-', '2q_gates': 100, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,10,Cirq,3,0,86,21,0.7242293357849121,7,0,"{'gate_count': 86, 'depth': 21, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,15,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,15,Pytket,3,0,30,16,0.01428079605102539,14,0,"{'gate_count': 30, 'depth': 16, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,15,Cirq,3,0,59,30,0.04961585998535156,14,0,"{'gate_count': 30, 'depth': 16, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,15,Cirq,3,0,604,123,0.5677785873413086,210,0,"{'gate_count': 135, 'depth': 30, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,16,Pytket,3,0,632,120,0.08497381210327148,240,0,"{'gate_count': 152, 'depth': 32, 'compile_time': '-', '2q_gates': 120, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,16,Pytket,3,0,125,24,0.020916223526000977,45,0,"{'gate_count': 125, 'depth': 24, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,15,Cirq,3,0,544,125,0.5199065208435059,200,0,"{'gate_count': 145, 'depth': 34, 'compile_time': '-', '2q_gates': 100, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,15,Pytket,3,0,2191,594,0.1630229949951172,802,0,"{'gate_count': 184, 'depth': 31, 'compile_time': '-', '2q_gates': 18, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,16,Pytket,3,0,390,96,0.025300264358520508,228,0,"{'gate_count': 162, 'depth': 34, 'compile_time': '-', '2q_gates': 114, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,16,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,16,Cirq,3,0,187,50,0.2545919418334961,45,0,"{'gate_count': 125, 'depth': 24, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,16,Pytket,3,0,32,17,0.015216588973999023,15,0,"{'gate_count': 32, 'depth': 17, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,16,Cirq,3,0,63,32,0.073577880859375,15,0,"{'gate_count': 32, 'depth': 17, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,16,Cirq,3,0,688,132,0.6230254173278809,240,0,"{'gate_count': 152, 'depth': 32, 'compile_time': '-', '2q_gates': 120, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,16,Pytket,3,0,2485,516,0.16450142860412598,928,0,"{'gate_count': 206, 'depth': 33, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,20,Pytket,3,0,990,152,0.12186717987060547,380,0,"{'gate_count': 230, 'depth': 40, 'compile_time': '-', '2q_gates': 190, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,20,Pytket,3,0,157,28,0.02035045623779297,57,0,"{'gate_count': 157, 'depth': 28, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,20,Pytket,3,0,612,138,0.037308692932128906,368,0,"{'gate_count': 244, 'depth': 48, 'compile_time': '-', '2q_gates': 184, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,16,Cirq,3,0,614,125,0.6069092750549316,228,0,"{'gate_count': 162, 'depth': 34, 'compile_time': '-', '2q_gates': 114, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,20,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,20,Cirq,3,0,241,63,0.24340033531188965,57,0,"{'gate_count': 157, 'depth': 28, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,20,Pytket,3,0,40,21,0.015121936798095703,19,0,"{'gate_count': 40, 'depth': 21, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,20,Cirq,3,0,79,40,0.06588888168334961,19,0,"{'gate_count': 40, 'depth': 21, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,25,Pytket,3,0,1500,192,0.17383956909179688,580,0,"{'gate_count': 340, 'depth': 50, 'compile_time': '-', '2q_gates': 290, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,20,Cirq,3,0,1080,168,0.9803018569946289,380,0,"{'gate_count': 230, 'depth': 40, 'compile_time': '-', '2q_gates': 190, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,20,Pytket,3,0,4147,901,0.2558410167694092,1520,0,"{'gate_count': 314, 'depth': 41, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,25,Pytket,3,0,197,33,0.024296283721923828,72,0,"{'gate_count': 197, 'depth': 33, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,20,Cirq,3,0,988,181,0.9129946231842041,368,0,"{'gate_count': 244, 'depth': 48, 'compile_time': '-', '2q_gates': 184, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,25,Pytket,3,0,939,177,0.04889678955078125,576,0,"{'gate_count': 363, 'depth': 61, 'compile_time': '-', '2q_gates': 288, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,25,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,25,Cirq,3,0,300,79,0.3324131965637207,72,0,"{'gate_count': 197, 'depth': 33, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,25,Pytket,3,0,50,26,0.01639413833618164,24,0,"{'gate_count': 50, 'depth': 26, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,25,Cirq,3,0,99,50,0.11610078811645508,24,0,"{'gate_count': 50, 'depth': 26, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,25,Cirq,3,0,1640,213,1.456587553024292,580,0,"{'gate_count': 340, 'depth': 50, 'compile_time': '-', '2q_gates': 290, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,32,Pytket,3,0,2214,248,0.34182143211364746,860,0,"{'gate_count': 494, 'depth': 64, 'compile_time': '-', '2q_gates': 430, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,25,Pytket,3,0,6206,1114,0.4187324047088623,2311,0,"{'gate_count': 490, 'depth': 51, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,32,Pytket,3,0,253,40,0.0351865291595459,93,0,"{'gate_count': 253, 'depth': 40, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,32,Pytket,3,0,1422,213,0.06562328338623047,884,0,"{'gate_count': 538, 'depth': 73, 'compile_time': '-', '2q_gates': 442, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,vqe_real_amp,32,Cirq,3,0,391,96,0.40761613845825195,93,0,"{'gate_count': 253, 'depth': 40, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,32,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,25,Cirq,3,0,1551,233,1.5016765594482422,576,0,"{'gate_count': 363, 'depth': 61, 'compile_time': '-', '2q_gates': 288, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,32,Pytket,3,0,64,33,0.01831793785095215,31,0,"{'gate_count': 64, 'depth': 33, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,32,Cirq,3,0,127,64,0.137709379196167,31,0,"{'gate_count': 64, 'depth': 33, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,36,Pytket,3,0,2622,280,0.33541178703308105,1020,0,"{'gate_count': 582, 'depth': 72, 'compile_time': '-', '2q_gates': 510, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,32,Pytket,3,0,9967,1391,0.5828216075897217,3710,0,"{'gate_count': 805, 'depth': 65, 'compile_time': '-', '2q_gates': 112, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,36,Cirq,3,0,444,112,0.4251596927642822,105,0,"{'gate_count': 285, 'depth': 44, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qft,32,Cirq,3,0,2424,276,2.5475564002990723,860,0,"{'gate_count': 494, 'depth': 64, 'compile_time': '-', '2q_gates': 430, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,vqe_real_amp,36,Pytket,3,0,285,44,0.046387672424316406,105,0,"{'gate_count': 285, 'depth': 44, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,randomcircuit,36,Cirq,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,36,Pytket,3,0,1908,246,0.10087800025939941,1200,0,"{'gate_count': 708, 'depth': 84, 'compile_time': '-', '2q_gates': 600, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,qaoa,32,Cirq,3,0,2385,282,2.0955328941345215,884,0,"{'gate_count': 538, 'depth': 73, 'compile_time': '-', '2q_gates': 442, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,36,Pytket,3,0,72,37,0.01964116096496582,35,0,"{'gate_count': 72, 'depth': 37, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,ghz,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,INDEP,ghz,36,Cirq,3,0,143,72,0.13673639297485352,35,0,"{'gate_count': 72, 'depth': 37, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,4,Cirq,3,0,41,25,0.10101866722106934,12,0,"{'gate_count': 118, 'depth': 73, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,4,Pytket,3,0,267,102,0.027025461196899414,18,0,"{'gate_count': 115, 'depth': 44, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,4,Pytket,3,0,226,144,0.026737451553344727,24,0,"{'gate_count': 118, 'depth': 73, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,4,Cirq,3,0,35,16,0.11379528045654297,9,0,"{'gate_count': 115, 'depth': 44, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,4,Cirq,3,0,26,17,0.10079336166381836,8,0,"{'gate_count': 93, 'depth': 60, 'compile_time': '-', '2q_gates': 8, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,4,Pytket,3,0,204,128,0.049726247787475586,16,0,"{'gate_count': 93, 'depth': 60, 'compile_time': '-', '2q_gates': 8, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,4,Pytket,3,0,1056,734,0.0898587703704834,106,0,"{'gate_count': 528, 'depth': 360, 'compile_time': '-', '2q_gates': 53, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,4,Cirq,3,0,17,8,0.0275576114654541,3,0,"{'gate_count': 28, 'depth': 16, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,4,Pytket,3,0,55,34,0.01616525650024414,6,0,"{'gate_count': 28, 'depth': 16, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,4,Cirq,3,0,162,105,0.4741349220275879,53,0,"{'gate_count': 528, 'depth': 360, 'compile_time': '-', '2q_gates': 53, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qft,36,Cirq,3,0,2872,312,2.986560583114624,1020,0,"{'gate_count': 582, 'depth': 72, 'compile_time': '-', '2q_gates': 510, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,5,Pytket,3,0,365,196,0.03403019905090332,40,0,"{'gate_count': 190, 'depth': 99, 'compile_time': '-', '2q_gates': 20, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,5,Pytket,3,0,345,111,0.0356142520904541,24,0,"{'gate_count': 149, 'depth': 48, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qft,5,Cirq,3,0,66,35,0.17142152786254883,20,0,"{'gate_count': 190, 'depth': 99, 'compile_time': '-', '2q_gates': 20, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,5,Cirq,3,0,46,18,0.17295527458190918,12,0,"{'gate_count': 149, 'depth': 48, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,5,Pytket,3,0,482,227,0.04004526138305664,48,0,"{'gate_count': 225, 'depth': 108, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,5,Cirq,3,0,77,35,0.23205971717834473,24,0,"{'gate_count': 225, 'depth': 108, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,5,Cirq,3,0,22,10,0.04761099815368652,4,0,"{'gate_count': 36, 'depth': 20, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,randomcircuit,36,Pytket,3,0,13305,1650,0.9516839981079102,4930,0,"{'gate_count': 996, 'depth': 73, 'compile_time': '-', '2q_gates': 127, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,5,Pytket,3,0,71,43,0.01711893081665039,8,0,"{'gate_count': 36, 'depth': 20, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,5,Pytket,3,0,1096,657,0.07964491844177246,118,0,"{'gate_count': 549, 'depth': 321, 'compile_time': '-', '2q_gates': 59, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,8,Pytket,3,0,579,138,0.05522871017456055,42,0,"{'gate_count': 251, 'depth': 60, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,8,Cirq,3,0,79,24,0.28243279457092285,21,0,"{'gate_count': 251, 'depth': 60, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,5,Cirq,3,0,177,99,0.5813097953796387,58,0,"{'gate_count': 549, 'depth': 321, 'compile_time': '-', '2q_gates': 59, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qft,8,Pytket,3,0,980,352,0.08328461647033691,112,0,"{'gate_count': 508, 'depth': 177, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qft,8,Cirq,3,0,177,65,0.4614865779876709,56,0,"{'gate_count': 508, 'depth': 177, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,8,Pytket,3,0,1044,495,0.07295942306518555,112,0,"{'gate_count': 492, 'depth': 237, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,INDEP,qaoa,36,Cirq,3,0,3236,326,3.1342504024505615,1200,0,"{'gate_count': 708, 'depth': 84, 'compile_time': '-', '2q_gates': 600, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,8,Cirq,3,0,37,16,0.06180286407470703,7,0,"{'gate_count': 60, 'depth': 32, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,8,Pytket,3,0,119,70,0.019896507263183594,14,0,"{'gate_count': 60, 'depth': 32, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,8,Cirq,3,0,171,73,0.45896220207214355,56,0,"{'gate_count': 492, 'depth': 237, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,10,Cirq,3,0,101,28,0.3479621410369873,27,0,"{'gate_count': 319, 'depth': 68, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,10,Pytket,3,0,735,156,0.06559586524963379,54,0,"{'gate_count': 319, 'depth': 68, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,10,Cirq,3,0,281,85,0.692918062210083,90,0,"{'gate_count': 805, 'depth': 229, 'compile_time': '-', '2q_gates': 90, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,8,Pytket,3,0,4111,1846,0.27703189849853516,436,0,"{'gate_count': 2042, 'depth': 902, 'compile_time': '-', '2q_gates': 218, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,10,Pytket,3,0,1555,456,0.12198424339294434,180,0,"{'gate_count': 805, 'depth': 229, 'compile_time': '-', '2q_gates': 90, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,10,Pytket,3,0,1832,609,0.1791083812713623,208,0,"{'gate_count': 870, 'depth': 291, 'compile_time': '-', '2q_gates': 104, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,10,Cirq,3,0,346,110,0.7689752578735352,104,0,"{'gate_count': 870, 'depth': 291, 'compile_time': '-', '2q_gates': 104, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,10,Cirq,3,0,47,20,0.08419322967529297,9,0,"{'gate_count': 76, 'depth': 40, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,10,Pytket,3,0,151,88,0.023955106735229492,18,0,"{'gate_count': 76, 'depth': 40, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,8,Cirq,3,0,656,283,1.9802329540252686,208,0,"{'gate_count': 2042, 'depth': 902, 'compile_time': '-', '2q_gates': 218, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,10,Pytket,3,0,6027,1955,0.44039177894592285,624,0,"{'gate_count': 3018, 'depth': 960, 'compile_time': '-', '2q_gates': 312, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,15,Pytket,3,0,3570,716,0.5079503059387207,420,0,"{'gate_count': 1845, 'depth': 359, 'compile_time': '-', '2q_gates': 210, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,15,Pytket,3,0,1125,201,0.10195136070251465,84,0,"{'gate_count': 489, 'depth': 88, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,15,Cirq,3,0,156,38,0.6205365657806396,42,0,"{'gate_count': 489, 'depth': 88, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,15,Cirq,3,0,646,135,1.4778575897216797,210,0,"{'gate_count': 1845, 'depth': 359, 'compile_time': '-', '2q_gates': 210, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,10,Cirq,3,0,934,288,2.717787027359009,302,0,"{'gate_count': 3018, 'depth': 960, 'compile_time': '-', '2q_gates': 312, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,15,Pytket,3,0,3430,797,0.4023878574371338,400,0,"{'gate_count': 1635, 'depth': 381, 'compile_time': '-', '2q_gates': 200, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,15,Cirq,3,0,72,30,0.10774564743041992,14,0,"{'gate_count': 116, 'depth': 60, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,15,Pytket,3,0,231,133,0.02927541732788086,28,0,"{'gate_count': 116, 'depth': 60, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,15,Cirq,3,0,694,153,1.9305050373077393,200,0,"{'gate_count': 1635, 'depth': 381, 'compile_time': '-', '2q_gates': 200, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,16,Pytket,3,0,3886,773,0.2742300033569336,456,0,"{'gate_count': 1854, 'depth': 369, 'compile_time': '-', '2q_gates': 228, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,16,Pytket,3,0,1203,210,0.09962916374206543,90,0,"{'gate_count': 523, 'depth': 92, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,16,Cirq,3,0,167,40,0.5708277225494385,45,0,"{'gate_count': 523, 'depth': 92, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,16,Pytket,3,0,4072,768,0.35898470878601074,480,0,"{'gate_count': 2104, 'depth': 385, 'compile_time': '-', '2q_gates': 240, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qft,16,Cirq,3,0,737,145,2.2176108360290527,240,0,"{'gate_count': 2104, 'depth': 385, 'compile_time': '-', '2q_gates': 240, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,15,Pytket,3,0,15160,3739,1.1237797737121582,1592,0,"{'gate_count': 7549, 'depth': 1832, 'compile_time': '-', '2q_gates': 796, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,16,Cirq,3,0,792,155,1.7172813415527344,228,0,"{'gate_count': 1854, 'depth': 369, 'compile_time': '-', '2q_gates': 228, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,16,Pytket,3,0,247,142,0.029758691787719727,30,0,"{'gate_count': 124, 'depth': 64, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,16,Cirq,3,0,77,32,0.14764761924743652,15,0,"{'gate_count': 124, 'depth': 64, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qft,20,Pytket,3,0,6410,976,0.5711970329284668,760,0,"{'gate_count': 3310, 'depth': 489, 'compile_time': '-', '2q_gates': 380, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,20,Cirq,3,0,211,48,0.7527525424957275,57,0,"{'gate_count': 659, 'depth': 108, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,15,Cirq,3,0,2437,646,6.8983869552612305,780,0,"{'gate_count': 7549, 'depth': 1832, 'compile_time': '-', '2q_gates': 796, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,20,Pytket,3,0,6144,1164,0.4069826602935791,736,0,"{'gate_count': 2940, 'depth': 558, 'compile_time': '-', '2q_gates': 368, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,20,Pytket,3,0,1515,246,0.15677213668823242,114,0,"{'gate_count': 659, 'depth': 108, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,16,Pytket,3,0,17580,3533,1.1937446594238281,1842,0,"{'gate_count': 8751, 'depth': 1715, 'compile_time': '-', '2q_gates': 921, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,20,Cirq,3,0,1161,185,2.8761277198791504,380,0,"{'gate_count': 3310, 'depth': 489, 'compile_time': '-', '2q_gates': 380, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,20,Cirq,3,0,1270,222,2.622279644012451,368,0,"{'gate_count': 2940, 'depth': 558, 'compile_time': '-', '2q_gates': 368, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,20,Cirq,3,0,97,40,0.15312862396240234,19,0,"{'gate_count': 156, 'depth': 80, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,ghz,20,Pytket,3,0,311,178,0.06486725807189941,38,0,"{'gate_count': 156, 'depth': 80, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,16,Cirq,3,0,2814,617,7.784928560256958,892,0,"{'gate_count': 8751, 'depth': 1715, 'compile_time': '-', '2q_gates': 921, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qft,25,Pytket,3,0,9730,1236,1.1914048194885254,1160,0,"{'gate_count': 5015, 'depth': 619, 'compile_time': '-', '2q_gates': 580, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,25,Cirq,3,0,266,58,0.7538378238677979,72,0,"{'gate_count': 829, 'depth': 128, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,25,Pytket,3,0,1905,291,0.18067669868469238,144,0,"{'gate_count': 829, 'depth': 128, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,25,Pytket,3,0,9478,1513,0.6985085010528564,1152,0,"{'gate_count': 4545, 'depth': 726, 'compile_time': '-', '2q_gates': 576, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,25,Cirq,3,0,1746,235,4.814175844192505,570,0,"{'gate_count': 5015, 'depth': 619, 'compile_time': '-', '2q_gates': 580, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,20,Pytket,3,0,28674,5610,2.315526008605957,3016,0,"{'gate_count': 14236, 'depth': 2756, 'compile_time': '-', '2q_gates': 1508, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,25,Cirq,3,0,2002,286,3.9916164875030518,576,0,"{'gate_count': 4545, 'depth': 726, 'compile_time': '-', '2q_gates': 576, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,25,Pytket,3,0,391,223,0.05096769332885742,48,0,"{'gate_count': 196, 'depth': 100, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,25,Cirq,3,0,122,50,0.2232825756072998,24,0,"{'gate_count': 196, 'depth': 100, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,20,Cirq,3,0,4657,1025,13.100443124771118,1466,0,"{'gate_count': 14236, 'depth': 2756, 'compile_time': '-', '2q_gates': 1508, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,32,Pytket,3,0,2451,354,0.22885346412658691,186,0,"{'gate_count': 1067, 'depth': 156, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,32,Pytket,3,0,14406,1766,1.0341846942901611,1768,0,"{'gate_count': 6918, 'depth': 846, 'compile_time': '-', '2q_gates': 884, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,32,Cirq,3,0,2565,305,6.28202748298645,836,0,"{'gate_count': 7402, 'depth': 801, 'compile_time': '-', '2q_gates': 860, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,32,Cirq,3,0,343,72,1.16444993019104,93,0,"{'gate_count': 1067, 'depth': 156, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,32,Pytket,3,0,14378,1600,1.6412866115570068,1720,0,"{'gate_count': 7402, 'depth': 801, 'compile_time': '-', '2q_gates': 860, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,25,Pytket,3,0,43400,6944,3.1001176834106445,4602,0,"{'gate_count': 21601, 'depth': 3400, 'compile_time': '-', '2q_gates': 2301, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,32,Cirq,3,0,3087,348,7.0017359256744385,884,0,"{'gate_count': 6918, 'depth': 846, 'compile_time': '-', '2q_gates': 884, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,32,Cirq,3,0,157,64,0.2760453224182129,31,0,"{'gate_count': 252, 'depth': 128, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,32,Pytket,3,0,503,286,0.06463027000427246,62,0,"{'gate_count': 252, 'depth': 128, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,25,Cirq,3,0,7151,1322,19.502825021743774,2237,0,"{'gate_count': 21601, 'depth': 3400, 'compile_time': '-', '2q_gates': 2301, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,36,Pytket,3,0,17034,1808,2.043336868286133,2040,0,"{'gate_count': 8766, 'depth': 905, 'compile_time': '-', '2q_gates': 1020, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qft,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,vqe_real_amp,36,Cirq,3,0,387,80,1.5772268772125244,105,0,"{'gate_count': 1203, 'depth': 172, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,qaoa,36,Pytket,3,0,19392,2119,1.4397060871124268,2400,0,"{'gate_count': 9324, 'depth': 1017, 'compile_time': '-', '2q_gates': 1200, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qft,36,Cirq,3,0,3033,345,7.252472877502441,988,0,"{'gate_count': 8766, 'depth': 905, 'compile_time': '-', '2q_gates': 1020, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,vqe_real_amp,36,Pytket,3,0,2763,390,0.3032243251800537,210,0,"{'gate_count': 1203, 'depth': 172, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,32,Pytket,3,0,70848,8754,5.264969110488892,7404,0,"{'gate_count': 35106, 'depth': 4270, 'compile_time': '-', '2q_gates': 3702, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,qaoa,36,Cirq,3,0,4196,403,9.071593523025513,1200,0,"{'gate_count': 9324, 'depth': 1017, 'compile_time': '-', '2q_gates': 1200, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,36,Cirq,3,0,177,72,0.28052711486816406,35,0,"{'gate_count': 284, 'depth': 144, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,36,Pytket,3,0,567,322,0.0721290111541748,70,0,"{'gate_count': 284, 'depth': 144, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,ghz,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,4,Cirq,3,0,44,25,0.10782408714294434,12,0,"{'gate_count': 118, 'depth': 73, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,4,Pytket,3,0,226,144,0.16461396217346191,24,0,"{'gate_count': 118, 'depth': 73, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,4,Cirq,3,0,35,16,0.12478756904602051,9,0,"{'gate_count': 115, 'depth': 44, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,4,Pytket,3,0,267,102,0.1653892993927002,18,0,"{'gate_count': 115, 'depth': 44, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,4,Cirq,3,0,25,17,0.0802145004272461,8,0,"{'gate_count': 93, 'depth': 60, 'compile_time': '-', '2q_gates': 8, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,4,Pytket,3,0,204,128,0.17082834243774414,16,0,"{'gate_count': 93, 'depth': 60, 'compile_time': '-', '2q_gates': 8, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,4,Cirq,3,0,163,105,0.5010488033294678,53,0,"{'gate_count': 528, 'depth': 360, 'compile_time': '-', '2q_gates': 53, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,4,Pytket,3,0,1056,734,0.2271437644958496,106,0,"{'gate_count': 528, 'depth': 360, 'compile_time': '-', '2q_gates': 53, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,4,Cirq,3,0,17,8,0.029283761978149414,3,0,"{'gate_count': 28, 'depth': 16, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,4,Pytket,3,0,55,34,0.16571831703186035,6,0,"{'gate_count': 28, 'depth': 16, 'compile_time': '-', '2q_gates': 3, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,4,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,5,Cirq,3,0,73,35,0.15585660934448242,20,0,"{'gate_count': 190, 'depth': 99, 'compile_time': '-', '2q_gates': 20, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,5,Pytket,3,0,365,196,0.18654584884643555,40,0,"{'gate_count': 190, 'depth': 99, 'compile_time': '-', '2q_gates': 20, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,5,Cirq,3,0,46,18,0.13824939727783203,12,0,"{'gate_count': 149, 'depth': 48, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,5,Pytket,3,0,345,111,0.18897342681884766,24,0,"{'gate_count': 149, 'depth': 48, 'compile_time': '-', '2q_gates': 12, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,5,Cirq,3,0,72,33,0.19544386863708496,24,0,"{'gate_count': 225, 'depth': 108, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,5,Pytket,3,0,482,227,0.20496010780334473,48,0,"{'gate_count': 225, 'depth': 108, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,5,Cirq,3,0,180,100,0.5150177478790283,58,0,"{'gate_count': 549, 'depth': 321, 'compile_time': '-', '2q_gates': 59, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,5,Pytket,3,0,1096,657,0.23782849311828613,118,0,"{'gate_count': 549, 'depth': 321, 'compile_time': '-', '2q_gates': 59, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,5,Cirq,3,0,22,10,0.04098796844482422,4,0,"{'gate_count': 36, 'depth': 20, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,5,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,5,Pytket,3,0,71,43,0.18223214149475098,8,0,"{'gate_count': 36, 'depth': 20, 'compile_time': '-', '2q_gates': 4, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,8,Cirq,3,0,202,65,0.43598008155822754,56,0,"{'gate_count': 508, 'depth': 177, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,8,Pytket,3,0,980,352,0.22993063926696777,112,0,"{'gate_count': 508, 'depth': 177, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,8,Cirq,3,0,79,24,0.2638075351715088,21,0,"{'gate_count': 251, 'depth': 60, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,8,Pytket,3,0,579,138,0.2040097713470459,42,0,"{'gate_count': 251, 'depth': 60, 'compile_time': '-', '2q_gates': 21, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,8,Pytket,3,0,1044,495,0.22286725044250488,112,0,"{'gate_count': 492, 'depth': 237, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,8,Cirq,3,0,153,74,0.4932875633239746,56,0,"{'gate_count': 492, 'depth': 237, 'compile_time': '-', '2q_gates': 56, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,8,Cirq,3,0,656,284,1.884917974472046,208,0,"{'gate_count': 2042, 'depth': 902, 'compile_time': '-', '2q_gates': 218, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,8,Pytket,3,0,4111,1846,0.4592471122741699,436,0,"{'gate_count': 2042, 'depth': 902, 'compile_time': '-', '2q_gates': 218, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,8,Cirq,3,0,37,16,0.06086468696594238,7,0,"{'gate_count': 60, 'depth': 32, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,8,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,8,Pytket,3,0,119,70,0.26073384284973145,14,0,"{'gate_count': 60, 'depth': 32, 'compile_time': '-', '2q_gates': 7, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,10,Pytket,3,0,1555,456,0.2947084903717041,180,0,"{'gate_count': 805, 'depth': 229, 'compile_time': '-', '2q_gates': 90, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,10,Cirq,3,0,323,85,0.7803854942321777,90,0,"{'gate_count': 805, 'depth': 229, 'compile_time': '-', '2q_gates': 90, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,10,Cirq,3,0,101,28,0.2830202579498291,27,0,"{'gate_count': 319, 'depth': 68, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,10,Pytket,3,0,735,156,0.3452107906341553,54,0,"{'gate_count': 319, 'depth': 68, 'compile_time': '-', '2q_gates': 27, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,10,Pytket,3,0,1832,609,0.30729150772094727,208,0,"{'gate_count': 870, 'depth': 291, 'compile_time': '-', '2q_gates': 104, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,10,Cirq,3,0,318,111,0.8593220710754395,104,0,"{'gate_count': 870, 'depth': 291, 'compile_time': '-', '2q_gates': 104, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,10,Pytket,3,0,6027,1955,0.5723409652709961,624,0,"{'gate_count': 3018, 'depth': 960, 'compile_time': '-', '2q_gates': 312, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,NATIVEGATES,randomcircuit,32,Cirq,3,0,11626,1812,31.832627296447754,3590,0,"{'gate_count': 35106, 'depth': 4270, 'compile_time': '-', '2q_gates': 3702, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,10,Cirq,3,0,47,20,0.08127999305725098,9,0,"{'gate_count': 76, 'depth': 40, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,10,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,10,Pytket,3,0,151,88,0.1737520694732666,18,0,"{'gate_count': 76, 'depth': 40, 'compile_time': '-', '2q_gates': 9, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,10,Cirq,3,0,934,288,2.625159740447998,302,0,"{'gate_count': 3018, 'depth': 960, 'compile_time': '-', '2q_gates': 312, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,15,Pytket,3,0,1125,201,0.27941083908081055,84,0,"{'gate_count': 489, 'depth': 88, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,15,Pytket,3,0,3430,797,0.4209706783294678,400,0,"{'gate_count': 1635, 'depth': 381, 'compile_time': '-', '2q_gates': 200, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,15,Cirq,3,0,748,135,1.7468671798706055,210,0,"{'gate_count': 1845, 'depth': 359, 'compile_time': '-', '2q_gates': 210, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,15,Pytket,3,0,3570,716,0.4812586307525635,420,0,"{'gate_count': 1845, 'depth': 359, 'compile_time': '-', '2q_gates': 210, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,15,Cirq,3,0,156,38,0.5252511501312256,42,0,"{'gate_count': 489, 'depth': 88, 'compile_time': '-', '2q_gates': 42, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,15,Cirq,3,0,628,153,1.4455344676971436,200,0,"{'gate_count': 1635, 'depth': 381, 'compile_time': '-', '2q_gates': 200, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,15,Cirq,3,0,72,30,0.1352396011352539,14,0,"{'gate_count': 116, 'depth': 60, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,15,Pytket,3,0,231,133,0.17242956161499023,28,0,"{'gate_count': 116, 'depth': 60, 'compile_time': '-', '2q_gates': 14, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,15,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,16,Cirq,3,0,854,145,1.753356695175171,240,0,"{'gate_count': 2104, 'depth': 385, 'compile_time': '-', '2q_gates': 240, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,15,Pytket,3,0,15160,3739,1.218334674835205,1592,0,"{'gate_count': 7549, 'depth': 1832, 'compile_time': '-', '2q_gates': 796, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,16,Cirq,3,0,167,40,0.502572774887085,45,0,"{'gate_count': 523, 'depth': 92, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,16,Pytket,3,0,1203,210,0.24571752548217773,90,0,"{'gate_count': 523, 'depth': 92, 'compile_time': '-', '2q_gates': 45, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,16,Pytket,3,0,3886,773,0.4335503578186035,456,0,"{'gate_count': 1854, 'depth': 369, 'compile_time': '-', '2q_gates': 228, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,36,Pytket,3,0,92958,10332,6.955819129943848,9850,0,"{'gate_count': 46213, 'depth': 5053, 'compile_time': '-', '2q_gates': 4925, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,16,Pytket,3,0,4072,768,0.5600042343139648,480,0,"{'gate_count': 2104, 'depth': 385, 'compile_time': '-', '2q_gates': 240, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,16,Cirq,3,0,694,155,1.7065284252166748,228,0,"{'gate_count': 1854, 'depth': 369, 'compile_time': '-', '2q_gates': 228, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,16,Cirq,3,0,77,32,0.16036248207092285,15,0,"{'gate_count': 124, 'depth': 64, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,16,Pytket,3,0,247,142,0.18450260162353516,30,0,"{'gate_count': 124, 'depth': 64, 'compile_time': '-', '2q_gates': 15, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,16,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,15,Cirq,3,0,2446,659,7.861326694488525,780,0,"{'gate_count': 7549, 'depth': 1832, 'compile_time': '-', '2q_gates': 796, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,20,Pytket,3,0,6410,976,0.7629334926605225,760,0,"{'gate_count': 3310, 'depth': 489, 'compile_time': '-', '2q_gates': 380, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,20,Pytket,3,0,1515,246,0.2698018550872803,114,0,"{'gate_count': 659, 'depth': 108, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,16,Pytket,3,0,17580,3533,1.517850399017334,1842,0,"{'gate_count': 8751, 'depth': 1715, 'compile_time': '-', '2q_gates': 921, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,20,Pytket,3,0,6144,1164,0.5769908428192139,736,0,"{'gate_count': 2940, 'depth': 558, 'compile_time': '-', '2q_gates': 368, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,20,Cirq,3,0,211,48,0.7053134441375732,57,0,"{'gate_count': 659, 'depth': 108, 'compile_time': '-', '2q_gates': 57, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,20,Cirq,3,0,1348,185,2.9990735054016113,380,0,"{'gate_count': 3310, 'depth': 489, 'compile_time': '-', '2q_gates': 380, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,20,Cirq,3,0,1140,220,2.7251429557800293,368,0,"{'gate_count': 2940, 'depth': 558, 'compile_time': '-', '2q_gates': 368, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,ghz,20,Cirq,3,0,97,40,0.18294763565063477,19,0,"{'gate_count': 156, 'depth': 80, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,20,Pytket,3,0,311,178,0.16597247123718262,38,0,"{'gate_count': 156, 'depth': 80, 'compile_time': '-', '2q_gates': 19, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,20,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,16,Cirq,3,0,2813,618,8.28896951675415,892,0,"{'gate_count': 8751, 'depth': 1715, 'compile_time': '-', '2q_gates': 921, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,25,Pytket,3,0,9730,1236,1.1711175441741943,1160,0,"{'gate_count': 5015, 'depth': 619, 'compile_time': '-', '2q_gates': 580, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,20,Pytket,3,0,28674,5610,2.6465301513671875,3016,0,"{'gate_count': 14236, 'depth': 2756, 'compile_time': '-', '2q_gates': 1508, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,25,Pytket,3,0,1905,291,0.31699585914611816,144,0,"{'gate_count': 829, 'depth': 128, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,25,Pytket,3,0,9478,1513,0.7814867496490479,1152,0,"{'gate_count': 4545, 'depth': 726, 'compile_time': '-', '2q_gates': 576, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,25,Cirq,3,0,266,58,0.7861840724945068,72,0,"{'gate_count': 829, 'depth': 128, 'compile_time': '-', '2q_gates': 72, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,25,Cirq,3,0,1957,235,4.7533063888549805,570,0,"{'gate_count': 5015, 'depth': 619, 'compile_time': '-', '2q_gates': 580, 'swap_gates': 0}",True
+ionq_forte_36,NATIVEGATES,randomcircuit,36,Cirq,3,0,15628,2199,42.09356641769409,4804,0,"{'gate_count': 46213, 'depth': 5053, 'compile_time': '-', '2q_gates': 4925, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,25,Cirq,3,0,1873,285,4.381177186965942,576,0,"{'gate_count': 4545, 'depth': 726, 'compile_time': '-', '2q_gates': 576, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,25,Cirq,3,0,122,50,0.19794058799743652,24,0,"{'gate_count': 196, 'depth': 100, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,25,Pytket,3,0,391,223,0.16564249992370605,48,0,"{'gate_count': 196, 'depth': 100, 'compile_time': '-', '2q_gates': 24, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,20,Cirq,3,0,4672,1032,13.244625806808472,1466,0,"{'gate_count': 14236, 'depth': 2756, 'compile_time': '-', '2q_gates': 1508, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,25,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,32,Pytket,3,0,14378,1600,1.7350115776062012,1720,0,"{'gate_count': 7402, 'depth': 801, 'compile_time': '-', '2q_gates': 860, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qft,32,Cirq,3,0,2799,305,6.465716123580933,836,0,"{'gate_count': 7402, 'depth': 801, 'compile_time': '-', '2q_gates': 860, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,32,Cirq,3,0,343,72,1.9248631000518799,93,0,"{'gate_count': 1067, 'depth': 156, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,32,Pytket,3,0,2451,354,0.34615302085876465,186,0,"{'gate_count': 1067, 'depth': 156, 'compile_time': '-', '2q_gates': 93, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,32,Pytket,3,0,14406,1766,1.1688885688781738,1768,0,"{'gate_count': 6918, 'depth': 846, 'compile_time': '-', '2q_gates': 884, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qaoa,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,25,Pytket,3,0,43400,6944,3.1928226947784424,4602,0,"{'gate_count': 21601, 'depth': 3400, 'compile_time': '-', '2q_gates': 2301, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,32,Cirq,3,0,2659,349,6.041508674621582,884,0,"{'gate_count': 6918, 'depth': 846, 'compile_time': '-', '2q_gates': 884, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,32,Cirq,3,0,157,64,0.31908369064331055,31,0,"{'gate_count': 252, 'depth': 128, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,32,Pytket,3,0,503,286,0.11606502532958984,62,0,"{'gate_count': 252, 'depth': 128, 'compile_time': '-', '2q_gates': 31, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,32,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,36,Pytket,3,0,17034,1808,2.122018337249756,2040,0,"{'gate_count': 8766, 'depth': 905, 'compile_time': '-', '2q_gates': 1020, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,25,Cirq,3,0,7153,1336,20.324326515197754,2237,0,"{'gate_count': 21601, 'depth': 3400, 'compile_time': '-', '2q_gates': 2301, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,36,Cirq,3,0,387,80,1.2222239971160889,105,0,"{'gate_count': 1203, 'depth': 172, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,vqe_real_amp,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,qft,36,Cirq,3,0,3291,345,7.719414234161377,988,0,"{'gate_count': 8766, 'depth': 905, 'compile_time': '-', '2q_gates': 1020, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,36,Pytket,3,0,19392,2119,1.4105947017669678,2400,0,"{'gate_count': 9324, 'depth': 1017, 'compile_time': '-', '2q_gates': 1200, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,vqe_real_amp,36,Pytket,3,0,2763,390,0.41482067108154297,210,0,"{'gate_count': 1203, 'depth': 172, 'compile_time': '-', '2q_gates': 105, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,32,Pytket,3,0,70848,8754,5.332433462142944,7404,0,"{'gate_count': 35106, 'depth': 4270, 'compile_time': '-', '2q_gates': 3702, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,qaoa,36,Cirq,3,0,3616,403,8.093685150146484,1200,0,"{'gate_count': 9324, 'depth': 1017, 'compile_time': '-', '2q_gates': 1200, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,36,Cirq,3,0,177,72,0.28007054328918457,35,0,"{'gate_count': 284, 'depth': 144, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,36,Pytket,3,0,567,322,0.06303977966308594,70,0,"{'gate_count': 284, 'depth': 144, 'compile_time': '-', '2q_gates': 35, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,ghz,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,36,Qiskit,3,0,-,-,-,-,-,-,False
+ionq_forte_36,MAPPED,randomcircuit,32,Cirq,3,0,11552,1788,29.87439465522766,3590,0,"{'gate_count': 35106, 'depth': 4270, 'compile_time': '-', '2q_gates': 3702, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,36,Pytket,3,0,92958,10332,6.365791082382202,9850,0,"{'gate_count': 46213, 'depth': 5053, 'compile_time': '-', '2q_gates': 4925, 'swap_gates': 0}",True
+ionq_forte_36,MAPPED,randomcircuit,36,Cirq,3,0,15566,2193,38.016833543777466,4804,0,"{'gate_count': 46213, 'depth': 5053, 'compile_time': '-', '2q_gates': 4925, 'swap_gates': 0}",True
