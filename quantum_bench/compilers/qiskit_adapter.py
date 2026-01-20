@@ -51,6 +51,7 @@ class QiskitAdapter(CompilerAdapter):
             "cz": CZGate(),
             "id": IGate(),
             "measure": Measure(),
+            "reset": Reset(),
             "swap": SwapGate(),
             "ecr": ECRGate(),
             "delay": Delay(0),
@@ -69,10 +70,10 @@ class QiskitAdapter(CompilerAdapter):
             if gate_obj.num_qubits == 2:
                 # 2-Qubit gates on defined edges
                 props = {edge: None for edge in coupling_map}
-                target.add_instruction(gate_obj, properties=props)
+                target.add_instruction(gate_obj,name=gate_name, properties=props)
             else:
                 # 1-Qubit gates on all qubits
-                target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
+                target.add_instruction(gate_obj, name=gate_name, properties={(i,): None for i in range(num_qubits)})
 
         return target
 
@@ -119,13 +120,8 @@ class QiskitAdapter(CompilerAdapter):
                 pm.append(SabreLayout(self.target, seed=seed))
                 pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
 
-            transpiled_circuit = pm.run(circuit)
-            swap_count = transpiled_circuit.count_ops().get('swap', 0)
-
             # 2. Optimization
             if "optimization" in active_phases:
-                pm = PassManager()
-
                 # Ensure SWAPs and other gates are decomposed to basis
                 pm.append(BasisTranslator(SessionEquivalenceLibrary, target=self.target))
 
@@ -153,7 +149,7 @@ class QiskitAdapter(CompilerAdapter):
                     RemoveFinalReset()
                 ])
 
-                transpiled_circuit = pm.run(circuit)
+            transpiled_circuit = pm.run(circuit)
 
         duration = time.time() - start_time
         operations = transpiled_circuit.count_ops()
