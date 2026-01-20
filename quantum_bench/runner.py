@@ -64,6 +64,14 @@ def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_c
                 row["Equivalence"] = "Skipped"
 
     except Exception as e:
+        row.update({
+            "gate_count": '-',
+            "depth": '-',
+            "compile_time": '-',
+            "2q_gates": '-',
+            "swap_gates": '-',
+            "initial": '-'
+        })
         row["success"] = False
         print(f"Error during compilation in worker: {e}")
 
@@ -141,8 +149,8 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
 
                 # List of compiler classes to instantiate in workers
                 compiler_classes = [
-                    CirqAdapter,
-                    PytketAdapter,
+                    #CirqAdapter,
+                    #PytketAdapter,
                     QiskitAdapter
                 ]
 
@@ -158,9 +166,6 @@ def run_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges
 
                             if run_visualisation and n_qubits == min(qubit_ranges):
                                 mqt.visualize_circuit(qasm_path, hardware.name, visualisation_path)
-
-                            # Removed the immediate print here to avoid flooding the console
-                            # print(f"--- {benchmark_level}-Benchmark: {algo_name} ({n_qubits} Qubits) ---")
 
                             for compiler_cls in compiler_classes:
                                 for opt_level in opt_levels:
