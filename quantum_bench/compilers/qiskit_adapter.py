@@ -70,10 +70,10 @@ class QiskitAdapter(CompilerAdapter):
             if gate_obj.num_qubits == 2:
                 # 2-Qubit gates on defined edges
                 props = {edge: None for edge in coupling_map}
-                target.add_instruction(gate_obj, properties=props)
+                target.add_instruction(gate_obj,name=gate_name, properties=props)
             else:
                 # 1-Qubit gates on all qubits
-                target.add_instruction(gate_obj, properties={(i,): None for i in range(num_qubits)})
+                target.add_instruction(gate_obj, name=gate_name, properties={(i,): None for i in range(num_qubits)})
 
         return target
 
