@@ -58,7 +58,7 @@ def get_circuit(hardware_name: str, algo_name: str, num_qubits: int, benchmark_l
         if not os.path.exists(export_dir):
             os.makedirs(export_dir)
 
-        filename = os.path.join(export_dir, f"{algo_name}_{num_qubits}.qasm")
+        filename = os.path.join(export_dir, f"{benchmark_level}_{algo_name}_{num_qubits}.qasm")
         qasm2.dump(qc, filename)
 
         return filename

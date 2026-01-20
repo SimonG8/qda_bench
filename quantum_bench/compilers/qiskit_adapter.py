@@ -51,6 +51,7 @@ class QiskitAdapter(CompilerAdapter):
             "cz": CZGate(),
             "id": IGate(),
             "measure": Measure(),
+            "reset": Reset(),
             "swap": SwapGate(),
             "ecr": ECRGate(),
             "delay": Delay(0),
