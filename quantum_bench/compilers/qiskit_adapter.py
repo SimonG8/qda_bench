@@ -120,13 +120,8 @@ class QiskitAdapter(CompilerAdapter):
                 pm.append(SabreLayout(self.target, seed=seed))
                 pm.append(SabreSwap(self.target.build_coupling_map(), seed=seed))
 
-            transpiled_circuit = pm.run(circuit)
-            swap_count = transpiled_circuit.count_ops().get('swap', 0)
-
             # 2. Optimization
             if "optimization" in active_phases:
-                pm = PassManager()
-
                 # Ensure SWAPs and other gates are decomposed to basis
                 pm.append(BasisTranslator(SessionEquivalenceLibrary, target=self.target))
 
@@ -154,7 +149,7 @@ class QiskitAdapter(CompilerAdapter):
                     RemoveFinalReset()
                 ])
 
-                transpiled_circuit = pm.run(circuit)
+            transpiled_circuit = pm.run(circuit)
 
         duration = time.time() - start_time
         operations = transpiled_circuit.count_ops()
