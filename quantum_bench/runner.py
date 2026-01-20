@@ -140,7 +140,7 @@ def _execute_and_record_run(hardware, benchmark_level, algo_name, n_qubits, comp
 
 
 def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
-                          output_file: str = "mapping_results.csv"):
+                          output_file: str = "results_mapping.csv", plot_path: str = "plots_mapping", run_plotter: bool = False):
     run_benchmark(
         hardware_names=hardware_names,
         algo_names=algo_names,
@@ -151,11 +151,12 @@ def run_mapping_benchmark(hardware_names: List[str], algo_names: List[str], qubi
         output_file=output_file,
         active_phases=["rebase", "mapping"]
     )
-    plot_mapping_benchmark("mapping_results.csv", "mapping_visualisation")
+    if run_plotter:
+        plot_mapping_benchmark(output_file, plot_path)
 
 
 def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], qubit_ranges: List[int],
-                              output_file: str = "compilation_results.csv"):
+                              output_file: str = "results_compilation.csv", plot_path: str = "plots_compilation", run_plotter: bool = False):
     run_benchmark(
         hardware_names=hardware_names,
         algo_names=algo_names,
@@ -165,4 +166,5 @@ def run_compilation_benchmark(hardware_names: List[str], algo_names: List[str], 
         num_runs=1,
         output_file=output_file,
     )
-    plot_compilation_benchmark("compilation_results.csv", "compilation_visualisation")
+    if run_plotter:
+        plot_compilation_benchmark(output_file, plot_path)
