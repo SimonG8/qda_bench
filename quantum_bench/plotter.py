@@ -108,13 +108,18 @@ class BenchmarkPlotter:
                     title=title, output_path=output_path
                 )
 
-def plot_results(csv_file_path="benchmark_results.csv", visualisation_path="visualisation"):
+def plot_results(csv_file_path="benchmark_results.csv", visualisation_path="visualisation",
+                 category_name="Compiler Benchmark", group_cols=None, line_cols=None):
+    if line_cols is None:
+        line_cols = ["compiler", "opt_level"]
+    if group_cols is None:
+        group_cols = ["algorithm", "hardware", "benchmark_level"]
     plotter = BenchmarkPlotter(csv_file_path, visualisation_path)
     if plotter.load_data():
         plotter.run_plot_config(
-            category_name="Compiler Benchmark",
-            group_cols=["algorithm", "hardware", "benchmark_level"],
-            line_cols=["compiler", "opt_level"]
+            category_name=category_name,
+            group_cols=group_cols,
+            line_cols=line_cols
         )
     else:
         print("Could not load data or data is empty.")
