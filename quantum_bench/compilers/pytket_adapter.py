@@ -65,7 +65,7 @@ class PytketAdapter(CompilerAdapter):
         initial_metrics = {
             "gate_count": gate_count,
             "depth": depth,
-            "compile_time": '-',
+            "compile_time": None,
             "2q_gates": two_q_count,
             "swap_gates": swap_count,
         }

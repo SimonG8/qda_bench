@@ -99,10 +99,10 @@ class BenchmarkPlotter:
                 if not isinstance(name, tuple):
                     name = (name,)
 
-                group_desc = " ".join([f"{col}: {val}" for col, val in zip(real_group_cols, name)])
+                group_desc = ", ".join([f"{col}: {val}" for col, val in zip(real_group_cols, name)])
                 title = f"{category_name}\n{group_desc}\n{real_metric}"
-                filename = group_desc.replace(": ", "-").replace(" ", "_")
-                directory = category_name.replace(": ", "-").replace(" ", "_")
+                filename = group_desc.replace(": ", "-").replace(",", "").replace(" ","_")
+                directory = category_name.replace(": ", "-").replace(",", "").replace(" ","_")
 
                 output_path = os.path.join(self.output_dir, directory, metric, f"{filename}.png")
                 self._generate_plot(

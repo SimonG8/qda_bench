@@ -44,12 +44,12 @@ def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_c
             row["success"] = True
         else:
             row.update({
-                "gate_count": '-',
-                "depth": '-',
-                "compile_time": '-',
-                "2q_gates": '-',
-                "swap_gates": '-',
-                "initial": '-'
+                "gate_count": None,
+                "depth": None,
+                "compile_time": None,
+                "2q_gates": None,
+                "swap_gates": None,
+                "initial": None
             })
             row["success"] = False
 
@@ -65,12 +65,12 @@ def process_task(hardware_name, benchmark_level, algo_name, n_qubits, compiler_c
 
     except Exception as e:
         row.update({
-            "gate_count": '-',
-            "depth": '-',
-            "compile_time": '-',
-            "2q_gates": '-',
-            "swap_gates": '-',
-            "initial": '-'
+            "gate_count": None,
+            "depth": None,
+            "compile_time": None,
+            "2q_gates": None,
+            "swap_gates": None,
+            "initial": None
         })
         row["success"] = False
         print(f"Error during compilation in worker: {e}")
