@@ -49,7 +49,7 @@ class BenchmarkPlotter:
         try:
             sns.lineplot(
                 data=data, x=x_col, y=y_col, hue=hue_col, style=style_col,
-                markers=True, dashes=False, linewidth=2, markersize=8, errorbar=('ci', 95)
+                markers=True, dashes=False, linewidth=2, markersize=8, errorbar=('ci', 95), sort=True
             )
 
             if y_col == self.metric_labels.get("compile_time", "compile_time"):
@@ -69,7 +69,7 @@ class BenchmarkPlotter:
         finally:
             plt.close()
 
-    def run_plot_config(self, category_name, group_cols, line_cols, x_col="qubits"):
+    def run_plot_config(self, category_name, group_cols, line_cols, x_col="qubits",metrics=None):
         """
         Generates plots based on configuration.
 
@@ -78,17 +78,19 @@ class BenchmarkPlotter:
             group_cols: List of columns to group by.
             line_cols: Column to use for different lines (hue, style).
             x_col: Column for x-axis.
+            metrics: List of metrics to plot.
         """
         print(f"--- Processing {category_name} ---")
 
         real_group_cols = [self.metric_labels.get(c, c) for c in group_cols]
         real_line_cols = [self.metric_labels.get(c, c) for c in line_cols]
         real_x_col = self.metric_labels.get(x_col, x_col)
-
+        if metrics is None:
+            metrics = self.metrics
         if len(real_line_cols) == 1:
             real_line_cols = [real_line_cols[0], real_line_cols[0]]
 
-        for metric in self.metrics:
+        for metric in metrics:
             real_metric = self.metric_labels.get(metric, metric)
             if real_metric not in self.df.columns:
                 continue
@@ -111,7 +113,7 @@ class BenchmarkPlotter:
 
 
 def plot_results(csv_file_path="benchmark_results.csv", visualisation_path="visualisation",
-                 category_name="Compiler Benchmark", group_cols=None, line_cols=None):
+                 category_name="Compiler Benchmark", group_cols=None, line_cols=None, metrics=None):
     if line_cols is None:
         line_cols = ["compiler", "opt_level"]
     if group_cols is None:
@@ -121,7 +123,8 @@ def plot_results(csv_file_path="benchmark_results.csv", visualisation_path="visu
         plotter.run_plot_config(
             category_name=category_name,
             group_cols=group_cols,
-            line_cols=line_cols
+            line_cols=line_cols,
+            metrics=metrics
         )
     else:
         print("Could not load data or data is empty.")
